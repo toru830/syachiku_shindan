@@ -330,7 +330,7 @@ const resultTypes = [
         condition: { dedication: "low", sacrifice: "low", stress: "high", relationship: "low" }
     },
     {
-        name: "ボス",
+        name: "デキる社員",
         icon: "🦅👑",
         level: 10,
         features: "仕事への献身度は低めですが、自己犠牲はせず、ストレスに強く、人間関係を重視する、リーダーシップを発揮し人を動かすタイプ。優れたコミュニケーション能力とカリスマ性を持っています。",
