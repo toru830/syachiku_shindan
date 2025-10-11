@@ -1,0 +1,12 @@
+{
+  "name": "shachu-shindan",
+  "version": "1.0.0",
+  "description": "社畜診断 - 16タイプ診断アプリ",
+  "scripts": {
+    "start": "live-server --port=3000 --open=index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
+

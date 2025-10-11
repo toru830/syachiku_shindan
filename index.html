@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社畜診断 - あなたの社畜度をチェック！</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- スタート画面 -->
+        <div id="start-screen" class="screen active">
+            <div class="logo">🎭✨</div>
+            <h1 class="title">社畜診断</h1>
+            <p class="subtitle">あなたはどのタイプの働き方？</p>
+            <p class="description">15個の質問に答えて、16種類のキャラクターからあなたのタイプを診断！</p>
+            <button class="btn btn-primary" id="start-btn">診断スタート</button>
+        </div>
+
+        <!-- 質問画面 -->
+        <div id="quiz-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-counter">
+                <span id="current-question">1</span> / 15
+            </div>
+            
+            <div class="question-card">
+                <h2 class="question-text" id="question-text"></h2>
+                
+                <div class="options" id="options-container">
+                    <!-- 選択肢は動的に生成されます -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ローディング画面 -->
+        <div id="loading-screen" class="screen">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <h2 class="loading-text">診断中...</h2>
+                <p class="loading-subtext">あなたのタイプを分析しています</p>
+                <div class="loading-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 結果画面 -->
+        <div id="result-screen" class="screen">
+            <!-- クラッカー紙吹雪 -->
+            <div class="confetti-container" id="confetti-container"></div>
+            
+            <h2 class="result-title">診断結果</h2>
+            <div class="result-card" id="result-card">
+                <div class="result-icon" id="result-icon"></div>
+                <h1 class="result-type" id="result-type"></h1>
+                
+                <!-- 社畜レベル -->
+                <div class="shachu-level-container">
+                    <div class="shachu-level-label">社畜レベル</div>
+                    <div class="shachu-level-value" id="shachu-level">0</div>
+                    <div class="shachu-level-bar-wrapper">
+                        <div class="shachu-level-bar" id="shachu-level-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="result-sections">
+                    <div class="result-section">
+                        <h3 class="section-title">💡 あなたの特徴</h3>
+                        <p class="section-content" id="result-features"></p>
+                    </div>
+                    <div class="result-section">
+                        <h3 class="section-title">✨ 働き方スタイル</h3>
+                        <p class="section-content" id="result-style"></p>
+                    </div>
+                    <div class="result-section">
+                        <h3 class="section-title">🌟 アドバイス</h3>
+                        <p class="section-content" id="result-advice"></p>
+                    </div>
+                </div>
+                
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span class="detail-label">仕事への献身度</span>
+                        <div class="detail-bar">
+                            <div class="detail-fill" id="dedication-bar"></div>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">自己犠牲度</span>
+                        <div class="detail-bar">
+                            <div class="detail-fill" id="sacrifice-bar"></div>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">ストレス耐性</span>
+                        <div class="detail-bar">
+                            <div class="detail-fill" id="stress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">人間関係重視度</span>
+                        <div class="detail-bar">
+                            <div class="detail-fill" id="relationship-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" id="restart-btn">もう一度診断する</button>
+            <button class="btn btn-share" id="share-btn">結果をシェア</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

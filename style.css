@@ -1,0 +1,1097 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+}
+
+.screen {
+    display: none;
+    border-radius: 30px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 60px rgba(255, 105, 180, 0.4);
+    border: 3px solid #ffb3d9;
+    animation: fadeIn 0.5s ease-in;
+}
+
+#start-screen, #quiz-screen, #loading-screen {
+    background: linear-gradient(135deg, #ffffff 0%, #fff5fb 100%);
+}
+
+#result-screen {
+    border: none;
+    box-shadow: none;
+    padding: 40px 20px;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* スタート画面 */
+.logo {
+    font-size: 80px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+    filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.title {
+    font-size: 36px;
+    text-align: center;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-shadow: 0 2px 10px rgba(255, 105, 180, 0.3);
+}
+
+.subtitle {
+    font-size: 18px;
+    text-align: center;
+    color: #ff69b4;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.description {
+    text-align: center;
+    color: #ff85c0;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* ボタン */
+.btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 20, 147, 0.5);
+    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f2 100%);
+    color: #ff1493;
+    border: 2px solid #ffc0e3;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #ffe6f2 0%, #ffd9ed 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 192, 227, 0.3);
+}
+
+.btn-share {
+    background: linear-gradient(135deg, #ffc0e3 0%, #ff85c0 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 192, 227, 0.4);
+}
+
+.btn-share:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 133, 192, 0.5);
+    background: linear-gradient(135deg, #ff85c0 0%, #ffc0e3 100%);
+}
+
+/* 質問画面 */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #ffe6f2;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 2px solid #ffcce6;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff1493 50%, #ff69b4 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    transition: width 0.3s ease;
+    width: 0%;
+    border-radius: 20px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.question-counter {
+    text-align: center;
+    font-size: 14px;
+    color: #ff85c0;
+    margin-bottom: 30px;
+}
+
+.question-counter span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff1493;
+}
+
+.question-card {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.question-text {
+    font-size: 20px;
+    color: #ff1493;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    text-align: center;
+    min-height: 60px;
+    font-weight: 600;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #ffc0e3;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #fff9fc 100%);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(255, 192, 227, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.option-emoji {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.option-text {
+    flex: 1;
+    text-align: left;
+}
+
+.option-btn:hover {
+    border-color: #ff69b4;
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f2 100%);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+}
+
+.option-btn:hover .option-emoji {
+    transform: scale(1.3);
+    transition: transform 0.2s ease;
+}
+
+.option-btn:active {
+    transform: scale(0.98);
+}
+
+/* クラッカー紙吹雪 */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: fall linear forwards;
+}
+
+.confetti.circle {
+    border-radius: 50%;
+}
+
+.confetti.square {
+    border-radius: 0;
+}
+
+.confetti.triangle {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid currentColor;
+    background: transparent !important;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* 花火演出 */
+.firework {
+    position: absolute;
+    animation: explode 2s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* ハート演出 */
+.heart {
+    position: absolute;
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* 星演出 */
+.star {
+    position: absolute;
+    animation: twinkleAndFade 3s ease-in-out forwards;
+}
+
+@keyframes twinkleAndFade {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) rotate(540deg);
+        opacity: 0;
+    }
+}
+
+/* キラキラ演出 */
+.sparkle {
+    position: absolute;
+    animation: sparkleAni 2s ease-in-out forwards;
+}
+
+@keyframes sparkleAni {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    25% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    75% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* 結果画面 */
+.result-title {
+    text-align: center;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f2 100%);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 3px solid #ffc0e3;
+    box-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.result-icon {
+    font-size: 80px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+.result-type {
+    font-size: 28px;
+    text-align: center;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 社畜レベル */
+.shachu-level-container {
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 248, 0.9));
+    border-radius: 20px;
+    border: 3px solid #ff69b4;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.shachu-level-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff1493;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.shachu-level-value {
+    font-size: 48px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 15px;
+    animation: countUp 1s ease-out;
+}
+
+@keyframes countUp {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.shachu-level-bar-wrapper {
+    width: 100%;
+    height: 30px;
+    background: #ffe6f2;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #ffc0e3;
+    position: relative;
+}
+
+.shachu-level-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff1493 50%, #ff69b4 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    border-radius: 15px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 10px rgba(255, 20, 147, 0.5);
+}
+
+.result-sections {
+    margin-bottom: 30px;
+}
+
+.result-section {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255, 192, 227, 0.3);
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff1493;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.section-content {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.result-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-label {
+    font-size: 14px;
+    color: #ff69b4;
+    font-weight: 600;
+}
+
+.detail-bar {
+    width: 100%;
+    height: 28px;
+    background: #fff0f8;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ffc0e3;
+}
+
+.detail-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff1493 50%, #ff69b4 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    border-radius: 14px;
+    transition: width 1s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+    .screen {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .question-text {
+        font-size: 18px;
+    }
+
+    .option-btn {
+        padding: 14px;
+        font-size: 14px;
+    }
+}
+
+/* ローディング画面 */
+.loading-container {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    border: 8px solid #ffe6f2;
+    border-top: 8px solid #ff1493;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 28px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading-subtext {
+    font-size: 16px;
+    color: #ff85c0;
+    margin-bottom: 20px;
+}
+
+.loading-dots {
+    font-size: 40px;
+    color: #ff69b4;
+    letter-spacing: 5px;
+}
+
+.loading-dots span {
+    animation: blink 1.4s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+/* 16種類のタイプ別レイアウト */
+
+/* 0: 生粋の社畜 - 真っ黒ダーク */
+body:has(.result-theme-0.active) {
+    background: #000000 !important;
+}
+
+.result-theme-0 {
+    background: #000000 !important;
+}
+
+.result-type-0 {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    border: 3px solid #333 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.5) !important;
+}
+
+.result-theme-0 .result-title,
+.result-theme-0 .result-type {
+    background: linear-gradient(135deg, #ff0000, #990000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.result-theme-0 .result-description,
+.result-theme-0 .detail-label {
+    color: #cccccc !important;
+}
+
+/* 1: バーンアウト予備軍 - 炎の燃焼 */
+body:has(.result-theme-1.active) {
+    background: linear-gradient(135deg, #ff4500 0%, #ff8c00 50%, #ff0000 100%) !important;
+}
+
+.result-theme-1 {
+    background: linear-gradient(135deg, #ff4500 0%, #ff8c00 50%, #ff0000 100%) !important;
+}
+
+.result-type-1 {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%) !important;
+    border: 3px solid #ff6600 !important;
+    box-shadow: 0 0 50px rgba(255, 69, 0, 0.8) !important;
+    animation: fire 2s ease-in-out infinite !important;
+}
+
+@keyframes fire {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.result-theme-1 .result-title,
+.result-theme-1 .result-type {
+    background: linear-gradient(135deg, #ff4500, #ff0000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.result-theme-1 .result-description,
+.result-theme-1 .detail-label {
+    color: #8b0000 !important;
+}
+
+/* 2: ストイック社畜 - シルバー金属 */
+body:has(.result-theme-2.active) {
+    background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%) !important;
+}
+
+.result-theme-2 {
+    background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%) !important;
+}
+
+.result-type-2 {
+    background: linear-gradient(135deg, #f0f0f0 0%, #d3d3d3 100%) !important;
+    border: 3px solid #696969 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+.result-theme-2 .result-title,
+.result-theme-2 .result-type {
+    background: linear-gradient(135deg, #4a4a4a, #000000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 3: 一匹狼ワーカー - 夜空と月 */
+body:has(.result-theme-3.active) {
+    background: #0a0a2e !important;
+}
+
+.result-theme-3 {
+    background: #0a0a2e !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-theme-3::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, white, transparent),
+        radial-gradient(2px 2px at 60px 70px, white, transparent),
+        radial-gradient(1px 1px at 50px 50px, white, transparent),
+        radial-gradient(1px 1px at 130px 80px, white, transparent),
+        radial-gradient(2px 2px at 90px 10px, white, transparent);
+    background-size: 200px 200px;
+    animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+.result-type-3 {
+    background: linear-gradient(135deg, #1a1a3e 0%, #0a0a2e 100%) !important;
+    border: 3px solid #4a4a8e !important;
+    box-shadow: 0 0 40px rgba(138, 43, 226, 0.5) !important;
+}
+
+.result-theme-3 .result-title,
+.result-theme-3 .result-type {
+    background: linear-gradient(135deg, #9370db, #ba55d3) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.result-theme-3 .result-description,
+.result-theme-3 .detail-label {
+    color: #d8bfd8 !important;
+}
+
+/* 4: 心優しき社畜 - パステルピンク */
+body:has(.result-theme-4.active) {
+    background: linear-gradient(135deg, #ffc1e0 0%, #ffb3d9 100%) !important;
+}
+
+.result-theme-4 {
+    background: linear-gradient(135deg, #ffc1e0 0%, #ffb3d9 100%) !important;
+}
+
+.result-type-4 {
+    background: linear-gradient(135deg, #fff0f8 0%, #ffe6f2 100%) !important;
+    border: 3px solid #ff69b4 !important;
+    box-shadow: 0 8px 24px rgba(255, 182, 193, 0.6) !important;
+}
+
+/* 5: 繊細ワーカー - 水玉パターン */
+body:has(.result-theme-5.active) {
+    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%) !important;
+}
+
+.result-theme-5 {
+    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%) !important;
+    background-image: 
+        radial-gradient(circle, #80deea 20%, transparent 20%),
+        radial-gradient(circle, #80deea 20%, transparent 20%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+}
+
+.result-type-5 {
+    background: linear-gradient(135deg, #ffffff 0%, #e0f7fa 100%) !important;
+    border: 3px solid #00acc1 !important;
+}
+
+.result-theme-5 .result-title,
+.result-theme-5 .result-type {
+    background: linear-gradient(135deg, #00838f, #006064) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 6: チームプレイヤー - 虹色グラデーション */
+body:has(.result-theme-6.active) {
+    background: linear-gradient(135deg, #ff0080 0%, #ff8c00 20%, #ffff00 40%, #00ff00 60%, #0080ff 80%, #8000ff 100%) !important;
+}
+
+.result-theme-6 {
+    background: linear-gradient(135deg, #ff0080 0%, #ff8c00 20%, #ffff00 40%, #00ff00 60%, #0080ff 80%, #8000ff 100%) !important;
+}
+
+.result-type-6 {
+    background: linear-gradient(135deg, #ffffff 0%, #fff9fc 100%) !important;
+    border: 3px solid #ff00ff !important;
+    box-shadow: 0 8px 24px rgba(255, 0, 255, 0.4) !important;
+}
+
+.result-theme-6 .result-title,
+.result-theme-6 .result-type {
+    background: linear-gradient(90deg, #ff0080, #ff8c00, #ffff00, #00ff00, #0080ff, #8000ff) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 7: マイペース社員 - グリーン自然 */
+body:has(.result-theme-7.active) {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%) !important;
+}
+
+.result-theme-7 {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%) !important;
+}
+
+.result-type-7 {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+    border: 3px solid #4caf50 !important;
+}
+
+.result-theme-7 .result-title,
+.result-theme-7 .result-type {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 8: ゆるふわ社畜 - パステル雲 */
+body:has(.result-theme-8.active) {
+    background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%) !important;
+}
+
+.result-theme-8 {
+    background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%) !important;
+}
+
+.result-type-8 {
+    background: linear-gradient(135deg, #ffffff 0%, #e1f5fe 100%) !important;
+    border: 3px solid #81d4fa !important;
+    border-radius: 40px !important;
+}
+
+.result-theme-8 .result-title,
+.result-theme-8 .result-type {
+    background: linear-gradient(135deg, #0288d1, #01579b) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 9: 隠れ疲労タイプ - グレーモノクロ */
+body:has(.result-theme-9.active) {
+    background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%) !important;
+}
+
+.result-theme-9 {
+    background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%) !important;
+}
+
+.result-type-9 {
+    background: linear-gradient(135deg, #fafafa 0%, #e0e0e0 100%) !important;
+    border: 3px solid #9e9e9e !important;
+}
+
+.result-theme-9 .result-title,
+.result-theme-9 .result-type {
+    background: linear-gradient(135deg, #616161, #424242) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 10: お人好し社員 - イエローハッピー */
+body:has(.result-theme-10.active) {
+    background: linear-gradient(135deg, #fff59d 0%, #ffeb3b 100%) !important;
+}
+
+.result-theme-10 {
+    background: linear-gradient(135deg, #fff59d 0%, #ffeb3b 100%) !important;
+}
+
+.result-type-10 {
+    background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%) !important;
+    border: 3px solid #fbc02d !important;
+    box-shadow: 0 8px 24px rgba(255, 235, 59, 0.6) !important;
+}
+
+.result-theme-10 .result-title,
+.result-theme-10 .result-type {
+    background: linear-gradient(135deg, #f57f17, #ff6f00) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 11: 現実派社員 - ネイビービジネス */
+body:has(.result-theme-11.active) {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+}
+
+.result-theme-11 {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+}
+
+.result-type-11 {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border: 3px solid #1d4ed8 !important;
+}
+
+.result-theme-11 .result-title,
+.result-theme-11 .result-type {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 12: 家庭が大事 - オレンジウォーム */
+body:has(.result-theme-12.active) {
+    background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%) !important;
+}
+
+.result-theme-12 {
+    background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%) !important;
+}
+
+.result-type-12 {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    border: 3px solid #f57c00 !important;
+}
+
+.result-theme-12 .result-title,
+.result-theme-12 .result-type {
+    background: linear-gradient(135deg, #e65100, #bf360c) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 13: ライフワークバランス - パープルラベンダー */
+body:has(.result-theme-13.active) {
+    background: linear-gradient(135deg, #ce93d8 0%, #ba68c8 100%) !important;
+}
+
+.result-theme-13 {
+    background: linear-gradient(135deg, #ce93d8 0%, #ba68c8 100%) !important;
+}
+
+.result-type-13 {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    border: 3px solid #9c27b0 !important;
+}
+
+.result-theme-13 .result-title,
+.result-theme-13 .result-type {
+    background: linear-gradient(135deg, #7b1fa2, #4a148c) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 14: ボス - ゴールドリッチ */
+body:has(.result-theme-14.active) {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb800 100%) !important;
+}
+
+.result-theme-14 {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb800 100%) !important;
+}
+
+.result-type-14 {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+    border: 3px solid #f57f17 !important;
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.8) !important;
+}
+
+.result-theme-14 .result-title,
+.result-theme-14 .result-type {
+    background: linear-gradient(135deg, #f57f17, #e65100) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* 15: 自由人 - 南国トロピカル */
+body:has(.result-theme-15.active) {
+    background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #00bcd4 100%) !important;
+}
+
+.result-theme-15 {
+    background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #00bcd4 100%) !important;
+}
+
+.result-type-15 {
+    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%) !important;
+    border: 3px solid #00acc1 !important;
+    box-shadow: 0 8px 24px rgba(0, 188, 212, 0.4) !important;
+}
+
+.result-theme-15 .result-title,
+.result-theme-15 .result-type {
+    background: linear-gradient(135deg, #0097a7, #006064) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* タッチデバイス用の調整 */
+@media (hover: none) {
+    .option-btn:hover {
+        transform: none;
+    }
+
+    .option-btn:active {
+        border-color: #ff69b4;
+        background: #fff0f8;
+    }
+}
+
