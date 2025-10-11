@@ -16,11 +16,14 @@ body {
 }
 
 body:has(#result-screen.active) {
-    padding: 15px 5px;
+    padding: 2px !important;
+    margin: 0 !important;
 }
 
 body:has(#result-screen.active) .container {
-    max-width: 100%;
+    max-width: 100% !important;
+    padding: 5px !important;
+    margin: 0 !important;
 }
 
 .container {
@@ -1187,6 +1190,52 @@ body:has(.result-theme-15.active) {
     .option-btn:active {
         border-color: #ff69b4;
         background: #fff0f8;
+    }
+}
+
+/* スマホで結果画面の横幅を最大化 */
+@media (max-width: 768px) {
+    #result-screen .container {
+        max-width: 100%;
+        padding: 2px !important;
+        margin: 0 !important;
+    }
+    
+    #result-screen .result-card {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 15px 8px !important;
+        border-radius: 12px;
+    }
+    
+    body:has(#result-screen.active) {
+        padding: 1px !important;
+        margin: 0 !important;
+    }
+    
+    .result-sections {
+        gap: 12px;
+    }
+    
+    .result-section {
+        padding: 12px 8px;
+    }
+    
+    .section-content {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+    
+    .compatibility-item {
+        padding: 10px 12px;
+    }
+    
+    .compat-icon {
+        font-size: 24px;
+    }
+    
+    .compat-name {
+        font-size: 15px;
     }
 }
 
