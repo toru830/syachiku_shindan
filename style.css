@@ -15,10 +15,25 @@ body {
     color: #333;
 }
 
+body:has(#result-screen.active) {
+    padding: 15px 5px;
+}
+
+body:has(#result-screen.active) .container {
+    max-width: 100%;
+}
+
 .container {
     width: 100%;
     max-width: 500px;
     position: relative;
+}
+
+/* 結果画面のみコンテナを広げる */
+#result-screen .result-card {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .screen {
@@ -37,7 +52,13 @@ body {
 #result-screen {
     border: none;
     box-shadow: none;
-    padding: 40px 20px;
+    padding: 30px 10px;
+    max-width: 100%;
+    width: 100%;
+}
+
+#result-screen .container {
+    max-width: 100%;
 }
 
 .screen.active {
@@ -458,7 +479,7 @@ body {
 /* 社畜レベル */
 .shachu-level-container {
     margin: 30px 0;
-    padding: 25px;
+    padding: 30px 35px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 248, 0.9));
     border-radius: 20px;
     border: 3px solid #ff69b4;
@@ -526,24 +547,24 @@ body {
 
 .result-section {
     background: rgba(255, 255, 255, 0.5);
-    padding: 20px;
+    padding: 25px 30px;
     border-radius: 16px;
     margin-bottom: 15px;
     border: 2px solid rgba(255, 192, 227, 0.3);
 }
 
 .section-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: #ff1493;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     text-align: left;
 }
 
 .section-content {
-    font-size: 14px;
+    font-size: 15px;
     color: #666;
-    line-height: 1.8;
+    line-height: 2;
     text-align: left;
 }
 
@@ -593,6 +614,24 @@ body {
 }
 
 /* レスポンシブ対応 */
+@media (max-width: 768px) {
+    body:has(#result-screen.active) {
+        padding: 10px 5px;
+    }
+    
+    #result-screen {
+        padding: 20px 5px;
+    }
+    
+    .result-section {
+        padding: 18px 15px;
+    }
+    
+    .shachu-level-container {
+        padding: 20px 15px;
+    }
+}
+
 @media (max-width: 480px) {
     .screen {
         padding: 30px 20px;
@@ -609,6 +648,27 @@ body {
     .option-btn {
         padding: 14px;
         font-size: 14px;
+    }
+    
+    #result-screen {
+        padding: 15px 5px;
+    }
+    
+    .result-section {
+        padding: 15px 12px;
+    }
+    
+    .shachu-level-container {
+        padding: 18px 12px;
+    }
+    
+    .section-content {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+    
+    .section-title {
+        font-size: 16px;
     }
 }
 
