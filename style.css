@@ -568,6 +568,41 @@ body:has(#result-screen.active) .container {
     text-align: left;
 }
 
+/* 相性タイプリスト */
+.compatibility-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.compatibility-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #fff9fc 100%);
+    border: 2px solid #ffc0e3;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.compatibility-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+    border-color: #ff69b4;
+}
+
+.compat-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.compat-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff1493;
+}
+
 .result-details {
     display: flex;
     flex-direction: column;
