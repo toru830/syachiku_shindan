@@ -441,15 +441,15 @@ function showQuestion() {
     
     if (questionNumber <= 5) {
         // 1-5問目: ピンク系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #FFE4E1 0%, #FFB6C1 50%, #FFC0CB 100%)';
+        quizScreen.style.background = 'linear-gradient(135deg, #FFF0F5 0%, #FFB6C1 50%, #FF69B4 100%)';
         quizScreen.classList.add('group-pink');
     } else if (questionNumber <= 10) {
         // 6-10問目: ブルー系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #E6F3FF 0%, #B3D9FF 50%, #87CEEB 100%)';
+        quizScreen.style.background = 'linear-gradient(135deg, #F0F8FF 0%, #87CEEB 50%, #4169E1 100%)';
         quizScreen.classList.add('group-blue');
     } else {
         // 11-15問目: グリーン系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #F0FFF0 0%, #98FB98 50%, #90EE90 100%)';
+        quizScreen.style.background = 'linear-gradient(135deg, #F0FFF0 0%, #98FB98 50%, #32CD32 100%)';
         quizScreen.classList.add('group-green');
     }
     
