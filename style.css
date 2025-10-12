@@ -546,17 +546,17 @@ body:has(#start-screen.active) .container {
 .start-description {
     font-size: 1.65rem;
     margin-bottom: 22px;
-    color: #FF69B4;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 1px 1px 2px rgba(255, 255, 255, 0.6);
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    color: #C71585;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(255, 255, 255, 0.7);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
 }
 
 .start-sub-description {
     font-size: 1.43rem;
     margin-bottom: 60px;
-    color: #FF69B4;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 1px 1px 2px rgba(255, 255, 255, 0.6);
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    color: #C71585;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(255, 255, 255, 0.7);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
 }
 
 .start-btn {
@@ -1737,16 +1737,16 @@ body:has(.result-theme-15.active) {
     
     .start-description {
         font-size: 1.3rem;
-        color: #FF69B4 !important;
-        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
-        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)) !important;
+        color: #C71585 !important;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) !important;
     }
     
     .start-sub-description {
         font-size: 1.1rem;
-        color: #FF69B4 !important;
-        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
-        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)) !important;
+        color: #C71585 !important;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) !important;
     }
     
     /* 質問画面のスマホ対応 */
