@@ -1861,7 +1861,7 @@ body:has(.result-theme-15.active) {
     flex-shrink: 0;
 }
 
-/* 各マスコットのアニメーション遅延 */
+/* 各マスコットのアニメーション遅延（7体） */
 .mascot-icon:nth-child(1) {
     animation-delay: 0s;
 }
@@ -1880,6 +1880,14 @@ body:has(.result-theme-15.active) {
 
 .mascot-icon:nth-child(5) {
     animation-delay: 4s;
+}
+
+.mascot-icon:nth-child(6) {
+    animation-delay: 5s;
+}
+
+.mascot-icon:nth-child(7) {
+    animation-delay: 6s;
 }
 
 /* 002を中央の主人公として（1.2倍の大きさ） */
@@ -1954,7 +1962,7 @@ body:has(.result-theme-15.active) {
     opacity: 0.6;
 }
 
-/* 各マスコットの配置位置（画像通り） */
+/* 各マスコットの配置位置（8体） */
 .mascot-1 {
     top: 10%;
     left: 5%;
@@ -2003,18 +2011,6 @@ body:has(.result-theme-15.active) {
     animation-delay: 7.5s;
 }
 
-.mascot-9 {
-    top: 25%;
-    left: 20%;
-    animation-delay: 8.5s;
-}
-
-.mascot-10 {
-    top: 70%;
-    right: 20%;
-    animation-delay: 9.5s;
-}
-
 /* モバイルでの散りばめたマスコット */
 @media (max-width: 768px) {
     .scattered-mascot-img {
@@ -2060,16 +2056,6 @@ body:has(.result-theme-15.active) {
     .mascot-8 {
         top: 55%;
         left: 12%;
-    }
-    
-    .mascot-9 {
-        top: 20%;
-        left: 15%;
-    }
-    
-    .mascot-10 {
-        top: 65%;
-        right: 15%;
     }
 }
 
