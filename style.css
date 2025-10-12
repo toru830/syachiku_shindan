@@ -1874,6 +1874,17 @@ body:has(.result-theme-15.active) {
     align-items: center;
 }
 
+/* 主人公レイアウト */
+.hero-layout {
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.bottom-mascots {
+    justify-content: center;
+    gap: 20px;
+}
+
 .mascot-icon {
     width: 60px;
     height: 60px;
@@ -1889,11 +1900,32 @@ body:has(.result-theme-15.active) {
     flex-shrink: 0;
 }
 
-/* 2つ目のマスコットに少し遅延を付けて動きに変化を */
-.mascot-icon:nth-child(2) {
+/* 主人公マスコット（002）を大きく */
+.hero-mascot {
+    width: 90px;
+    height: 90px;
     animation-delay: 1s;
-    width: 78px;
-    height: 78px;
+}
+
+/* サイドマスコット */
+.side-mascot {
+    width: 50px;
+    height: 50px;
+    animation-delay: 0.5s;
+}
+
+.side-mascot:nth-child(3) {
+    animation-delay: 2s;
+}
+
+.bottom-mascot {
+    width: 45px;
+    height: 45px;
+    animation-delay: 3s;
+}
+
+.bottom-mascot:nth-child(2) {
+    animation-delay: 4s;
 }
 
 /* 3つ目のマスコットにも遅延を追加 */
@@ -1914,19 +1946,33 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         object-fit: cover;
         object-position: center;
     }
     
-    .mascot-icon:nth-child(2) {
-        width: 65px;
-        height: 65px;
+    .hero-mascot {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .side-mascot {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .bottom-mascot {
+        width: 30px;
+        height: 30px;
     }
     
     .mascot-section {
         gap: 6px;
+    }
+    
+    .bottom-mascots {
+        gap: 15px;
     }
 }
 
