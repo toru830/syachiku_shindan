@@ -15,6 +15,13 @@ body {
     color: #333;
 }
 
+/* スタート画面がアクティブな時はbodyのスタイルを変更 */
+body:has(#start-screen.active) {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+}
+
 body:has(#result-screen.active) {
     padding: 2px !important;
     margin: 0 !important;
@@ -30,6 +37,13 @@ body:has(#result-screen.active) .container {
     width: 100%;
     max-width: 500px;
     position: relative;
+}
+
+/* スタート画面の時はコンテナを画面全体に */
+body:has(#start-screen.active) .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100vh !important;
 }
 
 /* 結果画面のみコンテナを広げる */
@@ -48,7 +62,7 @@ body:has(#result-screen.active) .container {
     animation: fadeIn 0.5s ease-in;
 }
 
-#start-screen, #quiz-screen, #loading-screen {
+#quiz-screen, #loading-screen {
     background: linear-gradient(135deg, #ffffff 0%, #fff5fb 100%);
 }
 
@@ -81,10 +95,14 @@ body:has(#result-screen.active) .container {
 
 /* スタート画面 - ポップで可愛いデザイン */
 #start-screen {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
     background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #87CEEB 100%);
+    z-index: 1000;
 }
 
 .start-background {
