@@ -1984,16 +1984,16 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 50px; /* 左右限界まで大きく */
-        height: 50px;
+        width: 55px; /* さらに大きく */
+        height: 55px;
         object-fit: cover;
         object-position: center;
         flex-shrink: 0; /* 縮小を防ぐ */
     }
     
     .hero-center {
-        width: 62px; /* 50px * 1.24 */
-        height: 62px;
+        width: 68px; /* 55px * 1.24 */
+        height: 68px;
     }
     
     .title-mascot {
@@ -2027,14 +2027,14 @@ body:has(.result-theme-15.active) {
     }
     
     .mascot-section {
-        gap: 2px; /* 最小限の間隔 */
+        gap: 0px; /* 間隔を完全に削除 */
         padding: 0; /* 余白を完全に削除 */
         max-width: 100%;
         overflow: visible; /* 上下の動きで切れないように */
         justify-content: space-between; /* 左右限界まで広げる */
         flex-direction: row; /* 横一列を強制 */
         flex-wrap: nowrap; /* 折り返し禁止 */
-        margin: 0 5px; /* 外側のマージンで最小限の余白 */
+        margin: 0 2px; /* 外側のマージンを最小限に */
     }
 }
 
