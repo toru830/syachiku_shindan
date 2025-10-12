@@ -882,10 +882,12 @@ function showResult() {
         resultType.compatibility.forEach(typeName => {
             const compatType = resultTypes.find(t => t.name === typeName);
             if (compatType) {
+                const compatTypeIndex = resultTypes.findIndex(t => t.name === typeName);
+                const compatImageNumber = String(compatTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
                 const compatItem = document.createElement('div');
                 compatItem.className = 'compatibility-item';
                 compatItem.innerHTML = `
-                    <span class="compat-icon">${compatType.icon}</span>
+                    <img src="10_社畜アイコン/${compatImageNumber}.png" alt="${compatType.name}" class="compat-icon">
                     <span class="compat-name">${compatType.name}</span>
                 `;
                 compatibilityEl.appendChild(compatItem);

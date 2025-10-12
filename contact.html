@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | 社畜診断</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%);
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #ff1493;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 24px;
+            color: #ff69b4;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ffb3d9;
+            padding-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ff1493;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffb3d9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #ff1493;
+        }
+        
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .back-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: #ffeef8;
+            border-left: 4px solid #ff1493;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .info-box h3 {
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+        
+        .required {
+            color: #ff1493;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>お問い合わせ</h1>
+        
+        <div class="info-box">
+            <h3>📧 お問い合わせについて</h3>
+            <p>社畜診断に関するご質問、ご要望、不具合の報告など、お気軽にお問い合わせください。可能な限り迅速にお返事いたします。</p>
+        </div>
+        
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">お名前 <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">メールアドレス <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">お問い合わせ種別 <span class="required">*</span></label>
+                <select id="subject" name="subject" required>
+                    <option value="">選択してください</option>
+                    <option value="bug">不具合の報告</option>
+                    <option value="feature">機能の要望</option>
+                    <option value="question">使用方法について</option>
+                    <option value="privacy">プライバシーについて</option>
+                    <option value="other">その他</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+                <textarea id="message" name="message" placeholder="お問い合わせ内容を詳しくお書きください。" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">送信する</button>
+        </form>
+        
+        <div class="info-box">
+            <h3>📋 お問い合わせの流れ</h3>
+            <ol>
+                <li>上記フォームに必要事項を入力してください</li>
+                <li>「送信する」ボタンをクリックしてください</li>
+                <li>確認メールが自動送信されます</li>
+                <li>3営業日以内に担当者より回答いたします</li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h3>⚠️ ご注意事項</h3>
+            <ul>
+                <li>お問い合わせ内容によっては、回答までにお時間をいただく場合がございます</li>
+                <li>個人情報は適切に管理し、お問い合わせ対応以外の目的では使用いたしません</li>
+                <li>診断結果に関する個別の解釈や診断は行っておりません</li>
+                <li>スパムメールの送信や不適切な内容の場合は、返信できない場合があります</li>
+            </ul>
+        </div>
+        
+        <a href="index.html" class="back-link">トップページに戻る</a>
+    </div>
+    
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // フォームデータを取得
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // 簡単なバリデーション
+            if (!name || !email || !subject || !message) {
+                alert('すべての必須項目を入力してください。');
+                return;
+            }
+            
+            // メールアドレスの簡単なバリデーション
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('正しいメールアドレスを入力してください。');
+                return;
+            }
+            
+            // 送信処理（実際の実装では、ここでサーバーに送信）
+            alert('お問い合わせありがとうございます！\n内容を確認し、3営業日以内に回答いたします。');
+            
+            // フォームをリセット
+            this.reset();
+        });
+    </script>
+</body>
+</html>

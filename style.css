@@ -1077,8 +1077,12 @@ body:has(#start-screen.active) .container {
 }
 
 .compat-icon {
-    font-size: 28px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
 }
 
 .compat-name {
@@ -1810,7 +1814,8 @@ body:has(.result-theme-15.active) {
     }
     
     .compat-icon {
-        font-size: 24px;
+        width: 32px;
+        height: 32px;
     }
     
     .compat-name {
@@ -2257,6 +2262,49 @@ body:has(.result-theme-15.active) {
     #start-screen .mascot-9 {
         top: 12%;
         right: 18%;
+    }
+}
+
+/* フッターリンクのスタイル */
+.footer-links {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-link {
+    color: #ff1493;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    margin: 0 10px;
+}
+
+.footer-link:hover {
+    color: #ff69b4;
+    text-decoration: underline;
+}
+
+.footer-separator {
+    color: #ffb3d9;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .footer-links {
+        margin-top: 30px;
+        padding: 15px 0;
+    }
+    
+    .footer-link {
+        font-size: 12px;
+        margin: 0 8px;
+    }
+    
+    .footer-separator {
+        margin: 0 3px;
     }
 }
 
