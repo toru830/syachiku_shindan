@@ -2011,19 +2011,13 @@ body:has(.result-theme-15.active) {
     }
     
     .button-mascot {
-        width: 35px; /* 中央5体と同じサイズ */
-        height: 35px;
-    }
-    
-    /* 008を1.2倍に（モバイル） */
-    .button-mascot:nth-child(3) {
-        width: 42px; /* 35px * 1.2 */
-        height: 42px;
+        display: none; /* スマホでは非表示 */
     }
     
     .button-mascot-container {
         gap: 10px; /* 狭くして画面に収める */
         margin-top: 15px;
+        justify-content: center; /* ボタンを中央に */
     }
     
     .mascot-section {
