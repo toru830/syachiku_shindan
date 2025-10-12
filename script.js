@@ -432,6 +432,27 @@ function showQuestion() {
     const progress = ((currentQuestion + 1) / questions.length) * 100;
     progressFill.style.width = progress + '%';
     
+    // 質問番号に応じて背景を変更
+    const questionNumber = currentQuestion + 1;
+    const quizScreen = document.getElementById('quiz-screen');
+    
+    // 既存のクラスを削除
+    quizScreen.classList.remove('group-pink', 'group-blue', 'group-green');
+    
+    if (questionNumber <= 5) {
+        // 1-5問目: ピンク系の可愛い背景
+        quizScreen.style.background = 'linear-gradient(135deg, #FFE4E1 0%, #FFB6C1 50%, #FFC0CB 100%)';
+        quizScreen.classList.add('group-pink');
+    } else if (questionNumber <= 10) {
+        // 6-10問目: ブルー系の可愛い背景
+        quizScreen.style.background = 'linear-gradient(135deg, #E6F3FF 0%, #B3D9FF 50%, #87CEEB 100%)';
+        quizScreen.classList.add('group-blue');
+    } else {
+        // 11-15問目: グリーン系の可愛い背景
+        quizScreen.style.background = 'linear-gradient(135deg, #F0FFF0 0%, #98FB98 50%, #90EE90 100%)';
+        quizScreen.classList.add('group-green');
+    }
+    
     // 選択肢を動的に生成
     optionsContainer.innerHTML = '';
     question.options.forEach(option => {
