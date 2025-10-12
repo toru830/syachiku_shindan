@@ -458,14 +458,20 @@ function showQuestion() {
         // bodyの背景をピンク系に変更
         document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%)';
         
-        // ピンクテーマの浮遊絵文字を追加（20個）
-        const pinkEmojis = ['⭐', '✨', '💖', '🌸', '💕', '🎀', '🦄', '💝', '🌺', '💗', '🌟', '💫', '🎁', '💌', '🌷', '🦋', '🌈', '💎', '🎊', '🎉'];
+        // ピンクテーマの浮遊絵文字を追加（12個、規則的配置）
+        const pinkEmojis = ['⭐', '✨', '💖', '🌸', '💕', '🎀', '🦄', '💝', '🌺', '💗', '🌟', '💫'];
+        const positions = [
+            {top: '15%', left: '10%'}, {top: '25%', left: '85%'}, {top: '35%', left: '20%'},
+            {top: '45%', left: '75%'}, {top: '55%', left: '15%'}, {top: '65%', left: '80%'},
+            {top: '75%', left: '25%'}, {top: '85%', left: '70%'}, {top: '20%', left: '50%'},
+            {top: '40%', left: '5%'}, {top: '60%', left: '90%'}, {top: '80%', left: '45%'}
+        ];
         pinkEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
-            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
-            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.top = positions[index].top;
+            emojiEl.style.left = positions[index].left;
             document.body.appendChild(emojiEl);
         });
     } else if (questionNumber <= 10) {
@@ -477,14 +483,20 @@ function showQuestion() {
         // bodyの背景をオレンジ系に変更
         document.body.style.background = 'linear-gradient(135deg, #FFE0B2 0%, #FFCC02 50%, #FF8F00 100%)';
         
-        // オレンジテーマの浮遊絵文字を追加（20個）
-        const orangeEmojis = ['🌟', '☀️', '🔥', '💪', '⚡', '🎆', '💥', '🚀', '💢', '🌞', '🔥', '⚡', '💥', '🎯', '💨', '🌋', '🔥', '⚡', '💥', '🎆'];
+        // オレンジテーマの浮遊絵文字を追加（12個、規則的配置）
+        const orangeEmojis = ['🌟', '☀️', '🔥', '💪', '⚡', '🎆', '💥', '🚀', '💢', '🌞', '🎯', '💨'];
+        const positions = [
+            {top: '12%', left: '12%'}, {top: '22%', left: '88%'}, {top: '32%', left: '22%'},
+            {top: '42%', left: '78%'}, {top: '52%', left: '12%'}, {top: '62%', left: '88%'},
+            {top: '72%', left: '22%'}, {top: '82%', left: '78%'}, {top: '18%', left: '52%'},
+            {top: '38%', left: '8%'}, {top: '58%', left: '92%'}, {top: '78%', left: '42%'}
+        ];
         orangeEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
-            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
-            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.top = positions[index].top;
+            emojiEl.style.left = positions[index].left;
             document.body.appendChild(emojiEl);
         });
     } else {
@@ -496,14 +508,20 @@ function showQuestion() {
         // bodyの背景をグリーン系に変更
         document.body.style.background = 'linear-gradient(135deg, #DCEDC8 0%, #8BC34A 50%, #689F38 100%)';
         
-        // グリーンテーマの浮遊絵文字を追加（20個）
-        const greenEmojis = ['🌱', '☀️', '🎯', '🌿', '🍀', '🌳', '🦋', '🌈', '🍃', '🌺', '🌸', '🌻', '🌷', '🌼', '🦋', '🐝', '🌾', '🌿', '🍃', '🌱'];
+        // グリーンテーマの浮遊絵文字を追加（12個、規則的配置）
+        const greenEmojis = ['🌱', '☀️', '🎯', '🌿', '🍀', '🌳', '🦋', '🌈', '🍃', '🌺', '🌸', '🌻'];
+        const positions = [
+            {top: '18%', left: '15%'}, {top: '28%', left: '82%'}, {top: '38%', left: '18%'},
+            {top: '48%', left: '85%'}, {top: '58%', left: '12%'}, {top: '68%', left: '88%'},
+            {top: '78%', left: '25%'}, {top: '88%', left: '75%'}, {top: '15%', left: '48%'},
+            {top: '35%', left: '5%'}, {top: '55%', left: '95%'}, {top: '75%', left: '35%'}
+        ];
         greenEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
-            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
-            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.top = positions[index].top;
+            emojiEl.style.left = positions[index].left;
             document.body.appendChild(emojiEl);
         });
     }
