@@ -1875,8 +1875,8 @@ body:has(.result-theme-15.active) {
 }
 
 .mascot-icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -1918,8 +1918,8 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
         object-position: center;
     }
@@ -1959,8 +1959,8 @@ body:has(.result-theme-15.active) {
 }
 
 .scattered-mascot-img {
-    width: 78px;
-    height: 78px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -1968,7 +1968,7 @@ body:has(.result-theme-15.active) {
     box-shadow: none !important;
     mix-blend-mode: multiply;
     display: block;
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 /* 各マスコットの配置位置 */
@@ -2005,8 +2005,8 @@ body:has(.result-theme-15.active) {
 /* モバイルでの散りばめたマスコット */
 @media (max-width: 768px) {
     .scattered-mascot-img {
-        width: 52px;
-        height: 52px;
+        width: 35px;
+        height: 35px;
     }
     
     .mascot-1 {
