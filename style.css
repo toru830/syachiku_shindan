@@ -1931,8 +1931,8 @@ body:has(.result-theme-15.active) {
 }
 
 .scattered-mascot-img {
-    width: 55px; /* 50px * 1.1 */
-    height: 55px;
+    width: 66px; /* 55px * 1.2 */
+    height: 66px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -2007,8 +2007,8 @@ body:has(.result-theme-15.active) {
 /* モバイルでの散りばめたマスコット */
 @media (max-width: 768px) {
     .scattered-mascot-img {
-        width: 28px; /* 25px * 1.1 */
-        height: 28px;
+        width: 34px; /* 28px * 1.2 */
+        height: 34px;
     }
     
     .mascot-1 {
