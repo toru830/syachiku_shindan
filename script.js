@@ -799,8 +799,8 @@ function showResult() {
         console.log('診断スコア:', { dedication, sacrifice, stress, relationship, totalScore });
         
         // より細かいスコア範囲で16種類を判定
-        // 1. 生粋の社畜（総合80%以上、dedication高、sacrifice高）
-        if (totalScore >= 80 && dedication >= 75 && sacrifice >= 75) {
+        // 1. 生粋の社畜（総合90%以上、dedication高、sacrifice高）
+        if (totalScore >= 90 && dedication >= 85 && sacrifice >= 85) {
             return resultTypes[0];
         }
         
@@ -869,13 +869,13 @@ function showResult() {
             return resultTypes[13];
         }
         
-        // 15. 自由人（総合25%以下）
-        if (totalScore <= 25) {
+        // 15. 自由人（総合10%以下）
+        if (totalScore <= 10) {
             return resultTypes[14];
         }
         
-        // 16. ワークライフバランス重視（総合25-40%、dedication低、sacrifice低）
-        if (totalScore >= 25 && totalScore <= 45 && dedication <= 40 && sacrifice <= 40) {
+        // 16. ワークライフバランス重視（総合10-40%、dedication低、sacrifice低）
+        if (totalScore >= 10 && totalScore <= 45 && dedication <= 40 && sacrifice <= 40) {
             return resultTypes[15];
         }
         
