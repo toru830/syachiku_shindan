@@ -788,16 +788,100 @@ function showResult() {
     });
     console.log('正規化スコア:', normalizedScores);
     
-    // 完全にランダムな均等分布システム（16種類すべてが均等に出る）
+    // スコアベースの詳細な分類システム（16種類をスコアで適切に判定）
     function getResultType(normalizedScores) {
-        // スコアに関係なく、完全にランダムで16種類から選択
-        const randomIndex = Math.floor(Math.random() * 16);
+        const { dedication, sacrifice, stress, relationship } = normalizedScores;
+        
+        // 総合スコアを計算
+        const totalScore = (dedication + sacrifice + stress + relationship) / 4;
         
         // デバッグ用ログ
-        console.log('ランダム選択されたインデックス:', randomIndex);
-        console.log('選択されたタイプ:', resultTypes[randomIndex].name);
+        console.log('診断スコア:', { dedication, sacrifice, stress, relationship, totalScore });
         
-        return resultTypes[randomIndex];
+        // より細かいスコア範囲で16種類を判定
+        // 1. 生粋の社畜（総合80%以上、dedication高、sacrifice高）
+        if (totalScore >= 80 && dedication >= 75 && sacrifice >= 75) {
+            return resultTypes[0];
+        }
+        
+        // 2. バーンアウト予備軍（stress高、relationship低）
+        if (stress >= 70 && relationship <= 40) {
+            return resultTypes[1];
+        }
+        
+        // 3. 完璧主義者（dedication高、stress高）
+        if (dedication >= 75 && stress >= 70) {
+            return resultTypes[2];
+        }
+        
+        // 4. デキる社員（総合70-85%、バランス良い）
+        if (totalScore >= 70 && totalScore < 85 && dedication >= 65 && sacrifice >= 60 && stress < 75) {
+            return resultTypes[3];
+        }
+        
+        // 5. 自己犠牲型（sacrifice高、relationship低～中）
+        if (sacrifice >= 70 && relationship <= 55) {
+            return resultTypes[4];
+        }
+        
+        // 6. ストレス過多型（stress高、dedication中～高）
+        if (stress >= 70 && dedication >= 50 && dedication < 75) {
+            return resultTypes[5];
+        }
+        
+        // 7. 仕事中毒（dedication高、総合65-75%）
+        if (dedication >= 70 && totalScore >= 65 && totalScore < 80) {
+            return resultTypes[6];
+        }
+        
+        // 8. バランス型社畜（総合55-70%、各軸バランス良い）
+        if (totalScore >= 55 && totalScore < 70 && dedication >= 45 && dedication <= 70 && sacrifice >= 45 && sacrifice <= 70) {
+            return resultTypes[7];
+        }
+        
+        // 9. 普通の社員（総合50-65%）
+        if (totalScore >= 50 && totalScore < 65) {
+            return resultTypes[8];
+        }
+        
+        // 10. コミュニケーション重視（relationship高、stress低～中）
+        if (relationship >= 65 && stress <= 60) {
+            return resultTypes[9];
+        }
+        
+        // 11. 効率重視（dedication中、sacrifice低、総合40-55%）
+        if (dedication >= 40 && dedication <= 65 && sacrifice <= 45 && totalScore >= 40 && totalScore < 55) {
+            return resultTypes[10];
+        }
+        
+        // 12. カウンセラー系（relationship高、stress中、dedication中）
+        if (relationship >= 60 && stress >= 40 && stress <= 65 && dedication >= 40 && dedication <= 65) {
+            return resultTypes[11];
+        }
+        
+        // 13. アナリスト系（dedication低～中、sacrifice中、stress低～中）
+        if (dedication <= 50 && sacrifice >= 40 && sacrifice <= 60 && stress <= 60) {
+            return resultTypes[12];
+        }
+        
+        // 14. 普通の人（総合35-50%）
+        if (totalScore >= 35 && totalScore < 50) {
+            return resultTypes[13];
+        }
+        
+        // 15. 自由人（総合25%以下）
+        if (totalScore <= 25) {
+            return resultTypes[14];
+        }
+        
+        // 16. ワークライフバランス重視（総合25-40%、dedication低、sacrifice低）
+        if (totalScore >= 25 && totalScore <= 45 && dedication <= 40 && sacrifice <= 40) {
+            return resultTypes[15];
+        }
+        
+        // デフォルト：普通の人（念のため）
+        console.log('デフォルト判定: 普通の人');
+        return resultTypes[13];
     }
     
     const resultType = getResultType(normalizedScores);
