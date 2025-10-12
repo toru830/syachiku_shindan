@@ -1847,7 +1847,7 @@ body:has(.result-theme-15.active) {
 }
 
 .mascot-icon {
-    width: 100px; /* PC版も適切なサイズに調整 */
+    width: 100px; /* PC版も適切なサイズに調整 - キャッシュクリア */
     height: 100px;
     object-fit: cover;
     object-position: center;
