@@ -1875,8 +1875,8 @@ body:has(.result-theme-15.active) {
 }
 
 .mascot-icon {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -1886,24 +1886,30 @@ body:has(.result-theme-15.active) {
     animation: float 3s ease-in-out infinite;
     display: block;
     opacity: 1;
+    flex-shrink: 0;
 }
 
 /* 2つ目のマスコットに少し遅延を付けて動きに変化を */
 .mascot-icon:nth-child(2) {
-    animation-delay: 1.5s;
+    animation-delay: 1s;
+}
+
+/* 3つ目のマスコットにも遅延を追加 */
+.mascot-icon:nth-child(3) {
+    animation-delay: 2s;
 }
 
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
         object-position: center;
     }
     
     .mascot-section {
-        gap: 8px;
+        gap: 6px;
     }
 }
 
