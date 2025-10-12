@@ -2057,14 +2057,18 @@ body:has(.result-theme-15.active) {
     }
 }
 
-/* 散りばめたマスコットアイコンのスタイル */
-.scattered-mascot {
+/* 散りばめたマスコットアイコンのスタイル - スタート画面のみ */
+#start-screen .scattered-mascot {
     position: absolute;
     z-index: 3;
     animation: float 4s ease-in-out infinite;
 }
 
-.scattered-mascot-img {
+.scattered-mascot {
+    display: none; /* デフォルトでは非表示 */
+}
+
+#start-screen .scattered-mascot-img {
     width: 40px; /* 小さめのサイズ */
     height: 40px;
     object-fit: cover;
@@ -2077,176 +2081,180 @@ body:has(.result-theme-15.active) {
     opacity: 0.7; /* 少し薄く */
 }
 
-/* 各マスコットの配置位置（20体） - 中央に配置 */
-.mascot-1 {
+.scattered-mascot-img {
+    display: none; /* デフォルトでは非表示 */
+}
+
+/* 各マスコットの配置位置（20体） - スタート画面のみ */
+#start-screen .mascot-1 {
     top: 5%;
     left: 5%;
     animation-delay: 0.5s;
 }
 
-.mascot-2 {
+#start-screen .mascot-2 {
     top: 8%;
     right: 5%;
     animation-delay: 1.0s;
 }
 
-.mascot-3 {
+#start-screen .mascot-3 {
     top: 15%;
     left: 8%;
     animation-delay: 1.5s;
 }
 
-.mascot-4 {
+#start-screen .mascot-4 {
     top: 18%;
     right: 8%;
     animation-delay: 2.0s;
 }
 
-.mascot-5 {
+#start-screen .mascot-5 {
     top: 25%;
     left: 12%;
     animation-delay: 2.5s;
 }
 
-.mascot-6 {
+#start-screen .mascot-6 {
     top: 28%;
     right: 12%;
     animation-delay: 3.0s;
 }
 
-.mascot-7 {
+#start-screen .mascot-7 {
     top: 35%;
     left: 6%;
     animation-delay: 3.5s;
 }
 
-.mascot-8 {
+#start-screen .mascot-8 {
     top: 38%;
     right: 6%;
     animation-delay: 4.0s;
 }
 
-.mascot-9 {
+#start-screen .mascot-9 {
     top: 45%;
     left: 15%;
     animation-delay: 4.5s;
 }
 
-.mascot-10 {
+#start-screen .mascot-10 {
     top: 48%;
     right: 15%;
     animation-delay: 5.0s;
 }
 
-.mascot-11 {
+#start-screen .mascot-11 {
     top: 55%;
     left: 4%;
     animation-delay: 5.5s;
 }
 
-.mascot-12 {
+#start-screen .mascot-12 {
     top: 58%;
     right: 4%;
     animation-delay: 6.0s;
 }
 
-.mascot-13 {
+#start-screen .mascot-13 {
     top: 65%;
     left: 10%;
     animation-delay: 6.5s;
 }
 
-.mascot-14 {
+#start-screen .mascot-14 {
     top: 68%;
     right: 10%;
     animation-delay: 7.0s;
 }
 
-.mascot-15 {
+#start-screen .mascot-15 {
     top: 75%;
     left: 7%;
     animation-delay: 7.5s;
 }
 
-.mascot-16 {
+#start-screen .mascot-16 {
     top: 78%;
     right: 7%;
     animation-delay: 8.0s;
 }
 
-.mascot-17 {
+#start-screen .mascot-17 {
     top: 85%;
     left: 9%;
     animation-delay: 8.5s;
 }
 
-.mascot-18 {
+#start-screen .mascot-18 {
     top: 88%;
     right: 9%;
     animation-delay: 9.0s;
 }
 
-.mascot-19 {
+#start-screen .mascot-19 {
     top: 92%;
     left: 11%;
     animation-delay: 9.5s;
 }
 
-.mascot-20 {
+#start-screen .mascot-20 {
     top: 95%;
     right: 11%;
     animation-delay: 10.0s;
 }
 
-/* モバイルでの散りばめたマスコット */
+/* モバイルでの散りばめたマスコット - スタート画面のみ */
 @media (max-width: 768px) {
-    .scattered-mascot-img {
+    #start-screen .scattered-mascot-img {
         width: 30px; /* 小さめのサイズ */
         height: 30px;
         opacity: 0.6; /* より薄く */
     }
     
-    .mascot-1 {
+    #start-screen .mascot-1 {
         top: 8%;
         left: 10%;
     }
     
-    .mascot-2 {
+    #start-screen .mascot-2 {
         top: 12%;
         right: 10%;
     }
     
-    .mascot-3 {
+    #start-screen .mascot-3 {
         top: 80%;
         right: 15%;
     }
     
-    .mascot-4 {
+    #start-screen .mascot-4 {
         top: 70%;
         left: 15%;
     }
     
-    .mascot-5 {
+    #start-screen .mascot-5 {
         top: 20%;
         left: 25%;
     }
     
-    .mascot-6 {
+    #start-screen .mascot-6 {
         top: 30%;
         right: 25%;
     }
     
-    .mascot-7 {
+    #start-screen .mascot-7 {
         top: 55%;
         left: 5%;
     }
     
-    .mascot-8 {
+    #start-screen .mascot-8 {
         top: 40%;
         left: 15%;
     }
     
-    .mascot-9 {
+    #start-screen .mascot-9 {
         top: 12%;
         right: 18%;
     }
