@@ -479,41 +479,6 @@ body:has(#start-screen.active) .container {
     animation-delay: 2.7s;
 }
 
-/* テント */
-.tent {
-    position: absolute;
-    bottom: 35%;
-}
-
-.tent-1 {
-    width: 0;
-    height: 0;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-bottom: 40px solid #FFD700;
-    left: 25%;
-    z-index: 3;
-}
-
-.tent-2 {
-    width: 0;
-    height: 0;
-    border-left: 35px solid transparent;
-    border-right: 35px solid transparent;
-    border-bottom: 55px solid #228B22;
-    left: 50%;
-    z-index: 3;
-}
-
-.tent-3 {
-    width: 0;
-    height: 0;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-bottom: 45px solid #FF6347;
-    right: 25%;
-    z-index: 3;
-}
 
 
 /* コンテンツ */
@@ -1966,8 +1931,8 @@ body:has(.result-theme-15.active) {
 }
 
 .scattered-mascot-img {
-    width: 50px;
-    height: 50px;
+    width: 55px; /* 50px * 1.1 */
+    height: 55px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -2042,8 +2007,8 @@ body:has(.result-theme-15.active) {
 /* モバイルでの散りばめたマスコット */
 @media (max-width: 768px) {
     .scattered-mascot-img {
-        width: 25px;
-        height: 25px;
+        width: 28px; /* 25px * 1.1 */
+        height: 28px;
     }
     
     .mascot-1 {
