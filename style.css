@@ -1853,3 +1853,44 @@ body:has(.result-theme-15.active) {
     }
 }
 
+/* マスコットアイコンのスタイル */
+.title-mascot-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.title-section {
+    flex: 1;
+}
+
+.mascot-section {
+    flex: 0 0 auto;
+}
+
+.mascot-icon {
+    width: 120px;
+    height: auto;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    mix-blend-mode: multiply;
+    animation: float 3s ease-in-out infinite;
+    display: block;
+    opacity: 1;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .title-mascot-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .mascot-icon {
+        width: 100px;
+    }
+}
+
