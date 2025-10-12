@@ -1838,13 +1838,17 @@ body:has(.result-theme-15.active) {
 .mascot-section {
     flex: 0 0 auto;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .mascot-icon {
-    width: 112px;
-    height: 112px;
+    width: 100px; /* PC版も適切なサイズに調整 */
+    height: 100px;
     object-fit: cover;
     object-position: center;
     background: transparent !important;
@@ -1878,10 +1882,10 @@ body:has(.result-theme-15.active) {
     animation-delay: 4s;
 }
 
-/* 002を中央の主人公として（1.4倍の1.2倍 = 1.68倍の大きさ） */
+/* 002を中央の主人公として（1.2倍の大きさ） */
 .hero-center {
-    width: 134px;
-    height: 134px;
+    width: 120px; /* 100px * 1.2 */
+    height: 120px;
     z-index: 2;
 }
 
