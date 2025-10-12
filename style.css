@@ -1910,6 +1910,13 @@ body:has(.result-theme-15.active) {
     animation-delay: 4s;
 }
 
+/* 002を中央の主人公として大きく */
+.hero-center {
+    width: 80px;
+    height: 80px;
+    z-index: 2;
+}
+
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
@@ -1917,6 +1924,11 @@ body:has(.result-theme-15.active) {
         height: 50px;
         object-fit: cover;
         object-position: center;
+    }
+    
+    .hero-center {
+        width: 65px;
+        height: 65px;
     }
     
     .mascot-section {
