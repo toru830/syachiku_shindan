@@ -1874,27 +1874,27 @@ body:has(.result-theme-15.active) {
 }
 
 /* 各マスコットのアニメーション遅延（6体） */
-.mascot-icon:nth-child(1) {
+.mascot-section .mascot-icon:nth-child(1) {
     animation-delay: 0s;
 }
 
-.mascot-icon:nth-child(2) {
+.mascot-section .mascot-icon:nth-child(2) {
     animation-delay: 1s;
 }
 
-.mascot-icon:nth-child(3) {
+.mascot-section .mascot-icon:nth-child(3) {
     animation-delay: 2s;
 }
 
-.mascot-icon:nth-child(4) {
+.mascot-section-bottom .mascot-icon:nth-child(1) {
     animation-delay: 3s;
 }
 
-.mascot-section-bottom .mascot-icon:nth-child(1) {
+.mascot-section-bottom .mascot-icon:nth-child(2) {
     animation-delay: 4s;
 }
 
-.mascot-section-bottom .mascot-icon:nth-child(2) {
+.mascot-section-bottom .mascot-icon:nth-child(3) {
     animation-delay: 5s;
 }
 
@@ -1970,7 +1970,7 @@ body:has(.result-theme-15.active) {
     opacity: 0.6;
 }
 
-/* 各マスコットの配置位置（画像通り） */
+/* 各マスコットの配置位置（9体） */
 .mascot-1 {
     top: 5%;
     left: 3%;
@@ -2019,6 +2019,12 @@ body:has(.result-theme-15.active) {
     animation-delay: 7.5s;
 }
 
+.mascot-9 {
+    top: 15%;
+    right: 25%;
+    animation-delay: 8.5s;
+}
+
 /* モバイルでの散りばめたマスコット */
 @media (max-width: 768px) {
     .scattered-mascot-img {
@@ -2064,6 +2070,11 @@ body:has(.result-theme-15.active) {
     .mascot-8 {
         top: 40%;
         left: 15%;
+    }
+    
+    .mascot-9 {
+        top: 12%;
+        right: 18%;
     }
 }
 
