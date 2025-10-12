@@ -1874,17 +1874,6 @@ body:has(.result-theme-15.active) {
     align-items: center;
 }
 
-/* 主人公レイアウト */
-.hero-layout {
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.bottom-mascots {
-    justify-content: center;
-    gap: 20px;
-}
-
 .mascot-icon {
     width: 60px;
     height: 60px;
@@ -1900,45 +1889,23 @@ body:has(.result-theme-15.active) {
     flex-shrink: 0;
 }
 
-/* 主人公マスコット（002）を大きく */
-.hero-mascot {
-    width: 90px;
-    height: 90px;
+/* 各マスコットのアニメーション遅延 */
+.mascot-icon:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.mascot-icon:nth-child(2) {
     animation-delay: 1s;
 }
 
-/* サイドマスコット */
-.side-mascot {
-    width: 50px;
-    height: 50px;
-    animation-delay: 0.5s;
-}
-
-.side-mascot:nth-child(3) {
-    animation-delay: 2s;
-}
-
-.bottom-mascot {
-    width: 45px;
-    height: 45px;
-    animation-delay: 3s;
-}
-
-.bottom-mascot:nth-child(2) {
-    animation-delay: 4s;
-}
-
-/* 3つ目のマスコットにも遅延を追加 */
 .mascot-icon:nth-child(3) {
     animation-delay: 2s;
 }
 
-/* 4つ目のマスコットにも遅延を追加 */
 .mascot-icon:nth-child(4) {
     animation-delay: 3s;
 }
 
-/* 5つ目のマスコットにも遅延を追加 */
 .mascot-icon:nth-child(5) {
     animation-delay: 4s;
 }
@@ -1946,33 +1913,14 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         object-fit: cover;
         object-position: center;
     }
     
-    .hero-mascot {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .side-mascot {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .bottom-mascot {
-        width: 30px;
-        height: 30px;
-    }
-    
     .mascot-section {
         gap: 6px;
-    }
-    
-    .bottom-mascots {
-        gap: 15px;
     }
 }
 
