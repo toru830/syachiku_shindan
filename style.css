@@ -1984,27 +1984,20 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 35px; /* さらに小さくして画面に確実に収める */
-        height: 35px;
+        width: 50px; /* 左右限界まで大きく */
+        height: 50px;
         object-fit: cover;
         object-position: center;
         flex-shrink: 0; /* 縮小を防ぐ */
     }
     
     .hero-center {
-        width: 43px; /* 35px * 1.24 */
-        height: 43px;
+        width: 62px; /* 50px * 1.24 */
+        height: 62px;
     }
     
     .title-mascot {
-        width: 35px; /* 中央5体と同じサイズ */
-        height: 35px;
-    }
-    
-    /* 004を1.2倍に（モバイル） */
-    .title-mascot:nth-child(1) {
-        width: 42px; /* 35px * 1.2 */
-        height: 42px;
+        display: none; /* スマホでは非表示 */
     }
     
     .title-with-mascots {
@@ -2028,11 +2021,11 @@ body:has(.result-theme-15.active) {
     }
     
     .mascot-section {
-        gap: 4px; /* さらに小さく */
-        padding: 0 10px; /* 左右の余白を小さく */
+        gap: 8px; /* 適度な間隔 */
+        padding: 0 5px; /* 最小限の余白 */
         max-width: 100%;
         overflow: hidden;
-        justify-content: center;
+        justify-content: space-between; /* 左右限界まで広げる */
         flex-direction: row; /* 横一列を強制 */
         flex-wrap: nowrap; /* 折り返し禁止 */
     }
