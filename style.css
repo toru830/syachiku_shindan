@@ -1892,6 +1892,8 @@ body:has(.result-theme-15.active) {
 /* 2つ目のマスコットに少し遅延を付けて動きに変化を */
 .mascot-icon:nth-child(2) {
     animation-delay: 1s;
+    width: 104px;
+    height: 104px;
 }
 
 /* 3つ目のマスコットにも遅延を追加 */
@@ -1906,6 +1908,11 @@ body:has(.result-theme-15.active) {
         height: 60px;
         object-fit: cover;
         object-position: center;
+    }
+    
+    .mascot-icon:nth-child(2) {
+        width: 78px;
+        height: 78px;
     }
     
     .mascot-section {
