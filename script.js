@@ -437,20 +437,20 @@ function showQuestion() {
     const quizScreen = document.getElementById('quiz-screen');
     
     // 既存のクラスを削除
-    quizScreen.classList.remove('group-pink', 'group-blue', 'group-green');
+    quizScreen.classList.remove('group-office', 'group-stress', 'group-lifestyle');
     
     if (questionNumber <= 5) {
-        // 1-5問目: ピンク系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #FFF0F5 0%, #FFB6C1 50%, #FF69B4 100%)';
-        quizScreen.classList.add('group-pink');
+        // 1-5問目: オフィス・仕事系の背景（落ち着いたブルーグレー）
+        quizScreen.style.background = 'linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 50%, #DEE2E6 100%)';
+        quizScreen.classList.add('group-office');
     } else if (questionNumber <= 10) {
-        // 6-10問目: ブルー系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #F0F8FF 0%, #87CEEB 50%, #4169E1 100%)';
-        quizScreen.classList.add('group-blue');
+        // 6-10問目: ストレス・疲労系の背景（温かいオレンジ系）
+        quizScreen.style.background = 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 50%, #FFCC02 100%)';
+        quizScreen.classList.add('group-stress');
     } else {
-        // 11-15問目: グリーン系の可愛い背景
-        quizScreen.style.background = 'linear-gradient(135deg, #F0FFF0 0%, #98FB98 50%, #32CD32 100%)';
-        quizScreen.classList.add('group-green');
+        // 11-15問目: 自由・ライフスタイル系の背景（爽やかなグリーン）
+        quizScreen.style.background = 'linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 50%, #8BC34A 100%)';
+        quizScreen.classList.add('group-lifestyle');
     }
     
     // 選択肢を動的に生成

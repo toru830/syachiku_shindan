@@ -66,14 +66,14 @@ body:has(#start-screen.active) .container {
 
 /* 質問画面の背景グループ */
 #quiz-screen {
-    background: linear-gradient(135deg, #FFE4E1 0%, #FFB6C1 50%, #FFC0CB 100%);
+    background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 50%, #DEE2E6 100%);
     position: relative;
     overflow: hidden;
     transition: background 0.5s ease;
 }
 
-/* 1-5問目: ピンク系の可愛い装飾 */
-#quiz-screen.group-pink::before {
+/* 1-5問目: オフィス・仕事系の装飾 */
+#quiz-screen.group-office::before {
     content: '';
     position: absolute;
     top: 0;
@@ -81,15 +81,15 @@ body:has(#start-screen.active) .container {
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 228, 225, 0.5) 0%, transparent 50%);
+        radial-gradient(circle at 20% 20%, rgba(108, 117, 125, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(73, 80, 87, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(248, 249, 250, 0.3) 0%, transparent 50%);
     z-index: 1;
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
 }
 
-/* 6-10問目: ブルー系の可愛い装飾 */
-#quiz-screen.group-blue::before {
+/* 6-10問目: ストレス・疲労系の装飾 */
+#quiz-screen.group-stress::before {
     content: '';
     position: absolute;
     top: 0;
@@ -97,15 +97,15 @@ body:has(#start-screen.active) .container {
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(circle at 30% 30%, rgba(135, 206, 235, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(179, 217, 255, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 20%, rgba(230, 243, 255, 0.5) 0%, transparent 50%);
+        radial-gradient(circle at 30% 30%, rgba(255, 204, 2, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(255, 224, 178, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 20%, rgba(255, 243, 224, 0.3) 0%, transparent 50%);
     z-index: 1;
-    animation: float 6s ease-in-out infinite 2s;
+    animation: float 8s ease-in-out infinite 2s;
 }
 
-/* 11-15問目: グリーン系の可愛い装飾 */
-#quiz-screen.group-green::before {
+/* 11-15問目: 自由・ライフスタイル系の装飾 */
+#quiz-screen.group-lifestyle::before {
     content: '';
     position: absolute;
     top: 0;
@@ -113,16 +113,16 @@ body:has(#start-screen.active) .container {
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(circle at 25% 25%, rgba(152, 251, 152, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(144, 238, 144, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 60% 40%, rgba(240, 255, 240, 0.5) 0%, transparent 50%);
+        radial-gradient(circle at 25% 25%, rgba(139, 195, 74, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(220, 237, 200, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(241, 248, 233, 0.3) 0%, transparent 50%);
     z-index: 1;
-    animation: float 6s ease-in-out infinite 4s;
+    animation: float 8s ease-in-out infinite 4s;
 }
 
-/* 各グループに可愛いアイコンを追加 */
-#quiz-screen.group-pink::after {
-    content: '🌸 💕 🌸';
+/* 各グループにテーマに合ったアイコンを追加 */
+#quiz-screen.group-office::after {
+    content: '💼 📊 💻';
     position: absolute;
     top: 10px;
     right: 15px;
@@ -131,8 +131,8 @@ body:has(#start-screen.active) .container {
     animation: bounce 3s infinite;
 }
 
-#quiz-screen.group-blue::after {
-    content: '💙 🌊 💙';
+#quiz-screen.group-stress::after {
+    content: '😰 😅 💪';
     position: absolute;
     top: 10px;
     right: 15px;
@@ -141,8 +141,8 @@ body:has(#start-screen.active) .container {
     animation: bounce 3s infinite 1s;
 }
 
-#quiz-screen.group-green::after {
-    content: '🌿 🍀 🌿';
+#quiz-screen.group-lifestyle::after {
+    content: '🌱 ☀️ 🎯';
     position: absolute;
     top: 10px;
     right: 15px;
