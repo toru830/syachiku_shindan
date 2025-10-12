@@ -422,6 +422,8 @@ function startQuiz() {
     // bodyの背景を元のピンクに戻す
     document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%)';
     document.body.classList.remove('pink-theme', 'orange-theme', 'green-theme');
+    // 浮遊絵文字を削除
+    document.querySelectorAll('.floating-emoji').forEach(el => el.remove());
     
     showQuestion();
 }
@@ -444,21 +446,51 @@ function showQuestion() {
     quizScreen.classList.remove('group-pink', 'group-stress', 'group-lifestyle');
     document.body.classList.remove('pink-theme', 'orange-theme', 'green-theme');
     
+    // 既存の浮遊絵文字を削除
+    document.querySelectorAll('.floating-emoji').forEach(el => el.remove());
+    
     if (questionNumber <= 5) {
         // 1-5問目: ピンク系の可愛い背景
         quizScreen.style.background = 'linear-gradient(135deg, #FFF0F5 0%, #FFB6C1 50%, #FF69B4 100%)';
         quizScreen.classList.add('group-pink');
         document.body.classList.add('pink-theme');
+        
+        // ピンクテーマの浮遊絵文字を追加
+        const pinkEmojis = ['⭐', '✨', '💖', '🌸', '💕', '🎀', '🦄', '💝', '🌺'];
+        pinkEmojis.forEach((emoji, index) => {
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'floating-emoji';
+            emojiEl.textContent = emoji;
+            document.body.appendChild(emojiEl);
+        });
     } else if (questionNumber <= 10) {
         // 6-10問目: ストレス・疲労系の背景（温かいオレンジ系）
         quizScreen.style.background = 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 50%, #FFCC02 100%)';
         quizScreen.classList.add('group-stress');
         document.body.classList.add('orange-theme');
+        
+        // オレンジテーマの浮遊絵文字を追加
+        const orangeEmojis = ['🌟', '☀️', '🔥', '💪', '⚡', '🎆', '💥', '🚀', '💢'];
+        orangeEmojis.forEach((emoji, index) => {
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'floating-emoji';
+            emojiEl.textContent = emoji;
+            document.body.appendChild(emojiEl);
+        });
     } else {
         // 11-15問目: 自由・ライフスタイル系の背景（爽やかなグリーン）
         quizScreen.style.background = 'linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 50%, #8BC34A 100%)';
         quizScreen.classList.add('group-lifestyle');
         document.body.classList.add('green-theme');
+        
+        // グリーンテーマの浮遊絵文字を追加
+        const greenEmojis = ['🌱', '☀️', '🎯', '🌿', '🍀', '🌳', '🦋', '🌈', '🍃'];
+        greenEmojis.forEach((emoji, index) => {
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'floating-emoji';
+            emojiEl.textContent = emoji;
+            document.body.appendChild(emojiEl);
+        });
     }
     
     // 選択肢を動的に生成
@@ -810,6 +842,8 @@ function resetQuiz() {
     // bodyの背景を元のピンクに戻す
     document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%)';
     document.body.classList.remove('pink-theme', 'orange-theme', 'green-theme');
+    // 浮遊絵文字を削除
+    document.querySelectorAll('.floating-emoji').forEach(el => el.remove());
 }
 
 // 結果をシェア

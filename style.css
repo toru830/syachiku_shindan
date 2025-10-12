@@ -37,18 +37,33 @@ body.pink-theme::before {
 }
 
 body.pink-theme::after {
-    content: '⭐ ✨ 💖 🌸 💕 ⭐ ✨ 💖 🌸 💕';
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.6);
     z-index: -1;
-    animation: twinkle 4s ease-in-out infinite;
     pointer-events: none;
 }
+
+body.pink-theme .floating-emoji {
+    position: fixed;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    animation: twinkle 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+body.pink-theme .floating-emoji:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+body.pink-theme .floating-emoji:nth-child(2) { top: 20%; left: 80%; animation-delay: 0.5s; }
+body.pink-theme .floating-emoji:nth-child(3) { top: 30%; left: 20%; animation-delay: 1s; }
+body.pink-theme .floating-emoji:nth-child(4) { top: 40%; left: 70%; animation-delay: 1.5s; }
+body.pink-theme .floating-emoji:nth-child(5) { top: 50%; left: 15%; animation-delay: 2s; }
+body.pink-theme .floating-emoji:nth-child(6) { top: 60%; left: 85%; animation-delay: 2.5s; }
+body.pink-theme .floating-emoji:nth-child(7) { top: 70%; left: 25%; animation-delay: 3s; }
+body.pink-theme .floating-emoji:nth-child(8) { top: 80%; left: 75%; animation-delay: 3.5s; }
+body.pink-theme .floating-emoji:nth-child(9) { top: 90%; left: 35%; animation-delay: 4s; }
 
 /* オレンジテーマの背景装飾 */
 body.orange-theme {
@@ -71,18 +86,33 @@ body.orange-theme::before {
 }
 
 body.orange-theme::after {
-    content: '🌟 ☀️ 🔥 💪 ⚡ 🌟 ☀️ 🔥 💪 ⚡';
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.7);
     z-index: -1;
-    animation: twinkle 4s ease-in-out infinite;
     pointer-events: none;
 }
+
+body.orange-theme .floating-emoji {
+    position: fixed;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    animation: twinkle 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+body.orange-theme .floating-emoji:nth-child(1) { top: 15%; left: 15%; animation-delay: 0s; }
+body.orange-theme .floating-emoji:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.5s; }
+body.orange-theme .floating-emoji:nth-child(3) { top: 35%; left: 25%; animation-delay: 1s; }
+body.orange-theme .floating-emoji:nth-child(4) { top: 45%; left: 75%; animation-delay: 1.5s; }
+body.orange-theme .floating-emoji:nth-child(5) { top: 55%; left: 20%; animation-delay: 2s; }
+body.orange-theme .floating-emoji:nth-child(6) { top: 65%; left: 80%; animation-delay: 2.5s; }
+body.orange-theme .floating-emoji:nth-child(7) { top: 75%; left: 30%; animation-delay: 3s; }
+body.orange-theme .floating-emoji:nth-child(8) { top: 85%; left: 70%; animation-delay: 3.5s; }
+body.orange-theme .floating-emoji:nth-child(9) { top: 95%; left: 40%; animation-delay: 4s; }
 
 /* グリーンテーマの背景装飾 */
 body.green-theme {
@@ -105,18 +135,33 @@ body.green-theme::before {
 }
 
 body.green-theme::after {
-    content: '🌱 ☀️ 🎯 🌿 🍀 🌱 ☀️ 🎯 🌿 🍀';
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.6);
     z-index: -1;
-    animation: twinkle 4s ease-in-out infinite;
     pointer-events: none;
 }
+
+body.green-theme .floating-emoji {
+    position: fixed;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    animation: twinkle 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+body.green-theme .floating-emoji:nth-child(1) { top: 12%; left: 12%; animation-delay: 0s; }
+body.green-theme .floating-emoji:nth-child(2) { top: 22%; left: 82%; animation-delay: 0.5s; }
+body.green-theme .floating-emoji:nth-child(3) { top: 32%; left: 22%; animation-delay: 1s; }
+body.green-theme .floating-emoji:nth-child(4) { top: 42%; left: 72%; animation-delay: 1.5s; }
+body.green-theme .floating-emoji:nth-child(5) { top: 52%; left: 17%; animation-delay: 2s; }
+body.green-theme .floating-emoji:nth-child(6) { top: 62%; left: 87%; animation-delay: 2.5s; }
+body.green-theme .floating-emoji:nth-child(7) { top: 72%; left: 27%; animation-delay: 3s; }
+body.green-theme .floating-emoji:nth-child(8) { top: 82%; left: 77%; animation-delay: 3.5s; }
+body.green-theme .floating-emoji:nth-child(9) { top: 92%; left: 37%; animation-delay: 4s; }
 
 /* スタート画面がアクティブな時はbodyのスタイルを変更 */
 body:has(#start-screen.active) {
