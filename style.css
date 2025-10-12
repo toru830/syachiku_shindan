@@ -1877,7 +1877,8 @@ body:has(.result-theme-15.active) {
 .mascot-icon {
     width: 100px;
     height: 100px;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -1897,6 +1898,8 @@ body:has(.result-theme-15.active) {
     .mascot-icon {
         width: 80px;
         height: 80px;
+        object-fit: cover;
+        object-position: center;
     }
     
     .mascot-section {
