@@ -2021,14 +2021,17 @@ body:has(.result-theme-15.active) {
     }
     
     .mascot-section {
-        gap: 0px; /* 間隔を完全に削除 */
-        padding: 0; /* 余白を完全に削除 */
-        max-width: 100%;
+        width: 90%; /* キャラクターコンテナの幅を広げる */
+        max-width: 500px;
+        margin: 30px auto; /* 上下マージンと中央配置 */
+        gap: 5px; /* 適度な間隔 */
+        padding: 0 15px; /* 左右のパディング */
         overflow: visible; /* 上下の動きで切れないように */
         justify-content: space-between; /* 左右限界まで広げる */
         flex-direction: row; /* 横一列を強制 */
         flex-wrap: nowrap; /* 折り返し禁止 */
-        margin: 0 2px; /* 外側のマージンを最小限に */
+        align-items: center; /* 垂直中央配置 */
+        display: flex;
     }
 }
 
