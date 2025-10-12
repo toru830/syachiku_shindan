@@ -1826,6 +1826,9 @@ body:has(.result-theme-15.active) {
     justify-content: center;
     gap: 20px;
     margin-bottom: 20px;
+    padding: 0 10px; /* 左右の余白を確保 */
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .title-section {
@@ -1885,19 +1888,22 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 84px;
-        height: 84px;
+        width: 60px; /* スマホでは小さくして画面に収める */
+        height: 60px;
         object-fit: cover;
         object-position: center;
     }
     
     .hero-center {
-        width: 101px;
-        height: 101px;
+        width: 72px; /* 60px * 1.2 */
+        height: 72px;
     }
     
     .mascot-section {
-        gap: 6px;
+        gap: 8px;
+        padding: 0 15px; /* 左右の余白を確保 */
+        max-width: 100%;
+        overflow: hidden;
     }
 }
 
