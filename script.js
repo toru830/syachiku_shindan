@@ -404,10 +404,29 @@ const progressFill = document.getElementById('progress-fill');
 const optionsContainer = document.getElementById('options-container');
 const resultCard = document.getElementById('result-card');
 
-// イベントリスナー
-startBtn.addEventListener('click', startQuiz);
-restartBtn.addEventListener('click', resetQuiz);
-shareBtn.addEventListener('click', shareResult);
+// イベントリスナー（DOMContentLoaded後に設定）
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, setting up event listeners');
+    
+    const startBtn = document.getElementById('start-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const shareBtn = document.getElementById('share-btn');
+    
+    if (startBtn) {
+        startBtn.addEventListener('click', startQuiz);
+        console.log('Start button event listener added');
+    } else {
+        console.error('Start button not found');
+    }
+    
+    if (restartBtn) {
+        restartBtn.addEventListener('click', resetQuiz);
+    }
+    
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareResult);
+    }
+});
 
 // 診断開始
 function startQuiz() {
