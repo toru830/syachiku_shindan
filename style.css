@@ -1910,8 +1910,10 @@ body:has(.result-theme-15.active) {
     animation-delay: 4s;
 }
 
-/* 002を中央の主人公として（同じサイズ） */
+/* 002を中央の主人公として（1.2倍の大きさ） */
 .hero-center {
+    width: 96px;
+    height: 96px;
     z-index: 2;
 }
 
@@ -1922,6 +1924,11 @@ body:has(.result-theme-15.active) {
         height: 60px;
         object-fit: cover;
         object-position: center;
+    }
+    
+    .hero-center {
+        width: 72px;
+        height: 72px;
     }
     
     .mascot-section {
