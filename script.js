@@ -455,12 +455,17 @@ function showQuestion() {
         quizScreen.classList.add('group-pink');
         document.body.classList.add('pink-theme');
         
-        // ピンクテーマの浮遊絵文字を追加
-        const pinkEmojis = ['⭐', '✨', '💖', '🌸', '💕', '🎀', '🦄', '💝', '🌺'];
+        // bodyの背景をピンク系に変更
+        document.body.style.background = 'linear-gradient(135deg, #ffeef8 0%, #ffb3d9 50%, #ff85c0 100%)';
+        
+        // ピンクテーマの浮遊絵文字を追加（20個）
+        const pinkEmojis = ['⭐', '✨', '💖', '🌸', '💕', '🎀', '🦄', '💝', '🌺', '💗', '🌟', '💫', '🎁', '💌', '🌷', '🦋', '🌈', '💎', '🎊', '🎉'];
         pinkEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
+            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
             document.body.appendChild(emojiEl);
         });
     } else if (questionNumber <= 10) {
@@ -469,12 +474,17 @@ function showQuestion() {
         quizScreen.classList.add('group-stress');
         document.body.classList.add('orange-theme');
         
-        // オレンジテーマの浮遊絵文字を追加
-        const orangeEmojis = ['🌟', '☀️', '🔥', '💪', '⚡', '🎆', '💥', '🚀', '💢'];
+        // bodyの背景をオレンジ系に変更
+        document.body.style.background = 'linear-gradient(135deg, #FFE0B2 0%, #FFCC02 50%, #FF8F00 100%)';
+        
+        // オレンジテーマの浮遊絵文字を追加（20個）
+        const orangeEmojis = ['🌟', '☀️', '🔥', '💪', '⚡', '🎆', '💥', '🚀', '💢', '🌞', '🔥', '⚡', '💥', '🎯', '💨', '🌋', '🔥', '⚡', '💥', '🎆'];
         orangeEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
+            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
             document.body.appendChild(emojiEl);
         });
     } else {
@@ -483,12 +493,17 @@ function showQuestion() {
         quizScreen.classList.add('group-lifestyle');
         document.body.classList.add('green-theme');
         
-        // グリーンテーマの浮遊絵文字を追加
-        const greenEmojis = ['🌱', '☀️', '🎯', '🌿', '🍀', '🌳', '🦋', '🌈', '🍃'];
+        // bodyの背景をグリーン系に変更
+        document.body.style.background = 'linear-gradient(135deg, #DCEDC8 0%, #8BC34A 50%, #689F38 100%)';
+        
+        // グリーンテーマの浮遊絵文字を追加（20個）
+        const greenEmojis = ['🌱', '☀️', '🎯', '🌿', '🍀', '🌳', '🦋', '🌈', '🍃', '🌺', '🌸', '🌻', '🌷', '🌼', '🦋', '🐝', '🌾', '🌿', '🍃', '🌱'];
         greenEmojis.forEach((emoji, index) => {
             const emojiEl = document.createElement('div');
             emojiEl.className = 'floating-emoji';
             emojiEl.textContent = emoji;
+            emojiEl.style.top = (Math.random() * 80 + 10) + '%';
+            emojiEl.style.left = (Math.random() * 80 + 10) + '%';
             document.body.appendChild(emojiEl);
         });
     }
