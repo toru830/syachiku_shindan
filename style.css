@@ -169,49 +169,63 @@ body:has(#start-screen.active) .container {
     right: 10px;
 }
 
-/* 山や丘 */
-.mountain {
+/* 下部キャラクター群 */
+.bottom-character {
     position: absolute;
-    bottom: 0;
+    font-size: 2.5rem;
+    bottom: 15%;
+    animation: bounce 2s infinite;
+    z-index: 3;
 }
 
-.mountain-1 {
-    width: 0;
-    height: 0;
-    border-left: 40px solid transparent;
-    border-right: 40px solid transparent;
-    border-bottom: 60px solid #FFD700;
+.character-emoji-1 {
     left: 5%;
-    bottom: 30%;
+    animation-delay: 0s;
 }
 
-.mountain-2 {
-    width: 60px;
-    height: 40px;
-    background: #8B4513;
-    border-radius: 30px 30px 0 0;
+.character-emoji-2 {
     left: 15%;
-    bottom: 35%;
+    animation-delay: 0.2s;
 }
 
-.mountain-3 {
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-bottom: 80px solid #228B22;
+.character-emoji-3 {
+    left: 25%;
+    animation-delay: 0.4s;
+}
+
+.character-emoji-4 {
     left: 35%;
-    bottom: 25%;
+    animation-delay: 0.6s;
 }
 
-.mountain-4 {
-    width: 0;
-    height: 0;
-    border-left: 35px solid transparent;
-    border-right: 35px solid transparent;
-    border-bottom: 55px solid #FF6347;
-    right: 20%;
-    bottom: 32%;
+.character-emoji-5 {
+    left: 45%;
+    animation-delay: 0.8s;
+}
+
+.character-emoji-6 {
+    left: 55%;
+    animation-delay: 1s;
+}
+
+.character-emoji-7 {
+    left: 65%;
+    animation-delay: 1.2s;
+}
+
+.character-emoji-8 {
+    left: 75%;
+    animation-delay: 1.4s;
+}
+
+.character-emoji-9 {
+    left: 85%;
+    animation-delay: 1.6s;
+}
+
+.character-emoji-10 {
+    right: 5%;
+    animation-delay: 1.8s;
 }
 
 /* テント */
@@ -250,57 +264,6 @@ body:has(#start-screen.active) .container {
     z-index: 3;
 }
 
-/* キャラクター */
-.character {
-    position: absolute;
-    bottom: 30%;
-    z-index: 4;
-}
-
-.character-dog {
-    width: 30px;
-    height: 25px;
-    background: #D2691E;
-    border-radius: 15px;
-    left: 8%;
-    animation: bounce 2s infinite;
-}
-
-.character-glasses {
-    width: 25px;
-    height: 35px;
-    background: #8B4513;
-    border-radius: 5px;
-    left: 30%;
-    animation: bounce 2s infinite 0.5s;
-}
-
-.character-alien {
-    width: 20px;
-    height: 20px;
-    background: #9370DB;
-    border-radius: 10px;
-    left: 45%;
-    animation: bounce 2s infinite 1s;
-}
-
-.character-blue {
-    width: 25px;
-    height: 30px;
-    background: #4169E1;
-    border-radius: 5px;
-    left: 60%;
-    animation: bounce 2s infinite 1.5s;
-}
-
-.character-magic {
-    width: 30px;
-    height: 35px;
-    background: #FF69B4;
-    border-radius: 8px;
-    right: 15%;
-    animation: bounce 2s infinite 2s;
-}
 
 /* コンテンツ */
 .start-content {
@@ -312,31 +275,31 @@ body:has(#start-screen.active) .container {
 }
 
 .main-title {
-    font-size: 2.8rem;
+    font-size: 4.2rem;
     font-weight: 800;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
     color: white;
 }
 
 .sub-title {
-    font-size: 1.4rem;
+    font-size: 2.1rem;
     font-weight: 600;
-    margin-bottom: 30px;
+    margin-bottom: 45px;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .start-description {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
+    font-size: 1.65rem;
+    margin-bottom: 22px;
     color: rgba(255, 255, 255, 0.95);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .start-sub-description {
-    font-size: 0.95rem;
-    margin-bottom: 40px;
+    font-size: 1.43rem;
+    margin-bottom: 60px;
     color: rgba(255, 255, 255, 0.85);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -345,12 +308,12 @@ body:has(#start-screen.active) .container {
     background: linear-gradient(135deg, #20B2AA 0%, #32CD32 100%);
     color: white;
     border: none;
-    padding: 18px 40px;
-    font-size: 1.2rem;
+    padding: 27px 60px;
+    font-size: 1.8rem;
     font-weight: 700;
-    border-radius: 25px;
+    border-radius: 37px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(50, 205, 50, 0.4);
+    box-shadow: 0 9px 30px rgba(50, 205, 50, 0.4);
     transition: all 0.3s ease;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -1448,10 +1411,18 @@ body:has(.result-theme-15.active) {
 @media (max-width: 768px) {
     /* スタート画面のスマホ対応 */
     .main-title {
-        font-size: 2.2rem;
+        font-size: 3.2rem;
     }
     
     .sub-title {
+        font-size: 1.6rem;
+    }
+    
+    .start-description {
+        font-size: 1.3rem;
+    }
+    
+    .start-sub-description {
         font-size: 1.1rem;
     }
     
@@ -1460,8 +1431,14 @@ body:has(.result-theme-15.active) {
     }
     
     .start-btn {
-        padding: 15px 30px;
-        font-size: 1.1rem;
+        padding: 20px 40px;
+        font-size: 1.4rem;
+    }
+    
+    /* 下部キャラクターのスマホ対応 */
+    .bottom-character {
+        font-size: 2rem;
+        bottom: 12%;
     }
     
     /* 雲のサイズ調整 */
@@ -1478,45 +1455,6 @@ body:has(.result-theme-15.active) {
     .cloud-3 {
         width: 75px;
         height: 37px;
-    }
-    
-    /* 山のサイズ調整 */
-    .mountain-1 {
-        border-left: 30px solid transparent;
-        border-right: 30px solid transparent;
-        border-bottom: 45px solid #FFD700;
-    }
-    
-    .mountain-3 {
-        border-left: 35px solid transparent;
-        border-right: 35px solid transparent;
-        border-bottom: 60px solid #228B22;
-    }
-    
-    /* キャラクターのサイズ調整 */
-    .character-dog {
-        width: 22px;
-        height: 18px;
-    }
-    
-    .character-glasses {
-        width: 18px;
-        height: 26px;
-    }
-    
-    .character-alien {
-        width: 15px;
-        height: 15px;
-    }
-    
-    .character-blue {
-        width: 18px;
-        height: 22px;
-    }
-    
-    .character-magic {
-        width: 22px;
-        height: 26px;
     }
     
     /* 結果画面のスマホ対応 */
