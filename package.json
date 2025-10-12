@@ -1,12 +1,28 @@
 {
-  "name": "shachu-shindan",
+  "name": "syachiku-shindan",
   "version": "1.0.0",
-  "description": "社畜診断 - 16タイプ診断アプリ",
+  "description": "社畜診断 - Workaholic Level Test",
+  "main": "index.html",
   "scripts": {
-    "start": "live-server --port=3000 --open=index.html"
+    "dev": "live-server --port=3000 --open=/index.html",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "git add . && git commit -m 'Deploy to development' && git push origin development"
   },
+  "keywords": [
+    "diagnosis",
+    "workaholic",
+    "japanese",
+    "quiz",
+    "web-app"
+  ],
+  "author": "toru830",
+  "license": "MIT",
   "devDependencies": {
     "live-server": "^1.2.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toru830/syachiku_shindan.git"
+  },
+  "homepage": "https://toru830.github.io/syachiku_shindan/"
 }
-

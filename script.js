@@ -788,24 +788,56 @@ function showResult() {
     });
     console.log('正規化スコア:', normalizedScores);
     
-    // 各軸を高/低に分類（50%を閾値）
-    const classification = {
-        dedication: normalizedScores.dedication >= 50 ? "high" : "low",
-        sacrifice: normalizedScores.sacrifice >= 50 ? "high" : "low",
-        stress: normalizedScores.stress >= 50 ? "high" : "low",
-        relationship: normalizedScores.relationship >= 50 ? "high" : "low"
-    };
+    // スコアベースの分類システム（より均等な分布のため）
+    function getResultType(normalizedScores) {
+        const { dedication, sacrifice, stress, relationship } = normalizedScores;
+        
+        // 各軸を3段階に分類（低・中・高）
+        const getLevel = (score) => {
+            if (score < 30) return 'low';
+            if (score < 70) return 'medium';
+            return 'high';
+        };
+        
+        const dedLevel = getLevel(dedication);
+        const sacLevel = getLevel(sacrifice);
+        const strLevel = getLevel(stress);
+        const relLevel = getLevel(relationship);
+        
+        // 総合スコアを計算
+        const totalScore = (dedication + sacrifice + stress + relationship) / 4;
+        
+        // スコア範囲に基づいてタイプを決定
+        if (totalScore >= 80) {
+            // 高スコア群（80%以上）
+            if (dedLevel === 'high' && sacLevel === 'high') return resultTypes[0]; // 生粋の社畜
+            if (strLevel === 'high' && relLevel === 'low') return resultTypes[1]; // バーンアウト予備軍
+            if (dedLevel === 'high' && strLevel === 'high') return resultTypes[2]; // 完璧主義者
+            return resultTypes[3]; // デキる社員
+        } else if (totalScore >= 60) {
+            // 中高スコア群（60-79%）
+            if (sacLevel === 'high' && relLevel === 'low') return resultTypes[4]; // 自己犠牲型
+            if (strLevel === 'high' && dedLevel === 'medium') return resultTypes[5]; // ストレス過多型
+            if (dedLevel === 'high' && relLevel === 'medium') return resultTypes[6]; // 仕事中毒
+            if (sacLevel === 'medium' && strLevel === 'medium') return resultTypes[7]; // バランス型社畜
+            return resultTypes[8]; // 普通の社員
+        } else if (totalScore >= 40) {
+            // 中スコア群（40-59%）
+            if (relLevel === 'high' && strLevel === 'low') return resultTypes[9]; // コミュニケーション重視
+            if (dedLevel === 'medium' && sacLevel === 'low') return resultTypes[10]; // 効率重視
+            if (strLevel === 'medium' && relLevel === 'medium') return resultTypes[11]; // カウンセラー系
+            if (dedLevel === 'low' && sacLevel === 'medium') return resultTypes[12]; // アナリスト系
+            return resultTypes[13]; // 普通の人
+        } else {
+            // 低スコア群（40%未満）
+            if (totalScore < 20) return resultTypes[14]; // 自由人
+            return resultTypes[15]; // ワークライフバランス重視
+        }
+    }
     
-    console.log('分類:', classification);
+    const resultType = getResultType(normalizedScores);
     
-    // マッチするタイプを見つける
-    const resultType = resultTypes.find(type => 
-        type.condition.dedication === classification.dedication &&
-        type.condition.sacrifice === classification.sacrifice &&
-        type.condition.stress === classification.stress &&
-        type.condition.relationship === classification.relationship
-    ) || resultTypes[15]; // デフォルトは「自由人」
-    
+    console.log('総合スコア:', (normalizedScores.dedication + normalizedScores.sacrifice + normalizedScores.stress + normalizedScores.relationship) / 4);
     console.log('結果タイプ:', resultType.name);
     
     // タイプに応じたクラスを追加（0-15のインデックス）
