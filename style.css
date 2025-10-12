@@ -2268,8 +2268,10 @@ body:has(.result-theme-15.active) {
 /* フッターリンクのスタイル */
 .footer-links {
     margin-top: 40px;
-    text-align: center;
+    text-align: left;
     padding: 20px 0;
+    white-space: nowrap;
+    overflow-x: auto;
 }
 
 .footer-link {
@@ -2278,7 +2280,8 @@ body:has(.result-theme-15.active) {
     font-size: 14px;
     font-weight: 600;
     transition: color 0.3s ease;
-    margin: 0 10px;
+    margin: 0 8px;
+    display: inline-block;
 }
 
 .footer-link:hover {
@@ -2288,23 +2291,29 @@ body:has(.result-theme-15.active) {
 
 .footer-separator {
     color: #ffb3d9;
-    margin: 0 5px;
+    margin: 0 4px;
     font-weight: bold;
+    display: inline-block;
 }
 
 @media (max-width: 768px) {
     .footer-links {
         margin-top: 30px;
         padding: 15px 0;
+        text-align: left;
+        padding-left: 20px;
+        white-space: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .footer-link {
-        font-size: 12px;
-        margin: 0 8px;
+        font-size: 11px;
+        margin: 0 6px;
     }
     
     .footer-separator {
-        margin: 0 3px;
+        margin: 0 2px;
     }
 }
 
