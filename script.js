@@ -816,7 +816,14 @@ function showResult() {
     resultScreen.classList.add(`result-theme-${typeIndex}`);
     
     // 結果を表示
-    document.getElementById('result-icon').textContent = resultType.icon;
+    const resultIconEl = document.getElementById('result-icon');
+    if (typeIndex === 0) {
+        // 「生粋の社畜」の場合は画像を表示
+        resultIconEl.innerHTML = '<img src="01社畜_001.png" alt="生粋の社畜" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">';
+    } else {
+        // その他の場合は絵文字を表示
+        resultIconEl.textContent = resultType.icon;
+    }
     document.getElementById('result-type').textContent = resultType.name;
     
     // 社畜レベルを表示
