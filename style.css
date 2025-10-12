@@ -1954,64 +1954,64 @@ body:has(.result-theme-15.active) {
     opacity: 0.6;
 }
 
-/* 各マスコットの配置位置（10体） */
+/* 各マスコットの配置位置（画像通り） */
 .mascot-1 {
-    top: 15%;
-    left: 8%;
+    top: 10%;
+    left: 5%;
     animation-delay: 0.5s;
 }
 
 .mascot-2 {
-    top: 25%;
-    right: 12%;
+    top: 12%;
+    right: 8%;
     animation-delay: 1.5s;
 }
 
 .mascot-3 {
-    top: 55%;
+    top: 45%;
     left: 3%;
     animation-delay: 2.5s;
 }
 
 .mascot-4 {
-    top: 75%;
-    right: 8%;
+    top: 50%;
+    right: 5%;
     animation-delay: 3.5s;
 }
 
 .mascot-5 {
-    top: 35%;
-    right: 3%;
+    top: 75%;
+    left: 5%;
     animation-delay: 4.5s;
 }
 
 .mascot-6 {
-    top: 45%;
-    left: 15%;
+    top: 80%;
+    right: 8%;
     animation-delay: 5.5s;
 }
 
 .mascot-7 {
-    top: 65%;
-    right: 20%;
+    top: 30%;
+    right: 15%;
     animation-delay: 6.5s;
 }
 
 .mascot-8 {
-    top: 85%;
-    left: 12%;
+    top: 60%;
+    left: 15%;
     animation-delay: 7.5s;
 }
 
 .mascot-9 {
-    top: 5%;
-    right: 25%;
+    top: 25%;
+    left: 20%;
     animation-delay: 8.5s;
 }
 
 .mascot-10 {
-    top: 95%;
-    left: 25%;
+    top: 70%;
+    right: 20%;
     animation-delay: 9.5s;
 }
 
@@ -2023,53 +2023,53 @@ body:has(.result-theme-15.active) {
     }
     
     .mascot-1 {
-        top: 20%;
-        left: 5%;
+        top: 8%;
+        left: 3%;
     }
     
     .mascot-2 {
-        top: 30%;
-        right: 8%;
+        top: 10%;
+        right: 5%;
     }
     
     .mascot-3 {
-        top: 60%;
+        top: 40%;
         left: 2%;
     }
     
     .mascot-4 {
-        top: 80%;
-        right: 5%;
+        top: 45%;
+        right: 3%;
     }
     
     .mascot-5 {
-        top: 40%;
-        right: 2%;
+        top: 70%;
+        left: 3%;
     }
     
     .mascot-6 {
-        top: 50%;
-        left: 10%;
+        top: 75%;
+        right: 5%;
     }
     
     .mascot-7 {
-        top: 70%;
-        right: 15%;
+        top: 25%;
+        right: 12%;
     }
     
     .mascot-8 {
-        top: 90%;
-        left: 8%;
+        top: 55%;
+        left: 12%;
     }
     
     .mascot-9 {
-        top: 10%;
-        right: 20%;
+        top: 20%;
+        left: 15%;
     }
     
     .mascot-10 {
-        top: 95%;
-        left: 20%;
+        top: 65%;
+        right: 15%;
     }
 }
 
