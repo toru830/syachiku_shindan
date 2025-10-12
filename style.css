@@ -1875,7 +1875,8 @@ body:has(.result-theme-15.active) {
 
 .mascot-icon {
     width: 100px;
-    height: auto;
+    height: 100px;
+    object-fit: contain;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -1899,10 +1900,33 @@ body:has(.result-theme-15.active) {
     
     .mascot-icon {
         width: 80px;
+        height: 80px;
     }
     
     .mascot-section {
         gap: 8px;
+    }
+}
+
+/* 結果発表画面の画像表示 */
+.result-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    mix-blend-mode: multiply;
+    display: block;
+    margin: 0 auto 20px;
+    opacity: 1;
+}
+
+/* モバイルでの結果画像 */
+@media (max-width: 768px) {
+    .result-image {
+        width: 120px;
+        height: 120px;
     }
 }
 
