@@ -1984,55 +1984,57 @@ body:has(.result-theme-15.active) {
 /* モバイル対応 */
 @media (max-width: 768px) {
     .mascot-icon {
-        width: 40px; /* さらに小さくして画面に確実に収める */
-        height: 40px;
+        width: 35px; /* さらに小さくして画面に確実に収める */
+        height: 35px;
         object-fit: cover;
         object-position: center;
+        flex-shrink: 0; /* 縮小を防ぐ */
     }
     
     .hero-center {
-        width: 50px; /* 40px * 1.24 */
-        height: 50px;
+        width: 43px; /* 35px * 1.24 */
+        height: 43px;
     }
     
     .title-mascot {
-        width: 40px; /* 中央5体と同じサイズ */
-        height: 40px;
+        width: 35px; /* 中央5体と同じサイズ */
+        height: 35px;
     }
     
     /* 004を1.2倍に（モバイル） */
     .title-mascot:nth-child(1) {
-        width: 48px; /* 40px * 1.2 */
-        height: 48px;
+        width: 42px; /* 35px * 1.2 */
+        height: 42px;
     }
     
     .title-with-mascots {
-        gap: 15px;
+        gap: 10px; /* 狭くして画面に収める */
     }
     
     .button-mascot {
-        width: 40px; /* 中央5体と同じサイズ */
-        height: 40px;
+        width: 35px; /* 中央5体と同じサイズ */
+        height: 35px;
     }
     
     /* 008を1.2倍に（モバイル） */
     .button-mascot:nth-child(3) {
-        width: 48px; /* 40px * 1.2 */
-        height: 48px;
+        width: 42px; /* 35px * 1.2 */
+        height: 42px;
     }
     
     .button-mascot-container {
-        gap: 15px;
+        gap: 10px; /* 狭くして画面に収める */
         margin-top: 15px;
     }
     
     .mascot-section {
-        gap: 6px;
-        padding: 0 20px; /* 左右の余白をさらに確保 */
+        gap: 4px; /* さらに小さく */
+        padding: 0 10px; /* 左右の余白を小さく */
         max-width: 100%;
         overflow: hidden;
         justify-content: center;
         flex-direction: row; /* 横一列を強制 */
+        flex-wrap: nowrap; /* 折り返し禁止 */
     }
 }
 
