@@ -836,12 +836,12 @@ function showResult() {
         const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
         console.log('生成パターン:', pattern);
         
-        // パターンマッチングテーブル（14タイプ均等+2タイプレア）
+        // パターンマッチングテーブル（実測ベース均等配分）
         const patternMap = {
             // === HIGH-HIGH ===
-            'high-high-high-high': resultTypes[0],   // 生粋の社畜（レア5%）
+            'high-high-high-high': resultTypes[0],   // 生粋の社畜（レア）
             'high-high-high-low': resultTypes[2],    // ストイック社畜
-            'high-high-high-medium': resultTypes[2], // ストイック社畜
+            'high-high-high-medium': resultTypes[0], // 生粋の社畜（レア）
             'high-high-low-high': resultTypes[6],    // チームプレイヤー
             'high-high-low-low': resultTypes[3],     // 一匹狼ワーカー
             'high-high-low-medium': resultTypes[6],  // チームプレイヤー
@@ -878,7 +878,7 @@ function showResult() {
             'medium-high-medium-high': resultTypes[10], // お人好し社員
             'medium-high-medium-low': resultTypes[10], // お人好し社員
             'medium-high-medium-medium': resultTypes[9], // 隠れ疲労タイプ
-            // === MEDIUM-MEDIUM ===（最頻出グループ - 14タイプに分散）
+            // === MEDIUM-MEDIUM ===（最頻出 - 14タイプに1:1配分）
             'medium-medium-high-high': resultTypes[9], // 隠れ疲労タイプ
             'medium-medium-high-low': resultTypes[8], // ゆるふわ社畜
             'medium-medium-high-medium': resultTypes[1], // バーンアウト予備軍
@@ -887,7 +887,7 @@ function showResult() {
             'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
             'medium-medium-medium-high': resultTypes[10], // お人好し社員
             'medium-medium-medium-low': resultTypes[11], // 現実派社員
-            'medium-medium-medium-medium': resultTypes[3], // 一匹狼ワーカー（最頻出に配置）
+            'medium-medium-medium-medium': resultTypes[2], // ストイック社畜（3番目に多いタイプ）
             // === MEDIUM-LOW ===
             'medium-low-high-high': resultTypes[12], // 家庭が大事
             'medium-low-high-low': resultTypes[13],  // ライフワークバランス
@@ -896,8 +896,8 @@ function showResult() {
             'medium-low-low-low': resultTypes[14],   // デキる社員
             'medium-low-low-medium': resultTypes[14], // デキる社員
             'medium-low-medium-high': resultTypes[12], // 家庭が大事
-            'medium-low-medium-low': resultTypes[13], // ライフワークバランス
-            'medium-low-medium-medium': resultTypes[13], // ライフワークバランス
+            'medium-low-medium-low': resultTypes[0], // 生粋の社畜（レア移動）
+            'medium-low-medium-medium': resultTypes[2], // ストイック社畜
             // === LOW-HIGH ===
             'low-high-high-high': resultTypes[8],    // ゆるふわ社畜
             'low-high-high-low': resultTypes[8],     // ゆるふわ社畜
@@ -912,21 +912,21 @@ function showResult() {
             'low-medium-high-high': resultTypes[12], // 家庭が大事
             'low-medium-high-low': resultTypes[13],  // ライフワークバランス
             'low-medium-high-medium': resultTypes[8], // ゆるふわ社畜
-            'low-medium-low-high': resultTypes[14],  // デキる社員
-            'low-medium-low-low': resultTypes[14],   // デキる社員
+            'low-medium-low-high': resultTypes[6],   // チームプレイヤー
+            'low-medium-low-low': resultTypes[1],    // バーンアウト予備軍
             'low-medium-low-medium': resultTypes[14], // デキる社員
             'low-medium-medium-high': resultTypes[12], // 家庭が大事
-            'low-medium-medium-low': resultTypes[13], // ライフワークバランス
+            'low-medium-medium-low': resultTypes[15], // 自由人（レア）
             'low-medium-medium-medium': resultTypes[13], // ライフワークバランス
             // === LOW-LOW ===
             'low-low-high-high': resultTypes[12],    // 家庭が大事
-            'low-low-high-low': resultTypes[13],     // ライフワークバランス
-            'low-low-high-medium': resultTypes[13],  // ライフワークバランス
-            'low-low-low-high': resultTypes[14],     // デキる社員
-            'low-low-low-low': resultTypes[15],      // 自由人（レア）
-            'low-low-low-medium': resultTypes[15],   // 自由人（レア）
-            'low-low-medium-high': resultTypes[14],  // デキる社員
-            'low-low-medium-low': resultTypes[14],   // デキる社員
+            'low-low-high-low': resultTypes[3],      // 一匹狼ワーカー
+            'low-low-high-medium': resultTypes[5],   // 繊細ワーカー
+            'low-low-low-high': resultTypes[0],      // 生粋の社畜（レア移動）
+            'low-low-low-low': resultTypes[4],       // 心優しき社畜
+            'low-low-low-medium': resultTypes[5],    // 繊細ワーカー
+            'low-low-medium-high': resultTypes[0],   // 生粋の社畜（レア移動）
+            'low-low-medium-low': resultTypes[10],   // お人好し社員
             'low-low-medium-medium': resultTypes[14] // デキる社員
         };
         
