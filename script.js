@@ -835,44 +835,62 @@ function showResult() {
         const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
         console.log('パターン:', pattern);
         
-        // パターンマッチングテーブル
+        // パターンマッチングテーブル（16種類を確実に分布）
         const patternMap = {
-            // 超レア枠
+            // 超レア枠（2種類）
             'high-high-high-high': resultTypes[0],   // 生粋の社畜
             'low-low-low-low': resultTypes[14],      // 自由人
             
-            // 高スコア群
+            // 高スコア群（4種類）
             'high-high-high-medium': resultTypes[0], // 生粋の社畜
             'high-high-medium-high': resultTypes[0], // 生粋の社畜
             'high-medium-high-high': resultTypes[2], // ストイック社畜
             'medium-high-high-high': resultTypes[1], // バーンアウト予備軍
             
-            // 中高スコア群
+            // 中高スコア群（4種類）
             'high-high-high-low': resultTypes[2],    // ストイック社畜
             'high-high-low-high': resultTypes[3],    // デキる社員
             'high-low-high-high': resultTypes[4],    // 自己犠牲型
-            'low-high-high-high': resultTypes[5],    // ストレス過多型
+            'low-high-high-high': resultTypes[5],    // ゆるふわ社畜
             
-            // 中スコア群
+            // 中スコア群（4種類）
             'high-high-medium-medium': resultTypes[6], // 仕事中毒
             'high-medium-high-medium': resultTypes[7], // バランス型社畜
             'medium-high-high-medium': resultTypes[8], // 普通の社員
             'medium-medium-high-high': resultTypes[9], // コミュニケーション重視
             
-            // 中低スコア群
+            // 中低スコア群（4種類）
             'high-medium-medium-low': resultTypes[10], // 効率重視
             'medium-high-medium-low': resultTypes[11], // カウンセラー系
             'medium-low-high-medium': resultTypes[12], // アナリスト系
             'low-medium-medium-high': resultTypes[13], // 普通の人
             
-            // 低スコア群
+            // 低スコア群（4種類）
             'low-low-medium-medium': resultTypes[15], // ワークライフバランス重視
             'low-medium-low-medium': resultTypes[15], // ワークライフバランス重視
             'medium-low-low-medium': resultTypes[15], // ワークライフバランス重視
             'low-low-low-medium': resultTypes[14],    // 自由人
+            
+            // 追加パターン（より多くの組み合わせをカバー）
+            'high-medium-medium-medium': resultTypes[6], // 仕事中毒
+            'medium-high-medium-medium': resultTypes[8], // 普通の社員
+            'medium-medium-high-medium': resultTypes[9], // コミュニケーション重視
+            'medium-medium-medium-high': resultTypes[9], // コミュニケーション重視
+            
+            'high-medium-low-medium': resultTypes[10], // 効率重視
+            'medium-high-low-medium': resultTypes[11], // カウンセラー系
+            'medium-low-medium-medium': resultTypes[12], // アナリスト系
+            'low-medium-medium-medium': resultTypes[13], // 普通の人
+            
             'low-low-medium-low': resultTypes[14],    // 自由人
             'low-medium-low-low': resultTypes[14],    // 自由人
             'medium-low-low-low': resultTypes[14],    // 自由人
+            'low-medium-medium-low': resultTypes[15], // ワークライフバランス重視
+            
+            // ゆるふわ社畜の追加パターン
+            'low-high-high-medium': resultTypes[5],   // ゆるふわ社畜
+            'low-high-medium-high': resultTypes[5],   // ゆるふわ社畜
+            'low-medium-high-high': resultTypes[5],   // ゆるふわ社畜
             
             // デフォルト（該当しないパターン）
             'default': resultTypes[8] // 普通の社員
