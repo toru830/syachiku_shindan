@@ -836,20 +836,20 @@ function showResult() {
         const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
         console.log('生成パターン:', pattern);
         
-        // パターンマッチングテーブル（81パターン全網羅）
+        // パターンマッチングテーブル（81パターンを16タイプに均等分配）
         const patternMap = {
-            // === HIGH-HIGH パターン（dedication=high, sacrifice=high）===
-            'high-high-high-high': resultTypes[0],   // 生粋の社畜
-            'high-high-high-medium': resultTypes[0], // 生粋の社畜
+            // === HIGH-HIGH パターン（9パターン）===
+            'high-high-high-high': resultTypes[0],   // 生粋の社畜（レア）
+            'high-high-high-medium': resultTypes[0], // 生粋の社畜（レア）
             'high-high-high-low': resultTypes[2],    // ストイック社畜
-            'high-high-medium-high': resultTypes[0], // 生粋の社畜
+            'high-high-medium-high': resultTypes[1], // バーンアウト予備軍
             'high-high-medium-medium': resultTypes[2], // ストイック社畜
             'high-high-medium-low': resultTypes[2],  // ストイック社畜
             'high-high-low-high': resultTypes[6],    // チームプレイヤー
             'high-high-low-medium': resultTypes[6],  // チームプレイヤー
-            'high-high-low-low': resultTypes[6],     // チームプレイヤー
+            'high-high-low-low': resultTypes[3],     // 一匹狼ワーカー
             
-            // === HIGH-MEDIUM パターン（dedication=high, sacrifice=medium）===
+            // === HIGH-MEDIUM パターン（9パターン）===
             'high-medium-high-high': resultTypes[4], // 心優しき社畜
             'high-medium-high-medium': resultTypes[4], // 心優しき社畜
             'high-medium-high-low': resultTypes[5],  // 繊細ワーカー
@@ -858,23 +858,23 @@ function showResult() {
             'high-medium-medium-low': resultTypes[7], // マイペース社員
             'high-medium-low-high': resultTypes[6], // チームプレイヤー
             'high-medium-low-medium': resultTypes[7], // マイペース社員
-            'high-medium-low-low': resultTypes[7],  // マイペース社員
+            'high-medium-low-low': resultTypes[5],  // 繊細ワーカー
             
-            // === HIGH-LOW パターン（dedication=high, sacrifice=low）===
+            // === HIGH-LOW パターン（9パターン）===
             'high-low-high-high': resultTypes[4],    // 心優しき社畜
             'high-low-high-medium': resultTypes[5],  // 繊細ワーカー
             'high-low-high-low': resultTypes[5],     // 繊細ワーカー
             'high-low-medium-high': resultTypes[6], // チームプレイヤー
             'high-low-medium-medium': resultTypes[7], // マイペース社員
             'high-low-medium-low': resultTypes[7],  // マイペース社員
-            'high-low-low-high': resultTypes[6],    // チームプレイヤー
-            'high-low-low-medium': resultTypes[7],  // マイペース社員
-            'high-low-low-low': resultTypes[7],     // マイペース社員
+            'high-low-low-high': resultTypes[3],    // 一匹狼ワーカー
+            'high-low-low-medium': resultTypes[3],  // 一匹狼ワーカー
+            'high-low-low-low': resultTypes[3],     // 一匹狼ワーカー
             
-            // === MEDIUM-HIGH パターン（dedication=medium, sacrifice=high）===
+            // === MEDIUM-HIGH パターン（9パターン）===
             'medium-high-high-high': resultTypes[1], // バーンアウト予備軍
             'medium-high-high-medium': resultTypes[9], // 隠れ疲労タイプ
-            'medium-high-high-low': resultTypes[9],  // 隠れ疲労タイプ
+            'medium-high-high-low': resultTypes[8],  // ゆるふわ社畜
             'medium-high-medium-high': resultTypes[10], // お人好し社員
             'medium-high-medium-medium': resultTypes[9], // 隠れ疲労タイプ
             'medium-high-medium-low': resultTypes[10], // お人好し社員
@@ -882,20 +882,20 @@ function showResult() {
             'medium-high-low-medium': resultTypes[11], // 現実派社員
             'medium-high-low-low': resultTypes[11],  // 現実派社員
             
-            // === MEDIUM-MEDIUM パターン（dedication=medium, sacrifice=medium）===
+            // === MEDIUM-MEDIUM パターン（9パターン）- 最も出やすいので分散===
             'medium-medium-high-high': resultTypes[9], // 隠れ疲労タイプ
-            'medium-medium-high-medium': resultTypes[9], // 隠れ疲労タイプ
-            'medium-medium-high-low': resultTypes[9], // 隠れ疲労タイプ
+            'medium-medium-high-medium': resultTypes[1], // バーンアウト予備軍
+            'medium-medium-high-low': resultTypes[8], // ゆるふわ社畜
             'medium-medium-medium-high': resultTypes[10], // お人好し社員
             'medium-medium-medium-medium': resultTypes[11], // 現実派社員
-            'medium-medium-medium-low': resultTypes[11], // 現実派社員
+            'medium-medium-medium-low': resultTypes[12], // 家庭が大事
             'medium-medium-low-high': resultTypes[12], // 家庭が大事
             'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
             'medium-medium-low-low': resultTypes[13], // ライフワークバランス
             
-            // === MEDIUM-LOW パターン（dedication=medium, sacrifice=low）===
+            // === MEDIUM-LOW パターン（9パターン）===
             'medium-low-high-high': resultTypes[12], // 家庭が大事
-            'medium-low-high-medium': resultTypes[12], // 家庭が大事
+            'medium-low-high-medium': resultTypes[8], // ゆるふわ社畜
             'medium-low-high-low': resultTypes[13],  // ライフワークバランス
             'medium-low-medium-high': resultTypes[12], // 家庭が大事
             'medium-low-medium-medium': resultTypes[13], // ライフワークバランス
@@ -904,20 +904,20 @@ function showResult() {
             'medium-low-low-medium': resultTypes[14], // デキる社員
             'medium-low-low-low': resultTypes[14],   // デキる社員
             
-            // === LOW-HIGH パターン（dedication=low, sacrifice=high）===
+            // === LOW-HIGH パターン（9パターン）===
             'low-high-high-high': resultTypes[8],    // ゆるふわ社畜
             'low-high-high-medium': resultTypes[9], // 隠れ疲労タイプ
-            'low-high-high-low': resultTypes[9],    // 隠れ疲労タイプ
+            'low-high-high-low': resultTypes[8],    // ゆるふわ社畜
             'low-high-medium-high': resultTypes[10],  // お人好し社員
             'low-high-medium-medium': resultTypes[10], // お人好し社員
             'low-high-medium-low': resultTypes[11],  // 現実派社員
             'low-high-low-high': resultTypes[10],    // お人好し社員
             'low-high-low-medium': resultTypes[11],  // 現実派社員
-            'low-high-low-low': resultTypes[11],     // 現実派社員
+            'low-high-low-low': resultTypes[3],     // 一匹狼ワーカー
             
-            // === LOW-MEDIUM パターン（dedication=low, sacrifice=medium）===
+            // === LOW-MEDIUM パターン（9パターン）===
             'low-medium-high-high': resultTypes[12], // 家庭が大事
-            'low-medium-high-medium': resultTypes[12], // 家庭が大事
+            'low-medium-high-medium': resultTypes[8], // ゆるふわ社畜
             'low-medium-high-low': resultTypes[13],  // ライフワークバランス
             'low-medium-medium-high': resultTypes[12], // 家庭が大事
             'low-medium-medium-medium': resultTypes[13], // ライフワークバランス
@@ -926,7 +926,7 @@ function showResult() {
             'low-medium-low-medium': resultTypes[14], // デキる社員
             'low-medium-low-low': resultTypes[14],   // デキる社員
             
-            // === LOW-LOW パターン（dedication=low, sacrifice=low）===
+            // === LOW-LOW パターン（9パターン）===
             'low-low-high-high': resultTypes[12],    // 家庭が大事
             'low-low-high-medium': resultTypes[13],  // ライフワークバランス
             'low-low-high-low': resultTypes[13],     // ライフワークバランス
@@ -935,7 +935,7 @@ function showResult() {
             'low-low-medium-low': resultTypes[14],   // デキる社員
             'low-low-low-high': resultTypes[14],     // デキる社員
             'low-low-low-medium': resultTypes[14],   // デキる社員
-            'low-low-low-low': resultTypes[15],      // 自由人
+            'low-low-low-low': resultTypes[15],      // 自由人（レア）
         };
         
         const result = patternMap[pattern];
