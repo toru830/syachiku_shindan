@@ -879,15 +879,15 @@ function showResult() {
         }
         
         // 10. コミュニケーション重視（relationship高、stress低）
-        if (totalScore >= 45 && relationship >= 70 && stress <= 55) {
+        if (totalScore >= 45 && relationship >= 75 && stress <= 50) {
             return resultTypes[9];
         }
         
         // 12. カウンセラー系（relationship高、stress中、dedication中）
         if (totalScore >= 45 && totalScore < 65 && 
-            relationship >= 65 && 
-            stress >= 40 && stress <= 70 && 
-            dedication >= 40 && dedication <= 70) {
+            relationship >= 70 && 
+            stress >= 45 && stress <= 65 && 
+            dedication >= 45 && dedication <= 65) {
             return resultTypes[11];
         }
         
@@ -907,12 +907,17 @@ function showResult() {
             return resultTypes[12];
         }
         
-        // 14. ゆるふわ社畜（dedication低、sacrifice高、stress高、relationship高）
-        if (dedication <= 40 && sacrifice >= 60 && stress >= 60 && relationship >= 60) {
+        // 14. 繊細ワーカー（dedication高、sacrifice低、stress高、relationship低）
+        if (dedication >= 75 && sacrifice <= 35 && stress >= 65 && relationship <= 35) {
+            return resultTypes[6]; // 繊細ワーカーのインデックス
+        }
+        
+        // 15. ゆるふわ社畜（dedication低、sacrifice高、stress高、relationship高）
+        if (dedication <= 35 && sacrifice >= 65 && stress >= 65 && relationship >= 65) {
             return resultTypes[5]; // ゆるふわ社畜のインデックス
         }
         
-        // 15. 普通の人（総合30-50%）
+        // 16. 普通の人（総合30-50%）
         if (totalScore >= 30 && totalScore < 50) {
             return resultTypes[13];
         }
