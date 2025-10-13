@@ -888,26 +888,26 @@ function showResult() {
             'medium-medium-high-low': resultTypes[12], // アナリスト系
             'medium-medium-medium-high': resultTypes[9], // コミュニケーション重視
             'medium-medium-medium-medium': resultTypes[8], // 普通の社員
-            'medium-medium-medium-low': resultTypes[12], // アナリスト系
+            'medium-medium-medium-low': resultTypes[10], // 効率重視
             'medium-medium-low-high': resultTypes[13], // 普通の人
-            'medium-medium-low-medium': resultTypes[13], // 普通の人
-            'medium-medium-low-low': resultTypes[13], // 普通の人
+            'medium-medium-low-medium': resultTypes[10], // 効率重視
+            'medium-medium-low-low': resultTypes[10], // 効率重視
             
             // === MEDIUM-LOW パターン（dedication=medium, sacrifice=low）===
             'medium-low-high-high': resultTypes[12], // アナリスト系
             'medium-low-high-medium': resultTypes[12], // アナリスト系
             'medium-low-high-low': resultTypes[12],  // アナリスト系
-            'medium-low-medium-high': resultTypes[13], // 普通の人
-            'medium-low-medium-medium': resultTypes[12], // アナリスト系
-            'medium-low-medium-low': resultTypes[13], // 普通の人
-            'medium-low-low-high': resultTypes[15],  // ワークライフバランス重視
-            'medium-low-low-medium': resultTypes[15], // ワークライフバランス重視
-            'medium-low-low-low': resultTypes[14],   // 自由人
+            'medium-low-medium-high': resultTypes[10], // 効率重視
+            'medium-low-medium-medium': resultTypes[10], // 効率重視
+            'medium-low-medium-low': resultTypes[10], // 効率重視
+            'medium-low-low-high': resultTypes[10],  // 効率重視
+            'medium-low-low-medium': resultTypes[10], // 効率重視
+            'medium-low-low-low': resultTypes[15],   // ワークライフバランス重視
             
             // === LOW-HIGH パターン（dedication=low, sacrifice=high）===
             'low-high-high-high': resultTypes[5],    // ゆるふわ社畜
-            'low-high-high-medium': resultTypes[5],  // ゆるふわ社畜
-            'low-high-high-low': resultTypes[5],     // ゆるふわ社畜
+            'low-high-high-medium': resultTypes[11], // カウンセラー系
+            'low-high-high-low': resultTypes[13],    // 普通の人
             'low-high-medium-high': resultTypes[5],  // ゆるふわ社畜
             'low-high-medium-medium': resultTypes[11], // カウンセラー系
             'low-high-medium-low': resultTypes[11],  // カウンセラー系
@@ -916,7 +916,7 @@ function showResult() {
             'low-high-low-low': resultTypes[15],     // ワークライフバランス重視
             
             // === LOW-MEDIUM パターン（dedication=low, sacrifice=medium）===
-            'low-medium-high-high': resultTypes[5],  // ゆるふわ社畜
+            'low-medium-high-high': resultTypes[13], // 普通の人
             'low-medium-high-medium': resultTypes[13], // 普通の人
             'low-medium-high-low': resultTypes[13],  // 普通の人
             'low-medium-medium-high': resultTypes[13], // 普通の人
