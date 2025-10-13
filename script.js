@@ -844,7 +844,7 @@ function showResult() {
             'high-high-high-low': resultTypes[2],    // ストイック社畜
             'high-high-medium-high': resultTypes[1], // バーンアウト予備軍
             'high-high-medium-medium': resultTypes[2], // ストイック社畜
-            'high-high-medium-low': resultTypes[2],  // ストイック社畜
+            'high-high-medium-low': resultTypes[3],  // 一匹狼ワーカー
             'high-high-low-high': resultTypes[6],    // チームプレイヤー
             'high-high-low-medium': resultTypes[6],  // チームプレイヤー
             'high-high-low-low': resultTypes[3],     // 一匹狼ワーカー
@@ -854,10 +854,10 @@ function showResult() {
             'high-medium-high-medium': resultTypes[4], // 心優しき社畜
             'high-medium-high-low': resultTypes[5],  // 繊細ワーカー
             'high-medium-medium-high': resultTypes[4], // 心優しき社畜
-            'high-medium-medium-medium': resultTypes[7], // マイペース社員
-            'high-medium-medium-low': resultTypes[7], // マイペース社員
+            'high-medium-medium-medium': resultTypes[3], // 一匹狼ワーカー
+            'high-medium-medium-low': resultTypes[3], // 一匹狼ワーカー
             'high-medium-low-high': resultTypes[6], // チームプレイヤー
-            'high-medium-low-medium': resultTypes[7], // マイペース社員
+            'high-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
             'high-medium-low-low': resultTypes[5],  // 繊細ワーカー
             
             // === HIGH-LOW パターン（9パターン）===
@@ -882,16 +882,16 @@ function showResult() {
             'medium-high-low-medium': resultTypes[11], // 現実派社員
             'medium-high-low-low': resultTypes[11],  // 現実派社員
             
-            // === MEDIUM-MEDIUM パターン（9パターン）- 最も出やすいので分散===
+            // === MEDIUM-MEDIUM パターン（9パターン）- 最頻出パターン群===
             'medium-medium-high-high': resultTypes[9], // 隠れ疲労タイプ
-            'medium-medium-high-medium': resultTypes[1], // バーンアウト予備軍
+            'medium-medium-high-medium': resultTypes[4], // 心優しき社畜
             'medium-medium-high-low': resultTypes[8], // ゆるふわ社畜
             'medium-medium-medium-high': resultTypes[10], // お人好し社員
-            'medium-medium-medium-medium': resultTypes[11], // 現実派社員
-            'medium-medium-medium-low': resultTypes[12], // 家庭が大事
+            'medium-medium-medium-medium': resultTypes[7], // マイペース社員 ← 中間バランス型
+            'medium-medium-medium-low': resultTypes[11], // 現実派社員 ← 中間バランス型
             'medium-medium-low-high': resultTypes[12], // 家庭が大事
             'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
-            'medium-medium-low-low': resultTypes[13], // ライフワークバランス
+            'medium-medium-low-low': resultTypes[14], // デキる社員
             
             // === MEDIUM-LOW パターン（9パターン）===
             'medium-low-high-high': resultTypes[12], // 家庭が大事
