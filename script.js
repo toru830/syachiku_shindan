@@ -1055,22 +1055,30 @@ function shareResult() {
 
 // 育成開始（シャチポケに遷移）
 function startNurture() {
-    const resultType = document.getElementById('result-type').textContent;
-    const resultIcon = document.getElementById('result-icon').textContent;
-    const resultLevel = document.getElementById('result-level').textContent.replace('Lv.', '');
-    
-    // 診断結果をパラメーターとしてエンコード
-    const params = new URLSearchParams({
-        character: resultType,
-        icon: resultIcon,
-        level: resultLevel,
-        from: 'shindan'
-    });
-    
-    // シャチポケに遷移
-    const targetUrl = `http://shachipoke.syachiku-life.com/?${params.toString()}`;
-    
-    console.log('シャチポケに遷移:', targetUrl);
-    window.location.href = targetUrl;
+    try {
+        const resultType = document.getElementById('result-type').textContent;
+        const resultIcon = document.getElementById('result-icon').textContent;
+        
+        // 診断結果をパラメーターとしてエンコード
+        const params = new URLSearchParams({
+            character: resultType,
+            icon: resultIcon,
+            from: 'shindan'
+        });
+        
+        // シャチポケに遷移
+        const targetUrl = `http://shachipoke.syachiku-life.com/?${params.toString()}`;
+        
+        console.log('シャチポケに遷移:', targetUrl);
+        console.log('パラメーター:', {
+            character: resultType,
+            icon: resultIcon
+        });
+        
+        window.location.href = targetUrl;
+    } catch (error) {
+        console.error('育成ボタンエラー:', error);
+        alert('エラーが発生しました。もう一度お試しください。');
+    }
 }
 
