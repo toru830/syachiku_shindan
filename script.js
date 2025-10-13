@@ -820,13 +820,13 @@ function showResult() {
         // 16種類を均等に判定（判定順序を最適化）
         
         // === 超レア枠（2種類）===
-        // 1. 生粋の社畜（総合90%以上、dedication高、sacrifice高）
-        if (totalScore >= 90 && dedication >= 85 && sacrifice >= 85) {
+        // 1. 生粋の社畜（総合95%以上、dedication高、sacrifice高、stress高、relationship高）
+        if (totalScore >= 95 && dedication >= 90 && sacrifice >= 90 && stress >= 80 && relationship >= 80) {
             return resultTypes[0];
         }
         
-        // 15. 自由人（総合10%以下）
-        if (totalScore <= 10) {
+        // 15. 自由人（総合5%以下）
+        if (totalScore <= 5) {
             return resultTypes[14];
         }
         
