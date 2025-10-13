@@ -1057,7 +1057,8 @@ function shareResult() {
 function startNurture() {
     try {
         const resultType = document.getElementById('result-type').textContent;
-        const resultIcon = document.getElementById('result-icon').textContent;
+        const resultIconEl = document.getElementById('result-icon');
+        const resultIcon = resultIconEl.querySelector('img') ? resultIconEl.querySelector('img').src : '';
         
         // 診断結果をパラメーターとしてエンコード
         const params = new URLSearchParams({
