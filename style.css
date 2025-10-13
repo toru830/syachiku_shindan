@@ -14,9 +14,6 @@ body {
     padding: 20px;
     color: #333;
     position: relative;
-    overflow-x: hidden;
-    max-width: 100vw;
-    box-sizing: border-box;
 }
 
 /* ピンクテーマの背景装飾 */
@@ -1754,12 +1751,6 @@ body:has(.result-theme-15.active) {
         padding: 40px 15px 30px;
     }
     
-    body {
-        padding: 10px;
-        overflow-x: hidden;
-        max-width: 100vw;
-    }
-    
     .start-btn {
         padding: 20px 40px;
         font-size: 1.4rem;
@@ -2310,19 +2301,17 @@ body:has(.result-theme-15.active) {
         margin-top: 30px;
         padding: 15px 0;
         text-align: center;
-        white-space: normal;
+        white-space: nowrap;
         overflow-x: hidden;
     }
     
     .footer-link {
         font-size: 11px;
         margin: 0 6px;
-        display: block;
-        margin-bottom: 10px;
     }
     
     .footer-separator {
-        display: none;
+        margin: 0 2px;
     }
 }
 

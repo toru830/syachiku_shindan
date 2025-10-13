@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMyIgZmlsbD0iI0ZGNzBCNSIvPgo8cGF0aCBkPSJNNCA1SDhWOUg0VjVaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik04IDVIMTJWOUg4VjVaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik00IDlIOFYxM0g0VjlaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik04IDlIMTJWMTNIOCA5WiIgZmlsbD0iI0ZGRkZGRiIvPgo8Y2lyY2xlIGN4PSI4IiBjeT0iMyIgcj0iMS41IiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik04IDEyTDEwIDE0TDggMTZMNiAxNEw4IDEyWiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K&v=202401151715">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iMzAiIGZpbGw9IiNGRjcwQjUiLz4KPHBhdGggZD0iTTQ1IDU2SDkwVjc5SDQ1VjU2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNOTAgNTZIMTM1Vjc5SDkwVjU2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNDUgMTAxSDkwVjEyNEg0NVYxMDFaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik05MCAxMDFIMTM1VjEyNEg5MFYxMDFaIiBmaWxsPSIjRkZGRkZGIi8+CjxjaXJjbGUgY3g9IjkwIiBjeT0iMzMiIHI9IjE1IiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik05MCAxMzVMMTEwIDE1NUw5MCAxNzVMNzAgMTU1TDkwIDEzNVoiIGZpbGw9IiNGRkZGRkYiLz4KPC9zdmc+Cg==&v=202401151715">
     <meta name="theme-color" content="#FF70B5">
-    <link rel="stylesheet" href="style.css?v=32">
+    <link rel="stylesheet" href="style.css?v=33">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -18,7 +18,7 @@
     <meta name="pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 </head>
-<body style="overflow-x: hidden; max-width: 100vw; box-sizing: border-box;">
+<body>
     <div class="container">
         <!-- スタート画面 -->
         <div id="start-screen" class="screen active">
@@ -87,14 +87,13 @@
                 </div>
                 
                 <!-- フッターリンク -->
-                <footer style="width: 100%; max-width: 100%; box-sizing: border-box; background: rgba(255, 255, 255, 0.95); padding: 20px 10px; text-align: center; font-size: 13px; border-top: 2px solid #ffb3d9; margin-top: 40px; overflow-x: hidden;">
-                    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 100%; width: 100%; margin: 0 auto; box-sizing: border-box;">
-                        <a href="privacy.html" style="color: #ff1493; text-decoration: none; font-weight: 600; padding: 10px 15px; background: rgba(255, 182, 217, 0.2); border-radius: 8px; display: block; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">プライバシーポリシー</a>
-                        <a href="terms.html" style="color: #ff1493; text-decoration: none; font-weight: 600; padding: 10px 15px; background: rgba(255, 182, 217, 0.2); border-radius: 8px; display: block; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">利用規約</a>
-                        <a href="contact.html" style="color: #ff1493; text-decoration: none; font-weight: 600; padding: 10px 15px; background: rgba(255, 182, 217, 0.2); border-radius: 8px; display: block; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">お問い合わせ</a>
-                    </div>
-                    <p style="margin-top: 20px; color: #999; font-size: 11px; padding: 0 10px; box-sizing: border-box;">© 2025 社畜ライフ All Rights Reserved.</p>
-                </footer>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">プライバシーポリシー</a>
+                    <span class="footer-separator">|</span>
+                    <a href="terms.html" class="footer-link">利用規約</a>
+                    <span class="footer-separator">|</span>
+                    <a href="contact.html" class="footer-link">お問い合わせ</a>
+                </div>
             </div>
         </div>
 
@@ -265,6 +264,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=32"></script>
+    <script src="script.js?v=33"></script>
 </body>
 </html>
