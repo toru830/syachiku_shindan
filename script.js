@@ -887,7 +887,7 @@ function showResult() {
             'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
             'medium-medium-medium-high': resultTypes[10], // お人好し社員
             'medium-medium-medium-low': resultTypes[11], // 現実派社員
-            'medium-medium-medium-medium': resultTypes[7], // マイペース社員
+            'medium-medium-medium-medium': resultTypes[3], // 一匹狼ワーカー（最頻出に配置）
             // === MEDIUM-LOW ===
             'medium-low-high-high': resultTypes[12], // 家庭が大事
             'medium-low-high-low': resultTypes[13],  // ライフワークバランス
