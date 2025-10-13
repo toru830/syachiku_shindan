@@ -907,7 +907,12 @@ function showResult() {
             return resultTypes[12];
         }
         
-        // 14. 普通の人（総合30-50%）
+        // 14. ゆるふわ社畜（dedication低、sacrifice高、stress高、relationship高）
+        if (dedication <= 40 && sacrifice >= 60 && stress >= 60 && relationship >= 60) {
+            return resultTypes[5]; // ゆるふわ社畜のインデックス
+        }
+        
+        // 15. 普通の人（総合30-50%）
         if (totalScore >= 30 && totalScore < 50) {
             return resultTypes[13];
         }
