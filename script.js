@@ -818,10 +818,10 @@ function showResult() {
         console.log('=== 診断デバッグ情報 ===');
         console.log('診断スコア:', { dedication, sacrifice, stress, relationship, totalScore });
         
-        // 各軸を高/中/低に分類
+        // 各軸を高/中/低に分類（閾値を調整して均等分布）
         function getLevel(score) {
-            if (score >= 70) return 'high';
-            if (score >= 40) return 'medium';
+            if (score >= 60) return 'high';
+            if (score >= 35) return 'medium';
             return 'low';
         }
         
