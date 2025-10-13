@@ -426,6 +426,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (shareBtn) {
         shareBtn.addEventListener('click', shareResult);
     }
+    
+    const nurtureBtn = document.getElementById('nurture-btn');
+    if (nurtureBtn) {
+        nurtureBtn.addEventListener('click', startNurture);
+    }
 });
 
 // 診断開始
@@ -1046,5 +1051,26 @@ function shareResult() {
             alert(shareText);
         });
     }
+}
+
+// 育成開始（シャチポケに遷移）
+function startNurture() {
+    const resultType = document.getElementById('result-type').textContent;
+    const resultIcon = document.getElementById('result-icon').textContent;
+    const resultLevel = document.getElementById('result-level').textContent.replace('Lv.', '');
+    
+    // 診断結果をパラメーターとしてエンコード
+    const params = new URLSearchParams({
+        character: resultType,
+        icon: resultIcon,
+        level: resultLevel,
+        from: 'shindan'
+    });
+    
+    // シャチポケに遷移
+    const targetUrl = `http://shachipoke.syachiku-life.com/?${params.toString()}`;
+    
+    console.log('シャチポケに遷移:', targetUrl);
+    window.location.href = targetUrl;
 }
 
