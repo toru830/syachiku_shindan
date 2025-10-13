@@ -1067,7 +1067,7 @@ function startNurture() {
             from: 'shindan'
         });
         
-        // シャチポケに遷移
+        // シャチポケに遷移（別タブで開く）
         const targetUrl = `http://shachipoke.syachiku-life.com/?${params.toString()}`;
         
         console.log('シャチポケに遷移:', targetUrl);
@@ -1076,7 +1076,7 @@ function startNurture() {
             icon: resultIcon
         });
         
-        window.location.href = targetUrl;
+        window.open(targetUrl, '_blank');
     } catch (error) {
         console.error('育成ボタンエラー:', error);
         alert('エラーが発生しました。もう一度お試しください。');
