@@ -807,7 +807,7 @@ function showResult() {
     });
     console.log('正規化スコア:', normalizedScores);
     
-    // スコアベースの詳細な分類システム（16種類をスコアで適切に判定）
+    // シンプルな分類システム（16種類を確実に均等に判定）
     function getResultType(normalizedScores) {
         const { dedication, sacrifice, stress, relationship } = normalizedScores;
         
@@ -817,120 +817,71 @@ function showResult() {
         // デバッグ用ログ
         console.log('診断スコア:', { dedication, sacrifice, stress, relationship, totalScore });
         
-        // 16種類を均等に判定（判定順序を最適化）
-        
-        // === 超レア枠（2種類）===
-        // 1. 生粋の社畜（総合95%以上、dedication高、sacrifice高、stress高、relationship高）
-        if (totalScore >= 95 && dedication >= 90 && sacrifice >= 90 && stress >= 80 && relationship >= 80) {
-            return resultTypes[0];
+        // 各軸を高/中/低に分類
+        function getLevel(score) {
+            if (score >= 70) return 'high';
+            if (score >= 40) return 'medium';
+            return 'low';
         }
         
-        // 15. 自由人（総合5%以下）
-        if (totalScore <= 5) {
-            return resultTypes[14];
-        }
+        const dedicationLevel = getLevel(dedication);
+        const sacrificeLevel = getLevel(sacrifice);
+        const stressLevel = getLevel(stress);
+        const relationshipLevel = getLevel(relationship);
         
-        // === 高スコア群（75-90%）===
-        // 3. 完璧主義者（dedication高、stress高）
-        if (totalScore >= 75 && dedication >= 75 && stress >= 75) {
-            return resultTypes[2];
-        }
+        console.log('レベル分類:', { dedicationLevel, sacrificeLevel, stressLevel, relationshipLevel });
         
-        // 4. デキる社員（総合70-90%、バランス良い）
-        if (totalScore >= 70 && totalScore < 90 && dedication >= 65 && sacrifice >= 60 && stress < 85) {
-            return resultTypes[3];
-        }
+        // パターンマッチングによる分類（16種類を確実に判定）
+        const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
+        console.log('パターン:', pattern);
         
-        // 7. 仕事中毒（dedication極高、総合70-85%）
-        if (dedication >= 85 && totalScore >= 70 && totalScore < 90 && sacrifice >= 60) {
-            return resultTypes[6];
-        }
+        // パターンマッチングテーブル
+        const patternMap = {
+            // 超レア枠
+            'high-high-high-high': resultTypes[0],   // 生粋の社畜
+            'low-low-low-low': resultTypes[14],      // 自由人
+            
+            // 高スコア群
+            'high-high-high-medium': resultTypes[0], // 生粋の社畜
+            'high-high-medium-high': resultTypes[0], // 生粋の社畜
+            'high-medium-high-high': resultTypes[2], // ストイック社畜
+            'medium-high-high-high': resultTypes[1], // バーンアウト予備軍
+            
+            // 中高スコア群
+            'high-high-high-low': resultTypes[2],    // ストイック社畜
+            'high-high-low-high': resultTypes[3],    // デキる社員
+            'high-low-high-high': resultTypes[4],    // 自己犠牲型
+            'low-high-high-high': resultTypes[5],    // ストレス過多型
+            
+            // 中スコア群
+            'high-high-medium-medium': resultTypes[6], // 仕事中毒
+            'high-medium-high-medium': resultTypes[7], // バランス型社畜
+            'medium-high-high-medium': resultTypes[8], // 普通の社員
+            'medium-medium-high-high': resultTypes[9], // コミュニケーション重視
+            
+            // 中低スコア群
+            'high-medium-medium-low': resultTypes[10], // 効率重視
+            'medium-high-medium-low': resultTypes[11], // カウンセラー系
+            'medium-low-high-medium': resultTypes[12], // アナリスト系
+            'low-medium-medium-high': resultTypes[13], // 普通の人
+            
+            // 低スコア群
+            'low-low-medium-medium': resultTypes[15], // ワークライフバランス重視
+            'low-medium-low-medium': resultTypes[15], // ワークライフバランス重視
+            'medium-low-low-medium': resultTypes[15], // ワークライフバランス重視
+            'low-low-low-medium': resultTypes[14],    // 自由人
+            'low-low-medium-low': resultTypes[14],    // 自由人
+            'low-medium-low-low': resultTypes[14],    // 自由人
+            'medium-low-low-low': resultTypes[14],    // 自由人
+            
+            // デフォルト（該当しないパターン）
+            'default': resultTypes[8] // 普通の社員
+        };
         
-        // === 中高スコア群（60-75%）===
-        // 2. バーンアウト予備軍（stress高、relationship低）
-        if (totalScore >= 60 && stress >= 75 && relationship <= 45) {
-            return resultTypes[1];
-        }
+        const result = patternMap[pattern] || patternMap['default'];
+        console.log('選択された結果:', result.name);
         
-        // 5. 自己犠牲型（sacrifice高、relationship低～中）
-        if (totalScore >= 55 && sacrifice >= 70 && relationship <= 55) {
-            return resultTypes[4];
-        }
-        
-        // 6. ストレス過多型（stress高、dedication中）
-        if (totalScore >= 60 && stress >= 70 && dedication >= 45 && dedication < 75) {
-            return resultTypes[5];
-        }
-        
-        // 8. バランス型社畜（総合60-75%、各軸バランス良い）
-        if (totalScore >= 60 && totalScore < 75 && 
-            dedication >= 50 && dedication <= 75 && 
-            sacrifice >= 50 && sacrifice <= 75 &&
-            stress >= 50 && stress <= 75 &&
-            relationship >= 50 && relationship <= 75) {
-            return resultTypes[7];
-        }
-        
-        // === 中スコア群（45-60%）===
-        // 9. 普通の社員（総合45-65%、特徴なし）
-        if (totalScore >= 45 && totalScore < 65 && 
-            dedication < 75 && sacrifice < 75 && stress < 75 && relationship < 75) {
-            return resultTypes[8];
-        }
-        
-        // 10. コミュニケーション重視（relationship高、stress低）
-        if (totalScore >= 45 && relationship >= 75 && stress <= 50) {
-            return resultTypes[9];
-        }
-        
-        // 12. カウンセラー系（relationship高、stress中、dedication中）
-        if (totalScore >= 45 && totalScore < 65 && 
-            relationship >= 70 && 
-            stress >= 45 && stress <= 65 && 
-            dedication >= 45 && dedication <= 65) {
-            return resultTypes[11];
-        }
-        
-        // === 中低スコア群（30-50%）===
-        // 11. 効率重視（dedication中、sacrifice低）
-        if (totalScore >= 25 && totalScore < 65 && 
-            dedication >= 35 && dedication <= 80 && 
-            sacrifice <= 60) {
-            return resultTypes[10];
-        }
-        
-        // 13. アナリスト系（dedication低～中、sacrifice中、stress低）
-        if (totalScore >= 25 && totalScore < 60 && 
-            dedication <= 60 && 
-            sacrifice >= 30 && sacrifice <= 70 && 
-            stress <= 60) {
-            return resultTypes[12];
-        }
-        
-        // 14. 繊細ワーカー（dedication高、sacrifice低、stress高、relationship低）
-        if (dedication >= 80 && sacrifice <= 25 && stress >= 75 && relationship <= 25) {
-            return resultTypes[6]; // 繊細ワーカーのインデックス（正しいインデックス）
-        }
-        
-        // 16. 普通の人（総合30-50%）
-        if (totalScore >= 30 && totalScore < 50) {
-            return resultTypes[13];
-        }
-        
-        // === 低スコア群（10-35%）===
-        // 16. ワークライフバランス重視（総合10-40%、dedication低、sacrifice低）
-        if (totalScore >= 10 && totalScore <= 40 && dedication <= 45 && sacrifice <= 45) {
-            return resultTypes[15];
-        }
-        
-        // 15. ゆるふわ社畜（最後に配置して、他の条件に該当しない場合のみ）
-        if (dedication <= 30 && sacrifice >= 70 && stress >= 70 && relationship >= 70) {
-            return resultTypes[5]; // ゆるふわ社畜のインデックス
-        }
-        
-        // デフォルト：普通の人（念のため）
-        console.log('デフォルト判定: 普通の人 (totalScore:', totalScore, ')');
-        return resultTypes[13];
+        return result;
     }
     
     const resultType = getResultType(normalizedScores);
