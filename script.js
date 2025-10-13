@@ -836,8 +836,8 @@ function showResult() {
             return resultTypes[2];
         }
         
-        // 4. デキる社員（総合75-90%、バランス良い）
-        if (totalScore >= 75 && totalScore < 90 && dedication >= 70 && sacrifice >= 65 && stress < 80) {
+        // 4. デキる社員（総合70-90%、バランス良い）
+        if (totalScore >= 70 && totalScore < 90 && dedication >= 65 && sacrifice >= 60 && stress < 85) {
             return resultTypes[3];
         }
         
@@ -853,7 +853,7 @@ function showResult() {
         }
         
         // 5. 自己犠牲型（sacrifice高、relationship低～中）
-        if (totalScore >= 60 && sacrifice >= 75 && relationship <= 50) {
+        if (totalScore >= 55 && sacrifice >= 70 && relationship <= 55) {
             return resultTypes[4];
         }
         
@@ -893,9 +893,9 @@ function showResult() {
         
         // === 中低スコア群（30-50%）===
         // 11. 効率重視（dedication中、sacrifice低）
-        if (totalScore >= 30 && totalScore < 60 && 
-            dedication >= 40 && dedication <= 75 && 
-            sacrifice <= 55) {
+        if (totalScore >= 25 && totalScore < 65 && 
+            dedication >= 35 && dedication <= 80 && 
+            sacrifice <= 60) {
             return resultTypes[10];
         }
         
@@ -912,11 +912,6 @@ function showResult() {
             return resultTypes[6]; // 繊細ワーカーのインデックス（正しいインデックス）
         }
         
-        // 15. ゆるふわ社畜（dedication低、sacrifice高、stress高、relationship高）
-        if (dedication <= 25 && sacrifice >= 75 && stress >= 75 && relationship >= 75) {
-            return resultTypes[5]; // ゆるふわ社畜のインデックス
-        }
-        
         // 16. 普通の人（総合30-50%）
         if (totalScore >= 30 && totalScore < 50) {
             return resultTypes[13];
@@ -926,6 +921,11 @@ function showResult() {
         // 16. ワークライフバランス重視（総合10-40%、dedication低、sacrifice低）
         if (totalScore >= 10 && totalScore <= 40 && dedication <= 45 && sacrifice <= 45) {
             return resultTypes[15];
+        }
+        
+        // 15. ゆるふわ社畜（最後に配置して、他の条件に該当しない場合のみ）
+        if (dedication <= 30 && sacrifice >= 70 && stress >= 70 && relationship >= 70) {
+            return resultTypes[5]; // ゆるふわ社畜のインデックス
         }
         
         // デフォルト：普通の人（念のため）
