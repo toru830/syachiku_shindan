@@ -842,7 +842,7 @@ function showResult() {
         }
         
         // 7. 仕事中毒（dedication極高、総合70-85%）
-        if (dedication >= 80 && totalScore >= 70 && totalScore < 90) {
+        if (dedication >= 85 && totalScore >= 70 && totalScore < 90 && sacrifice >= 60) {
             return resultTypes[6];
         }
         
@@ -872,9 +872,9 @@ function showResult() {
         }
         
         // === 中スコア群（45-60%）===
-        // 9. 普通の社員（総合50-65%、特徴なし）
-        if (totalScore >= 50 && totalScore < 65 && 
-            dedication < 70 && sacrifice < 70 && stress < 70 && relationship < 70) {
+        // 9. 普通の社員（総合45-65%、特徴なし）
+        if (totalScore >= 45 && totalScore < 65 && 
+            dedication < 75 && sacrifice < 75 && stress < 75 && relationship < 75) {
             return resultTypes[8];
         }
         
@@ -893,27 +893,27 @@ function showResult() {
         
         // === 中低スコア群（30-50%）===
         // 11. 効率重視（dedication中、sacrifice低）
-        if (totalScore >= 35 && totalScore < 55 && 
-            dedication >= 45 && dedication <= 70 && 
-            sacrifice <= 50) {
+        if (totalScore >= 30 && totalScore < 60 && 
+            dedication >= 40 && dedication <= 75 && 
+            sacrifice <= 55) {
             return resultTypes[10];
         }
         
         // 13. アナリスト系（dedication低～中、sacrifice中、stress低）
-        if (totalScore >= 30 && totalScore < 55 && 
-            dedication <= 55 && 
-            sacrifice >= 35 && sacrifice <= 65 && 
-            stress <= 55) {
+        if (totalScore >= 25 && totalScore < 60 && 
+            dedication <= 60 && 
+            sacrifice >= 30 && sacrifice <= 70 && 
+            stress <= 60) {
             return resultTypes[12];
         }
         
         // 14. 繊細ワーカー（dedication高、sacrifice低、stress高、relationship低）
-        if (dedication >= 75 && sacrifice <= 35 && stress >= 65 && relationship <= 35) {
-            return resultTypes[6]; // 繊細ワーカーのインデックス
+        if (dedication >= 80 && sacrifice <= 25 && stress >= 75 && relationship <= 25) {
+            return resultTypes[6]; // 繊細ワーカーのインデックス（正しいインデックス）
         }
         
         // 15. ゆるふわ社畜（dedication低、sacrifice高、stress高、relationship高）
-        if (dedication <= 35 && sacrifice >= 65 && stress >= 65 && relationship >= 65) {
+        if (dedication <= 25 && sacrifice >= 75 && stress >= 75 && relationship >= 75) {
             return resultTypes[5]; // ゆるふわ社畜のインデックス
         }
         
