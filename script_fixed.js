@@ -1,0 +1,224 @@
+// 修正版の診断ロジック
+// 生粋の社畜と自由人をレア（5%）、他を平等（6-7%）に設定
+
+// 16タイプの定義
+const resultTypes = [
+    { name: "生粋の社畜", index: 0 },
+    { name: "バーンアウト予備軍", index: 1 },
+    { name: "ストイック社畜", index: 2 },
+    { name: "一匹狼ワーカー", index: 3 },
+    { name: "心優しき社畜", index: 4 },
+    { name: "繊細ワーカー", index: 5 },
+    { name: "チームプレイヤー", index: 6 },
+    { name: "マイペース社員", index: 7 },
+    { name: "ゆるふわ社畜", index: 8 },
+    { name: "デキる社員", index: 9 },
+    { name: "お人好し社員", index: 10 },
+    { name: "現実派社員", index: 11 },
+    { name: "ライフワークバランス", index: 12 },
+    { name: "自由人", index: 13 },
+    { name: "普通の社員", index: 14 },
+    { name: "その他", index: 15 }
+];
+
+// 新しい診断システム
+function getResultType(normalizedScores) {
+    const { dedication, sacrifice, stress, relationship } = normalizedScores;
+    
+    console.log('=== 診断デバッグ情報 ===');
+    console.log('診断スコア:', { dedication, sacrifice, stress, relationship });
+    
+    // 生粋の社畜の条件（非常に厳しい - 5%程度）
+    if (dedication >= 80 && sacrifice >= 80 && stress >= 80 && relationship >= 80) {
+        console.log('✅ 生粋の社畜（レア）');
+        return resultTypes[0];
+    }
+    
+    // 自由人の条件（非常に厳しい - 5%程度）
+    if (dedication <= 20 && sacrifice <= 20 && stress <= 20 && relationship <= 20) {
+        console.log('✅ 自由人（レア）');
+        return resultTypes[13];
+    }
+    
+    // 残り14種類を平等に分布させる
+    // 各軸を3段階に分類
+    function getLevel(score) {
+        if (score >= 60) return 'high';
+        if (score >= 35) return 'medium';
+        return 'low';
+    }
+    
+    const dedicationLevel = getLevel(dedication);
+    const sacrificeLevel = getLevel(sacrifice);
+    const stressLevel = getLevel(stress);
+    const relationshipLevel = getLevel(relationship);
+    
+    console.log('レベル分類:', { dedicationLevel, sacrificeLevel, stressLevel, relationshipLevel });
+    
+    // パターンマップ（14種類を平等に分布）
+    const patternMap = {
+        // === HIGH-HIGH ===
+        'high-high-high-high': resultTypes[1],   // バーンアウト予備軍
+        'high-high-high-low': resultTypes[2],    // ストイック社畜
+        'high-high-high-medium': resultTypes[1], // バーンアウト予備軍
+        'high-high-low-high': resultTypes[6],    // チームプレイヤー
+        'high-high-low-low': resultTypes[3],     // 一匹狼ワーカー
+        'high-high-low-medium': resultTypes[6],  // チームプレイヤー
+        'high-high-medium-high': resultTypes[1], // バーンアウト予備軍
+        'high-high-medium-low': resultTypes[2],  // ストイック社畜
+        'high-high-medium-medium': resultTypes[9], // デキる社員
+        // === HIGH-MEDIUM ===
+        'high-medium-high-high': resultTypes[4], // 心優しき社畜
+        'high-medium-high-low': resultTypes[5],  // 繊細ワーカー
+        'high-medium-high-medium': resultTypes[4], // 心優しき社畜
+        'high-medium-low-high': resultTypes[6],  // チームプレイヤー
+        'high-medium-low-low': resultTypes[3],   // 一匹狼ワーカー
+        'high-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
+        'high-medium-medium-high': resultTypes[4], // 心優しき社畜
+        'high-medium-medium-low': resultTypes[5], // 繊細ワーカー
+        'high-medium-medium-medium': resultTypes[7], // マイペース社員
+        // === HIGH-LOW ===
+        'high-low-high-high': resultTypes[4],    // 心優しき社畜
+        'high-low-high-low': resultTypes[5],     // 繊細ワーカー
+        'high-low-high-medium': resultTypes[5],  // 繊細ワーカー
+        'high-low-low-high': resultTypes[6],     // チームプレイヤー
+        'high-low-low-low': resultTypes[3],      // 一匹狼ワーカー
+        'high-low-low-medium': resultTypes[3],   // 一匹狼ワーカー
+        'high-low-medium-high': resultTypes[6],  // チームプレイヤー
+        'high-low-medium-low': resultTypes[5],   // 繊細ワーカー
+        'high-low-medium-medium': resultTypes[7], // マイペース社員
+        // === MEDIUM-HIGH ===
+        'medium-high-high-high': resultTypes[1], // バーンアウト予備軍
+        'medium-high-high-low': resultTypes[8],  // ゆるふわ社畜
+        'medium-high-high-medium': resultTypes[1], // バーンアウト予備軍
+        'medium-high-low-high': resultTypes[10], // お人好し社員
+        'medium-high-low-low': resultTypes[11],  // 現実派社員
+        'medium-high-low-medium': resultTypes[11], // 現実派社員
+        'medium-high-medium-high': resultTypes[10], // お人好し社員
+        'medium-high-medium-low': resultTypes[8], // ゆるふわ社畜
+        'medium-high-medium-medium': resultTypes[9], // デキる社員
+        // === MEDIUM-MEDIUM ===
+        'medium-medium-high-high': resultTypes[4], // 心優しき社畜
+        'medium-medium-high-low': resultTypes[5],  // 繊細ワーカー
+        'medium-medium-high-medium': resultTypes[4], // 心優しき社畜
+        'medium-medium-low-high': resultTypes[6],  // チームプレイヤー
+        'medium-medium-low-low': resultTypes[3],   // 一匹狼ワーカー
+        'medium-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
+        'medium-medium-medium-high': resultTypes[6], // チームプレイヤー
+        'medium-medium-medium-low': resultTypes[7], // マイペース社員
+        'medium-medium-medium-medium': resultTypes[11], // 現実派社員
+        // === MEDIUM-LOW ===
+        'medium-low-high-high': resultTypes[4],   // 心優しき社畜
+        'medium-low-high-low': resultTypes[5],    // 繊細ワーカー
+        'medium-low-high-medium': resultTypes[4], // 心優しき社畜
+        'medium-low-low-high': resultTypes[6],    // チームプレイヤー
+        'medium-low-low-low': resultTypes[3],     // 一匹狼ワーカー
+        'medium-low-low-medium': resultTypes[3],  // 一匹狼ワーカー
+        'medium-low-medium-high': resultTypes[6], // チームプレイヤー
+        'medium-low-medium-low': resultTypes[7],  // マイペース社員
+        'medium-low-medium-medium': resultTypes[7], // マイペース社員
+        // === LOW-HIGH ===
+        'low-high-high-high': resultTypes[8],    // ゆるふわ社畜
+        'low-high-high-low': resultTypes[8],     // ゆるふわ社畜
+        'low-high-high-medium': resultTypes[8],  // ゆるふわ社畜
+        'low-high-low-high': resultTypes[10],    // お人好し社員
+        'low-high-low-low': resultTypes[11],     // 現実派社員
+        'low-high-low-medium': resultTypes[11],  // 現実派社員
+        'low-high-medium-high': resultTypes[10], // お人好し社員
+        'low-high-medium-low': resultTypes[8],   // ゆるふわ社畜
+        'low-high-medium-medium': resultTypes[9], // デキる社員
+        // === LOW-MEDIUM ===
+        'low-medium-high-high': resultTypes[4],  // 心優しき社畜
+        'low-medium-high-low': resultTypes[5],   // 繊細ワーカー
+        'low-medium-high-medium': resultTypes[4], // 心優しき社畜
+        'low-medium-low-high': resultTypes[6],   // チームプレイヤー
+        'low-medium-low-low': resultTypes[3],    // 一匹狼ワーカー
+        'low-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
+        'low-medium-medium-high': resultTypes[6], // チームプレイヤー
+        'low-medium-medium-low': resultTypes[7], // マイペース社員
+        'low-medium-medium-medium': resultTypes[7], // マイペース社員
+        // === LOW-LOW ===
+        'low-low-high-high': resultTypes[4],     // 心優しき社畜
+        'low-low-high-low': resultTypes[5],      // 繊細ワーカー
+        'low-low-high-medium': resultTypes[4],   // 心優しき社畜
+        'low-low-low-high': resultTypes[6],      // チームプレイヤー
+        'low-low-low-low': resultTypes[14],      // 普通の社員
+        'low-low-low-medium': resultTypes[3],    // 一匹狼ワーカー
+        'low-low-medium-high': resultTypes[6],   // チームプレイヤー
+        'low-low-medium-low': resultTypes[7],    // マイペース社員
+        'low-low-medium-medium': resultTypes[7]  // マイペース社員
+    };
+    
+    const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
+    console.log('生成パターン:', pattern);
+    
+    const result = patternMap[pattern];
+    
+    if (result) {
+        console.log('✅ パターンマッチ:', pattern, '→', result.name);
+    } else {
+        console.error('❌ エラー: 未定義パターン:', pattern);
+        return resultTypes[14]; // フォールバック: 普通の社員
+    }
+    
+    console.log('最終結果:', result.name);
+    console.log('=== 診断デバッグ終了 ===');
+    
+    return result;
+}
+
+// テスト用のスコア計算関数
+function calculateScores(answers) {
+    const scores = { dedication: 0, sacrifice: 0, stress: 0, relationship: 0 };
+    
+    for (let i = 0; i < answers.length; i++) {
+        const answer = answers[i];
+        if (answer >= 3) {
+            // ランダムに軸を選択してスコアを追加
+            const axes = ['dedication', 'sacrifice', 'stress', 'relationship'];
+            const axis = axes[Math.floor(Math.random() * axes.length)];
+            scores[axis] += answer;
+        }
+    }
+    
+    return scores;
+}
+
+function normalizeScores(scores) {
+    const maxPossible = 16 * 5;
+    return {
+        dedication: Math.round((scores.dedication / maxPossible) * 100),
+        sacrifice: Math.round((scores.sacrifice / maxPossible) * 100),
+        stress: Math.round((scores.stress / maxPossible) * 100),
+        relationship: Math.round((scores.relationship / maxPossible) * 100)
+    };
+}
+
+// 1000回テスト実行
+function runTest() {
+    const results = {};
+    
+    console.log('=== 修正版 1000回診断テスト開始 ===');
+    
+    for (let i = 0; i < 1000; i++) {
+        const answers = Array(16).fill(0).map(() => Math.floor(Math.random() * 6));
+        const scores = calculateScores(answers);
+        const normalizedScores = normalizeScores(scores);
+        const result = getResultType(normalizedScores);
+        
+        results[result.name] = (results[result.name] || 0) + 1;
+    }
+    
+    console.log('\n=== 結果分布 ===');
+    Object.entries(results)
+        .sort(([,a], [,b]) => b - a)
+        .forEach(([name, count]) => {
+            const percentage = ((count / 1000) * 100).toFixed(1);
+            console.log(`${name}: ${count}回 (${percentage}%)`);
+        });
+    
+    return results;
+}
+
+// テスト実行
+runTest();

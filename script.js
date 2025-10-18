@@ -822,18 +822,26 @@ function showResult() {
     });
     console.log('正規化スコア:', normalizedScores);
     
-    // シンプルな分類システム（16種類を確実に均等に判定）
+    // 修正版診断システム（生粋の社畜と自由人をレア、他を平等に）
     function getResultType(normalizedScores) {
         const { dedication, sacrifice, stress, relationship } = normalizedScores;
         
-        // 総合スコアを計算
-        const totalScore = (dedication + sacrifice + stress + relationship) / 4;
-        
-        // デバッグ用ログ
         console.log('=== 診断デバッグ情報 ===');
-        console.log('診断スコア:', { dedication, sacrifice, stress, relationship, totalScore });
+        console.log('診断スコア:', { dedication, sacrifice, stress, relationship });
         
-        // 各軸を高/中/低に分類（閾値を調整して均等分布）
+        // 生粋の社畜の条件（非常に厳しい - 5%程度）
+        if (dedication >= 80 && sacrifice >= 80 && stress >= 80 && relationship >= 80) {
+            console.log('✅ 生粋の社畜（レア）');
+            return resultTypes[0]; // 生粋の社畜
+        }
+        
+        // 自由人の条件（非常に厳しい - 5%程度）
+        if (dedication <= 20 && sacrifice <= 20 && stress <= 20 && relationship <= 20) {
+            console.log('✅ 自由人（レア）');
+            return resultTypes[15]; // 自由人（正しいインデックス）
+        }
+        
+        // 残り14種類を平等に分布させる
         function getLevel(score) {
             if (score >= 60) return 'high';
             if (score >= 35) return 'medium';
@@ -847,22 +855,18 @@ function showResult() {
         
         console.log('レベル分類:', { dedicationLevel, sacrificeLevel, stressLevel, relationshipLevel });
         
-        // パターンマッチングによる分類（16種類を確実に判定）
-        const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
-        console.log('生成パターン:', pattern);
-        
-        // パターンマッチングテーブル（実測ベース均等配分）
+        // パターンマップ（14種類を平等に分布、正しいインデックス使用）
         const patternMap = {
             // === HIGH-HIGH ===
-            'high-high-high-high': resultTypes[0],   // 生粋の社畜（レア）
+            'high-high-high-high': resultTypes[1],   // バーンアウト予備軍
             'high-high-high-low': resultTypes[2],    // ストイック社畜
-            'high-high-high-medium': resultTypes[0], // 生粋の社畜（レア）
+            'high-high-high-medium': resultTypes[1], // バーンアウト予備軍
             'high-high-low-high': resultTypes[6],    // チームプレイヤー
             'high-high-low-low': resultTypes[3],     // 一匹狼ワーカー
             'high-high-low-medium': resultTypes[6],  // チームプレイヤー
             'high-high-medium-high': resultTypes[1], // バーンアウト予備軍
             'high-high-medium-low': resultTypes[2],  // ストイック社畜
-            'high-high-medium-medium': resultTypes[9], // デキる社員
+            'high-high-medium-medium': resultTypes[14], // デキる社員
             // === HIGH-MEDIUM ===
             'high-medium-high-high': resultTypes[4], // 心優しき社畜
             'high-medium-high-low': resultTypes[5],  // 繊細ワーカー
@@ -877,82 +881,84 @@ function showResult() {
             'high-low-high-high': resultTypes[4],    // 心優しき社畜
             'high-low-high-low': resultTypes[5],     // 繊細ワーカー
             'high-low-high-medium': resultTypes[5],  // 繊細ワーカー
-            'high-low-low-high': resultTypes[3],     // 一匹狼ワーカー
+            'high-low-low-high': resultTypes[6],     // チームプレイヤー
             'high-low-low-low': resultTypes[3],      // 一匹狼ワーカー
             'high-low-low-medium': resultTypes[3],   // 一匹狼ワーカー
             'high-low-medium-high': resultTypes[6],  // チームプレイヤー
-            'high-low-medium-low': resultTypes[15],  // 自由人（レア）
+            'high-low-medium-low': resultTypes[5],   // 繊細ワーカー
             'high-low-medium-medium': resultTypes[7], // マイペース社員
             // === MEDIUM-HIGH ===
             'medium-high-high-high': resultTypes[1], // バーンアウト予備軍
             'medium-high-high-low': resultTypes[8],  // ゆるふわ社畜
-            'medium-high-high-medium': resultTypes[9], // 隠れ疲労タイプ
+            'medium-high-high-medium': resultTypes[1], // バーンアウト予備軍
             'medium-high-low-high': resultTypes[10], // お人好し社員
             'medium-high-low-low': resultTypes[11],  // 現実派社員
             'medium-high-low-medium': resultTypes[11], // 現実派社員
             'medium-high-medium-high': resultTypes[10], // お人好し社員
-            'medium-high-medium-low': resultTypes[10], // お人好し社員
-            'medium-high-medium-medium': resultTypes[9], // 隠れ疲労タイプ
-            // === MEDIUM-MEDIUM ===（最頻出 - 14タイプに1:1配分）
-            'medium-medium-high-high': resultTypes[9], // 隠れ疲労タイプ
-            'medium-medium-high-low': resultTypes[8], // ゆるふわ社畜
-            'medium-medium-high-medium': resultTypes[1], // バーンアウト予備軍
-            'medium-medium-low-high': resultTypes[12], // 家庭が大事
-            'medium-medium-low-low': resultTypes[14], // デキる社員
-            'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
-            'medium-medium-medium-high': resultTypes[10], // お人好し社員
-            'medium-medium-medium-low': resultTypes[11], // 現実派社員
+            'medium-high-medium-low': resultTypes[8], // ゆるふわ社畜
+            'medium-high-medium-medium': resultTypes[14], // デキる社員
+            // === MEDIUM-MEDIUM ===
+            'medium-medium-high-high': resultTypes[4], // 心優しき社畜
+            'medium-medium-high-low': resultTypes[5],  // 繊細ワーカー
+            'medium-medium-high-medium': resultTypes[4], // 心優しき社畜
+            'medium-medium-low-high': resultTypes[6],  // チームプレイヤー
+            'medium-medium-low-low': resultTypes[3],   // 一匹狼ワーカー
+            'medium-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
+            'medium-medium-medium-high': resultTypes[6], // チームプレイヤー
+            'medium-medium-medium-low': resultTypes[7], // マイペース社員
             'medium-medium-medium-medium': resultTypes[11], // 現実派社員
             // === MEDIUM-LOW ===
-            'medium-low-high-high': resultTypes[12], // 家庭が大事
-            'medium-low-high-low': resultTypes[13],  // ライフワークバランス
-            'medium-low-high-medium': resultTypes[8], // ゆるふわ社畜
-            'medium-low-low-high': resultTypes[14],  // デキる社員
-            'medium-low-low-low': resultTypes[14],   // デキる社員
-            'medium-low-low-medium': resultTypes[14], // デキる社員
-            'medium-low-medium-high': resultTypes[12], // 家庭が大事
-            'medium-low-medium-low': resultTypes[0], // 生粋の社畜（レア移動）
+            'medium-low-high-high': resultTypes[4],   // 心優しき社畜
+            'medium-low-high-low': resultTypes[5],    // 繊細ワーカー
+            'medium-low-high-medium': resultTypes[4], // 心優しき社畜
+            'medium-low-low-high': resultTypes[6],    // チームプレイヤー
+            'medium-low-low-low': resultTypes[3],     // 一匹狼ワーカー
+            'medium-low-low-medium': resultTypes[3],  // 一匹狼ワーカー
+            'medium-low-medium-high': resultTypes[6], // チームプレイヤー
+            'medium-low-medium-low': resultTypes[7],  // マイペース社員
             'medium-low-medium-medium': resultTypes[7], // マイペース社員
             // === LOW-HIGH ===
             'low-high-high-high': resultTypes[8],    // ゆるふわ社畜
             'low-high-high-low': resultTypes[8],     // ゆるふわ社畜
-            'low-high-high-medium': resultTypes[9],  // 隠れ疲労タイプ
+            'low-high-high-medium': resultTypes[8],  // ゆるふわ社畜
             'low-high-low-high': resultTypes[10],    // お人好し社員
             'low-high-low-low': resultTypes[11],     // 現実派社員
             'low-high-low-medium': resultTypes[11],  // 現実派社員
             'low-high-medium-high': resultTypes[10], // お人好し社員
-            'low-high-medium-low': resultTypes[11],  // 現実派社員
-            'low-high-medium-medium': resultTypes[10], // お人好し社員
+            'low-high-medium-low': resultTypes[8],   // ゆるふわ社畜
+            'low-high-medium-medium': resultTypes[14], // デキる社員
             // === LOW-MEDIUM ===
-            'low-medium-high-high': resultTypes[12], // 家庭が大事
-            'low-medium-high-low': resultTypes[13],  // ライフワークバランス
-            'low-medium-high-medium': resultTypes[8], // ゆるふわ社畜
+            'low-medium-high-high': resultTypes[4],  // 心優しき社畜
+            'low-medium-high-low': resultTypes[5],   // 繊細ワーカー
+            'low-medium-high-medium': resultTypes[4], // 心優しき社畜
             'low-medium-low-high': resultTypes[6],   // チームプレイヤー
-            'low-medium-low-low': resultTypes[1],    // バーンアウト予備軍
-            'low-medium-low-medium': resultTypes[14], // デキる社員
-            'low-medium-medium-high': resultTypes[12], // 家庭が大事
-            'low-medium-medium-low': resultTypes[15], // 自由人（レア）
-            'low-medium-medium-medium': resultTypes[13], // ライフワークバランス
+            'low-medium-low-low': resultTypes[3],    // 一匹狼ワーカー
+            'low-medium-low-medium': resultTypes[3], // 一匹狼ワーカー
+            'low-medium-medium-high': resultTypes[6], // チームプレイヤー
+            'low-medium-medium-low': resultTypes[7], // マイペース社員
+            'low-medium-medium-medium': resultTypes[7], // マイペース社員
             // === LOW-LOW ===
-            'low-low-high-high': resultTypes[12],    // 家庭が大事
-            'low-low-high-low': resultTypes[3],      // 一匹狼ワーカー
-            'low-low-high-medium': resultTypes[5],   // 繊細ワーカー
-            'low-low-low-high': resultTypes[0],      // 生粋の社畜（レア移動）
-            'low-low-low-low': resultTypes[4],       // 心優しき社畜
-            'low-low-low-medium': resultTypes[5],    // 繊細ワーカー
-            'low-low-medium-high': resultTypes[0],   // 生粋の社畜（レア移動）
-            'low-low-medium-low': resultTypes[10],   // お人好し社員
-            'low-low-medium-medium': resultTypes[14] // デキる社員
+            'low-low-high-high': resultTypes[4],     // 心優しき社畜
+            'low-low-high-low': resultTypes[5],      // 繊細ワーカー
+            'low-low-high-medium': resultTypes[4],   // 心優しき社畜
+            'low-low-low-high': resultTypes[6],      // チームプレイヤー
+            'low-low-low-low': resultTypes[12],      // 家庭が大事
+            'low-low-low-medium': resultTypes[3],    // 一匹狼ワーカー
+            'low-low-medium-high': resultTypes[6],   // チームプレイヤー
+            'low-low-medium-low': resultTypes[7],    // マイペース社員
+            'low-low-medium-medium': resultTypes[7]  // マイペース社員
         };
+        
+        const pattern = `${dedicationLevel}-${sacrificeLevel}-${stressLevel}-${relationshipLevel}`;
+        console.log('生成パターン:', pattern);
         
         const result = patternMap[pattern];
         
-        // パターンが存在するかチェック
         if (result) {
             console.log('✅ パターンマッチ:', pattern, '→', result.name);
         } else {
             console.error('❌ エラー: 未定義パターン:', pattern);
-            return resultTypes[8]; // フォールバック: 普通の社員
+            return resultTypes[7]; // フォールバック: マイペース社員
         }
         
         console.log('最終結果:', result.name);
