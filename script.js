@@ -830,13 +830,15 @@ function showResult() {
         console.log('診断スコア:', { dedication, sacrifice, stress, relationship });
         
         // 生粋の社畜の条件（非常に厳しい - 5%程度）
-        if (dedication >= 80 && sacrifice >= 80 && stress >= 80 && relationship >= 80) {
+        // 全軸が90以上という極めて厳しい条件
+        if (dedication >= 90 && sacrifice >= 90 && stress >= 90 && relationship >= 90) {
             console.log('✅ 生粋の社畜（レア）');
             return resultTypes[0]; // 生粋の社畜
         }
         
         // 自由人の条件（非常に厳しい - 5%程度）
-        if (dedication <= 20 && sacrifice <= 20 && stress <= 20 && relationship <= 20) {
+        // 全軸が10以下という極めて厳しい条件
+        if (dedication <= 10 && sacrifice <= 10 && stress <= 10 && relationship <= 10) {
             console.log('✅ 自由人（レア）');
             return resultTypes[15]; // 自由人（正しいインデックス）
         }
