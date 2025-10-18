@@ -405,7 +405,11 @@
             if (password === ADMIN_PASSWORD) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-                loadAnalyticsData();
+                
+                // 少し遅延してからデータを読み込み（LocalAnalyticsの初期化を待つ）
+                setTimeout(() => {
+                    loadAnalyticsData();
+                }, 100);
             } else {
                 errorDiv.textContent = 'パスワードが正しくありません';
                 errorDiv.style.display = 'block';
@@ -470,6 +474,32 @@
             alert('デバッグ情報をコンソールに出力しました。テストデータも追加しました。F12で確認してください。');
         });
         
+        // URLパラメータから診断結果を読み込み
+        function loadResultFromURL() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const resultParam = urlParams.get('result');
+                
+                if (resultParam) {
+                    console.log('URLパラメータから結果を読み込み中...');
+                    const resultData = JSON.parse(atob(resultParam));
+                    console.log('URLから読み込んだ結果:', resultData);
+                    
+                    // ローカルストレージに保存
+                    if (window.LocalAnalytics) {
+                        window.LocalAnalytics.saveDiagnosisResult(resultData);
+                        console.log('URLから読み込んだ結果をローカルストレージに保存しました');
+                    }
+                    
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error('URLパラメータ読み込みエラー:', error);
+                return false;
+            }
+        }
+
         // 分析データを読み込み
         function loadAnalyticsData() {
             try {
@@ -480,10 +510,14 @@
                 
                 console.log('管理者画面: データ読み込み開始');
                 
+                // まずURLパラメータから結果を読み込み
+                const urlResultLoaded = loadResultFromURL();
+                
                 // 診断結果を取得
                 const results = window.LocalAnalytics.getDiagnosisResults(1000);
                 
                 console.log('管理者画面: 取得した結果数:', results.length);
+                console.log('URLから結果を読み込みました:', urlResultLoaded);
                 
                 if (results.length === 0) {
                     showError('データが見つかりません。まず診断サイトで診断を実行してください。');

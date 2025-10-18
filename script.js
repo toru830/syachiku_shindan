@@ -1041,6 +1041,9 @@ function showResult() {
         };
         
         window.LocalAnalytics.saveDiagnosisResult(resultData);
+        
+        // スマホとPCでデータを共有するため、URLパラメータに結果を追加
+        addResultToURL(resultData);
     }
 }
 
@@ -1075,6 +1078,90 @@ function shareResult() {
             alert(shareText);
         });
     }
+}
+
+// 診断結果をURLパラメータに追加（スマホとPCでデータ共有用）
+function addResultToURL(resultData) {
+    try {
+        // 結果データをエンコード
+        const encodedData = btoa(JSON.stringify(resultData));
+        
+        // 現在のURLにパラメータを追加
+        const url = new URL(window.location);
+        url.searchParams.set('result', encodedData);
+        url.searchParams.set('timestamp', Date.now().toString());
+        
+        // URLを更新（履歴に追加しない）
+        window.history.replaceState({}, '', url);
+        
+        // 管理者画面へのリンクを表示
+        showAdminLink();
+        
+        console.log('診断結果をURLに追加しました:', encodedData);
+    } catch (error) {
+        console.error('URLパラメータ追加エラー:', error);
+    }
+}
+
+// 管理者画面へのリンクを表示
+function showAdminLink() {
+    // 既存のリンクを削除
+    const existingLink = document.getElementById('admin-link');
+    if (existingLink) {
+        existingLink.remove();
+    }
+    
+    // 新しいリンクを作成
+    const adminLink = document.createElement('div');
+    adminLink.id = 'admin-link';
+    adminLink.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    adminLink.innerHTML = '📊 管理者画面で確認';
+    
+    // クリックイベント
+    adminLink.addEventListener('click', function() {
+        const adminUrl = `https://shindan.syachiku-life.com/admin.html?from=result&t=${Date.now()}`;
+        window.open(adminUrl, '_blank');
+    });
+    
+    // ホバーエフェクト
+    adminLink.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px)';
+        this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
+    });
+    
+    adminLink.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+    });
+    
+    document.body.appendChild(adminLink);
+    
+    // 5秒後に自動で非表示
+    setTimeout(() => {
+        if (adminLink.parentNode) {
+            adminLink.style.opacity = '0';
+            adminLink.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                if (adminLink.parentNode) {
+                    adminLink.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
 }
 
 // キャラクター一覧を表示
