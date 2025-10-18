@@ -4,10 +4,17 @@
 // Google Sheets API設定
 const SHEETS_CONFIG = {
     // 実際の運用では環境変数を使用
-    API_KEY: 'AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', // Google Cloud Consoleで取得
-    SPREADSHEET_ID: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms', // Google SheetsのID
+    API_KEY: 'DEMO_KEY', // デモ用 - 実際のAPIキーに置き換え
+    SPREADSHEET_ID: 'DEMO_SHEET_ID', // デモ用 - 実際のスプレッドシートIDに置き換え
     RANGE: 'Sheet1!A:Z' // データを保存する範囲
 };
+
+// API設定が有効かチェック
+function isSheetsAPIConfigured() {
+    return SHEETS_CONFIG.API_KEY !== 'DEMO_KEY' && 
+           SHEETS_CONFIG.SPREADSHEET_ID !== 'DEMO_SHEET_ID' &&
+           SHEETS_CONFIG.API_KEY.length > 10;
+}
 
 // Google Sheets API のベースURL
 const SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
@@ -15,6 +22,15 @@ const SHEETS_API_BASE = 'https://sheets.googleapis.com/v4/spreadsheets';
 // 診断結果をGoogle Sheetsに保存
 async function saveDiagnosisToSheets(resultData) {
     try {
+        // API設定が無効な場合はローカルストレージのみ使用
+        if (!isSheetsAPIConfigured()) {
+            console.log('Google Sheets APIが設定されていません。ローカルストレージに保存します。');
+            if (window.LocalAnalytics) {
+                window.LocalAnalytics.saveDiagnosisResult(resultData);
+            }
+            return false;
+        }
+        
         console.log('Google Sheetsに保存中...', resultData);
         
         // データをシート用の形式に変換
@@ -76,6 +92,15 @@ async function saveDiagnosisToSheets(resultData) {
 // Google Sheetsから診断結果を取得
 async function getDiagnosisFromSheets() {
     try {
+        // API設定が無効な場合はローカルストレージから取得
+        if (!isSheetsAPIConfigured()) {
+            console.log('Google Sheets APIが設定されていません。ローカルストレージから取得します。');
+            if (window.LocalAnalytics) {
+                return window.LocalAnalytics.getDiagnosisResults(1000);
+            }
+            return [];
+        }
+        
         console.log('Google Sheetsからデータ取得中...');
         
         const response = await fetch(`${SHEETS_API_BASE}/${SHEETS_CONFIG.SPREADSHEET_ID}/values/${SHEETS_CONFIG.RANGE}?key=${SHEETS_CONFIG.API_KEY}`);
