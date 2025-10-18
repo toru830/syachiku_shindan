@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社畜タイプ一覧 - 社畜診断</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* キャラクター一覧専用スタイル */
+        .characters-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .characters-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .characters-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2D3748;
+            margin-bottom: 10px;
+        }
+        
+        .characters-subtitle {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .character-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #4F46E5;
+        }
+        
+        .character-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4F46E5, #7C3AED, #EC4899);
+        }
+        
+        .character-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .character-icon img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+        
+        .character-card:hover .character-icon img {
+            border-color: #4F46E5;
+            transform: scale(1.1);
+        }
+        
+        .character-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2D3748;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .character-description {
+            font-size: 0.95rem;
+            color: #4A5568;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .character-features {
+            background: #F7FAFC;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .character-features h4 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2D3748;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .character-features p {
+            font-size: 0.85rem;
+            color: #4A5568;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .character-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+        
+        .stat-bar {
+            width: 100%;
+            height: 6px;
+            background: #E2E8F0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .stat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4F46E5, #7C3AED);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .character-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .character-tag {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .back-to-diagnosis {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+        }
+        
+        .character-rare {
+            border-color: #FFD700 !important;
+            background: linear-gradient(135deg, #FFF9E6, #FFFFFF);
+        }
+        
+        .character-rare::before {
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B35);
+        }
+        
+        .character-rare .character-name {
+            color: #B8860B;
+        }
+        
+        .character-rare .character-tag {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+        }
+        
+        @media (max-width: 768px) {
+            .characters-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .characters-title {
+                font-size: 2rem;
+            }
+            
+            .character-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="characters-container">
+        <div class="characters-header">
+            <h1 class="characters-title">社畜タイプ一覧</h1>
+            <p class="characters-subtitle">16種類の社畜キャラクターをチェックしよう！</p>
+        </div>
+        
+        <div class="characters-grid" id="characters-grid">
+            <!-- キャラクターカードはJavaScriptで動的に生成 -->
+        </div>
+        
+        <div class="back-to-diagnosis">
+            <a href="index.html" class="back-btn">診断に戻る</a>
+        </div>
+    </div>
+    
+    <script src="script.js?v=61"></script>
+    <script>
+        // キャラクター一覧のデータ
+        const charactersData = [
+            {
+                id: 0,
+                name: "生粋の社畜",
+                icon: "10_社畜アイコン/001.png",
+                description: "仕事こそが人生の全て。24時間365日、会社のために生きる究極の社畜タイプ。",
+                features: "完璧主義で責任感が強く、常に100%の力を発揮。休息を取ることを忘れがち。",
+                stats: { dedication: 100, sacrifice: 100, stress: 20, relationship: 30 },
+                tags: ["完璧主義", "責任感", "献身的"],
+                rare: true
+            },
+            {
+                id: 1,
+                name: "自由人",
+                icon: "10_社畜アイコン/002.png",
+                description: "仕事は手段、人生を楽しむことが目的。ワークライフバランスを重視する現代的なタイプ。",
+                features: "柔軟性があり、創造性豊か。ストレスに強く、人間関係を大切にする。",
+                stats: { dedication: 20, sacrifice: 10, stress: 80, relationship: 90 },
+                tags: ["柔軟性", "創造性", "バランス"],
+                rare: true
+            },
+            {
+                id: 2,
+                name: "繊細ワーカー",
+                icon: "10_社畜アイコン/003.png",
+                description: "感受性が豊かで、細やかな気配りができる。ストレスに弱いが、質の高い仕事をする。",
+                features: "注意力が高く、チームの和を大切にする。完璧を求める傾向がある。",
+                stats: { dedication: 70, sacrifice: 60, stress: 30, relationship: 85 },
+                tags: ["感受性", "気配り", "質重視"],
+                rare: false
+            },
+            {
+                id: 3,
+                name: "ゆるふわ社畜",
+                icon: "10_社畜アイコン/004.png",
+                description: "のんびりとした性格で、プレッシャーに強い。周りを和ませる癒し系タイプ。",
+                features: "ストレス耐性が高く、人間関係を円滑にする。マイペースで着実に成果を上げる。",
+                stats: { dedication: 50, sacrifice: 40, stress: 85, relationship: 80 },
+                tags: ["のんびり", "癒し系", "マイペース"],
+                rare: false
+            },
+            {
+                id: 4,
+                name: "現実派社員",
+                icon: "10_社畜アイコン/005.png",
+                description: "冷静で合理的な判断ができる。感情に左右されず、効率的に仕事を進める。",
+                features: "分析力が高く、問題解決能力に長けている。客観的な視点を持つ。",
+                stats: { dedication: 75, sacrifice: 50, stress: 70, relationship: 60 },
+                tags: ["冷静", "合理的", "効率的"],
+                rare: false
+            },
+            {
+                id: 5,
+                name: "お人好し社員",
+                icon: "10_社畜アイコン/006.png",
+                description: "誰からも愛される優しい性格。頼まれると断れない、心優しいタイプ。",
+                features: "協調性が高く、チームワークを重視。他人のことを自分より優先する。",
+                stats: { dedication: 60, sacrifice: 85, stress: 40, relationship: 95 },
+                tags: ["優しさ", "協調性", "献身的"],
+                rare: false
+            },
+            {
+                id: 6,
+                name: "完璧主義者",
+                icon: "10_社畜アイコン/007.png",
+                description: "細部まで完璧を追求する職人気質。品質にこだわり、妥協を許さない。",
+                features: "集中力が高く、技術力に長けている。自分にも他人にも厳しい。",
+                stats: { dedication: 90, sacrifice: 70, stress: 50, relationship: 50 },
+                tags: ["完璧主義", "職人気質", "集中力"],
+                rare: false
+            },
+            {
+                id: 7,
+                name: "社交的ワーカー",
+                icon: "10_社畜アイコン/008.png",
+                description: "コミュニケーション能力が高く、人とのつながりを大切にする。ムードメーカー的存在。",
+                features: "リーダーシップがあり、チームをまとめる力がある。情報収集能力が高い。",
+                stats: { dedication: 65, sacrifice: 55, stress: 60, relationship: 90 },
+                tags: ["社交的", "リーダーシップ", "ムードメーカー"],
+                rare: false
+            },
+            {
+                id: 8,
+                name: "一匹狼ワーカー",
+                icon: "10_社畜アイコン/009.png",
+                description: "独立心が強く、一人で黙々と作業することを好む。専門性を追求するタイプ。",
+                features: "集中力が高く、深い知識を持つ。他人に依存せず、自分で判断する。",
+                stats: { dedication: 80, sacrifice: 30, stress: 75, relationship: 25 },
+                tags: ["独立心", "専門性", "集中力"],
+                rare: false
+            },
+            {
+                id: 9,
+                name: "楽観主義者",
+                icon: "10_社畜アイコン/010.png",
+                description: "前向きで明るい性格。困難な状況でもポジティブに取り組む。",
+                features: "ストレス耐性が高く、周りを元気づける。新しいことにチャレンジする勇気がある。",
+                stats: { dedication: 55, sacrifice: 45, stress: 90, relationship: 75 },
+                tags: ["楽観的", "前向き", "チャレンジ精神"],
+                rare: false
+            },
+            {
+                id: 10,
+                name: "慎重派社員",
+                icon: "10_社畜アイコン/011.png",
+                description: "リスクを避け、安全な道を選ぶ。計画性があり、着実に成果を積み上げる。",
+                features: "分析力が高く、慎重な判断をする。安定性を重視し、変化を好まない。",
+                stats: { dedication: 70, sacrifice: 60, stress: 45, relationship: 65 },
+                tags: ["慎重", "計画性", "安定志向"],
+                rare: false
+            },
+            {
+                id: 11,
+                name: "情熱的ワーカー",
+                icon: "10_社畜アイコン/012.png",
+                description: "仕事に対する情熱が人一倍強い。エネルギッシュで、周りを巻き込む力がある。",
+                features: "モチベーションが高く、困難に立ち向かう勇気がある。チームを引っ張る力がある。",
+                stats: { dedication: 85, sacrifice: 75, stress: 65, relationship: 70 },
+                tags: ["情熱的", "エネルギッシュ", "モチベーション"],
+                rare: false
+            },
+            {
+                id: 12,
+                name: "バランス型社員",
+                icon: "10_社畜アイコン/013.png",
+                description: "仕事とプライベートのバランスを重視。効率的に働き、余裕を持って生活する。",
+                features: "時間管理能力が高く、優先順位をつけるのが上手。ストレスを溜めにくい。",
+                stats: { dedication: 60, sacrifice: 50, stress: 80, relationship: 80 },
+                tags: ["バランス", "時間管理", "効率性"],
+                rare: false
+            },
+            {
+                id: 13,
+                name: "職人気質",
+                icon: "10_社畜アイコン/014.png",
+                description: "技術やスキルにこだわり、職人としての誇りを持つ。品質を最優先に考える。",
+                features: "集中力が高く、技術力に長けている。伝統や技術を大切にする。",
+                stats: { dedication: 85, sacrifice: 70, stress: 55, relationship: 45 },
+                tags: ["職人気質", "技術力", "品質重視"],
+                rare: false
+            },
+            {
+                id: 14,
+                name: "チームプレイヤー",
+                icon: "10_社畜アイコン/015.png",
+                description: "チームワークを重視し、協力して成果を上げることを好む。サポート役に徹する。",
+                features: "協調性が高く、他人の成功を喜ぶ。コミュニケーション能力が高い。",
+                stats: { dedication: 65, sacrifice: 80, stress: 50, relationship: 95 },
+                tags: ["チームワーク", "協調性", "サポート"],
+                rare: false
+            },
+            {
+                id: 15,
+                name: "イノベーター",
+                icon: "10_社畜アイコン/016.png",
+                description: "新しいアイデアや方法を追求し、革新を起こすことを目指す。創造性が豊か。",
+                features: "創造力が高く、新しいことにチャレンジする。変化を恐れず、リスクを取る。",
+                stats: { dedication: 70, sacrifice: 40, stress: 70, relationship: 60 },
+                tags: ["創造性", "革新", "チャレンジ"],
+                rare: false
+            }
+        ];
+        
+        // キャラクター一覧を表示
+        function displayCharacters() {
+            const grid = document.getElementById('characters-grid');
+            grid.innerHTML = '';
+            
+            charactersData.forEach(character => {
+                const card = document.createElement('div');
+                card.className = `character-card ${character.rare ? 'character-rare' : ''}`;
+                
+                card.innerHTML = `
+                    <div class="character-icon">
+                        <img src="${character.icon}" alt="${character.name}">
+                    </div>
+                    <h3 class="character-name">${character.name}</h3>
+                    <p class="character-description">${character.description}</p>
+                    <div class="character-features">
+                        <h4>特徴</h4>
+                        <p>${character.features}</p>
+                    </div>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">献身度</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: ${character.stats.dedication}%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">犠牲度</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: ${character.stats.sacrifice}%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">ストレス耐性</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: ${character.stats.stress}%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">人間関係</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" style="width: ${character.stats.relationship}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="character-tags">
+                        ${character.tags.map(tag => `<span class="character-tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        // ページ読み込み時にキャラクター一覧を表示
+        document.addEventListener('DOMContentLoaded', displayCharacters);
+    </script>
+</body>
+</html>

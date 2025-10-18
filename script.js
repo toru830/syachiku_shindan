@@ -411,6 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('start-btn');
     const restartBtn = document.getElementById('restart-btn');
     const shareBtn = document.getElementById('share-btn');
+    const charactersBtn = document.getElementById('characters-btn');
     
     if (startBtn) {
         startBtn.addEventListener('click', startQuiz);
@@ -425,6 +426,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (shareBtn) {
         shareBtn.addEventListener('click', shareResult);
+    }
+    
+    if (charactersBtn) {
+        charactersBtn.addEventListener('click', showCharacters);
     }
     
     const nurtureBtn = document.getElementById('nurture-btn');
@@ -1050,6 +1055,16 @@ function shareResult() {
         }).catch(() => {
             alert(shareText);
         });
+    }
+}
+
+// キャラクター一覧を表示
+function showCharacters() {
+    try {
+        window.open('characters.html', '_blank');
+    } catch (error) {
+        console.error('キャラクター一覧表示エラー:', error);
+        alert('エラーが発生しました。もう一度お試しください。');
     }
 }
 
