@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者画面 - 社畜診断 Analytics</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 管理者画面専用スタイル */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .admin-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #667eea;
+        }
+        
+        .stat-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .chart {
+            height: 300px;
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            padding: 20px 0;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .chart-bar:hover {
+            background: linear-gradient(135deg, #5a67d8, #6b46c1);
+            transform: scaleY(1.05);
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #718096;
+            white-space: nowrap;
+            writing-mode: horizontal-tb;
+        }
+        
+        .chart-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .data-table {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .table tr:hover {
+            background: #f7fafc;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #718096;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .auth-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .auth-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .auth-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .auth-error {
+            color: #e53e3e;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-site {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-site:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart {
+                height: 200px;
+            }
+            
+            .chart-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-site">← サイトに戻る</a>
+    
+    <div class="admin-container">
+        <!-- 認証画面 -->
+        <div id="auth-screen" class="auth-container">
+            <h1 class="auth-title">管理者ログイン</h1>
+            <input type="password" id="admin-password" class="auth-input" placeholder="管理者パスワード" autocomplete="current-password">
+            <button id="login-btn" class="auth-btn">ログイン</button>
+            <div id="auth-error" class="auth-error" style="display: none;"></div>
+        </div>
+        
+        <!-- 管理者ダッシュボード -->
+        <div id="dashboard" style="display: none;">
+            <div class="admin-header">
+                <h1 class="admin-title">社畜診断 Analytics</h1>
+                <p class="admin-subtitle">リアルタイム統計データ</p>
+            </div>
+            
+            <button id="refresh-btn" class="refresh-btn">🔄 データを更新</button>
+            
+            <!-- 基本統計 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>総診断数</h3>
+                    <div class="stat-value" id="total-diagnoses">-</div>
+                    <div class="stat-label">累計診断完了数</div>
+                </div>
+                <div class="stat-card">
+                    <h3>今日の診断数</h3>
+                    <div class="stat-value" id="today-diagnoses">-</div>
+                    <div class="stat-label">本日の診断完了数</div>
+                </div>
+                <div class="stat-card">
+                    <h3>平均社畜レベル</h3>
+                    <div class="stat-value" id="avg-shachu-level">-</div>
+                    <div class="stat-label">全診断の平均値</div>
+                </div>
+                <div class="stat-card">
+                    <h3>人気No.1タイプ</h3>
+                    <div class="stat-value" id="popular-type">-</div>
+                    <div class="stat-label">最も多い診断結果</div>
+                </div>
+            </div>
+            
+            <!-- 診断結果分布 -->
+            <div class="chart-container">
+                <h2 class="chart-title">診断結果分布</h2>
+                <div class="chart" id="result-distribution-chart">
+                    <div class="loading">データを読み込み中...</div>
+                </div>
+            </div>
+            
+            <!-- 社畜レベル分布 -->
+            <div class="chart-container">
+                <h2 class="chart-title">社畜レベル分布</h2>
+                <div class="chart" id="level-distribution-chart">
+                    <div class="loading">データを読み込み中...</div>
+                </div>
+            </div>
+            
+            <!-- 時間別診断数 -->
+            <div class="chart-container">
+                <h2 class="chart-title">時間別診断数（24時間）</h2>
+                <div class="chart" id="hourly-chart">
+                    <div class="loading">データを読み込み中...</div>
+                </div>
+            </div>
+            
+            <!-- デバイス統計 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>デバイス別アクセス</h3>
+                    <div id="device-stats">
+                        <div class="loading">データを読み込み中...</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>ブラウザ別アクセス</h3>
+                    <div id="browser-stats">
+                        <div class="loading">データを読み込み中...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最近の診断結果 -->
+            <div class="data-table">
+                <h2 class="chart-title">最近の診断結果</h2>
+                <table class="table" id="recent-results">
+                    <thead>
+                        <tr>
+                            <th>日時</th>
+                            <th>結果タイプ</th>
+                            <th>社畜レベル</th>
+                            <th>献身度</th>
+                            <th>犠牲度</th>
+                            <th>ストレス耐性</th>
+                            <th>人間関係</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7" class="loading">データを読み込み中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="firebase-config.js"></script>
+    <script>
+        // 管理者認証
+        const ADMIN_PASSWORD = 'syachiku_admin_2024'; // 実際の運用では環境変数を使用
+        
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const password = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('auth-error');
+            
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                loadAnalyticsData();
+            } else {
+                errorDiv.textContent = 'パスワードが正しくありません';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        // Enterキーでログイン
+        document.getElementById('admin-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('login-btn').click();
+            }
+        });
+        
+        // データ更新ボタン
+        document.getElementById('refresh-btn').addEventListener('click', loadAnalyticsData);
+        
+        // 分析データを読み込み
+        function loadAnalyticsData() {
+            try {
+                if (!window.LocalAnalytics) {
+                    showError('Local Analyticsが読み込まれていません');
+                    return;
+                }
+                
+                // 診断結果を取得
+                const results = window.LocalAnalytics.getDiagnosisResults(1000);
+                
+                if (results.length === 0) {
+                    showError('データが見つかりません');
+                    return;
+                }
+                
+                // 統計を計算
+                const stats = window.LocalAnalytics.calculateStatistics(results);
+                
+                // 基本統計を更新
+                updateBasicStats(stats);
+                
+                // チャートを更新
+                updateResultDistributionChart(stats.resultTypeDistribution);
+                updateLevelDistributionChart(stats.shachuLevelDistribution);
+                updateHourlyChart(stats.hourlyStats);
+                updateDeviceStats(stats.deviceStats, stats.browserStats);
+                
+                // 最近の結果テーブルを更新
+                updateRecentResultsTable(results.slice(0, 50));
+                
+            } catch (error) {
+                console.error('データ読み込みエラー:', error);
+                showError('データの読み込みに失敗しました: ' + error.message);
+            }
+        }
+        
+        // 基本統計を更新
+        function updateBasicStats(stats) {
+            document.getElementById('total-diagnoses').textContent = stats.totalDiagnoses.toLocaleString();
+            
+            // 今日の診断数
+            const today = new Date().toDateString();
+            const todayCount = stats.dailyStats[today] || 0;
+            document.getElementById('today-diagnoses').textContent = todayCount.toLocaleString();
+            
+            // 平均社畜レベル
+            const avgLevel = results.reduce((sum, result) => sum + (result.shachuLevel || 0), 0) / results.length;
+            document.getElementById('avg-shachu-level').textContent = Math.round(avgLevel);
+            
+            // 人気No.1タイプ
+            const popularType = Object.entries(stats.resultTypeDistribution)
+                .sort(([,a], [,b]) => b - a)[0];
+            document.getElementById('popular-type').textContent = popularType ? popularType[0] : '-';
+        }
+        
+        // 診断結果分布チャート
+        function updateResultDistributionChart(distribution) {
+            const chart = document.getElementById('result-distribution-chart');
+            chart.innerHTML = '';
+            
+            const maxCount = Math.max(...Object.values(distribution));
+            const entries = Object.entries(distribution).sort(([,a], [,b]) => b - a);
+            
+            entries.forEach(([type, count]) => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${(count / maxCount) * 100}%`;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = type.length > 8 ? type.substring(0, 8) + '...' : type;
+                
+                const value = document.createElement('div');
+                value.className = 'chart-value';
+                value.textContent = count;
+                
+                bar.appendChild(label);
+                bar.appendChild(value);
+                chart.appendChild(bar);
+            });
+        }
+        
+        // 社畜レベル分布チャート
+        function updateLevelDistributionChart(distribution) {
+            const chart = document.getElementById('level-distribution-chart');
+            chart.innerHTML = '';
+            
+            const maxCount = Math.max(...Object.values(distribution));
+            const entries = Object.entries(distribution).sort(([a], [b]) => parseInt(a) - parseInt(b));
+            
+            entries.forEach(([range, count]) => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${(count / maxCount) * 100}%`;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = range;
+                
+                const value = document.createElement('div');
+                value.className = 'chart-value';
+                value.textContent = count;
+                
+                bar.appendChild(label);
+                bar.appendChild(value);
+                chart.appendChild(bar);
+            });
+        }
+        
+        // 時間別チャート
+        function updateHourlyChart(hourlyStats) {
+            const chart = document.getElementById('hourly-chart');
+            chart.innerHTML = '';
+            
+            const maxCount = Math.max(...Object.values(hourlyStats));
+            
+            for (let hour = 0; hour < 24; hour++) {
+                const count = hourlyStats[hour] || 0;
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${(count / maxCount) * 100}%`;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = `${hour}:00`;
+                
+                const value = document.createElement('div');
+                value.className = 'chart-value';
+                value.textContent = count;
+                
+                bar.appendChild(label);
+                bar.appendChild(value);
+                chart.appendChild(bar);
+            }
+        }
+        
+        // デバイス統計
+        function updateDeviceStats(deviceStats, browserStats) {
+            const deviceDiv = document.getElementById('device-stats');
+            deviceDiv.innerHTML = `
+                <div style="margin-bottom: 10px;">
+                    <strong>モバイル:</strong> ${deviceStats.mobile} (${Math.round(deviceStats.mobile / (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet) * 100)}%)
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>デスクトップ:</strong> ${deviceStats.desktop} (${Math.round(deviceStats.desktop / (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet) * 100)}%)
+                </div>
+                <div>
+                    <strong>タブレット:</strong> ${deviceStats.tablet} (${Math.round(deviceStats.tablet / (deviceStats.mobile + deviceStats.desktop + deviceStats.tablet) * 100)}%)
+                </div>
+            `;
+            
+            const browserDiv = document.getElementById('browser-stats');
+            const browserEntries = Object.entries(browserStats).sort(([,a], [,b]) => b - a);
+            browserDiv.innerHTML = browserEntries.map(([browser, count]) => 
+                `<div style="margin-bottom: 5px;"><strong>${browser}:</strong> ${count}</div>`
+            ).join('');
+        }
+        
+        // 最近の結果テーブル
+        function updateRecentResultsTable(results) {
+            const tbody = document.querySelector('#recent-results tbody');
+            tbody.innerHTML = '';
+            
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                const date = new Date(result.timestamp?.toDate?.() || result.timestamp);
+                row.innerHTML = `
+                    <td>${date.toLocaleString('ja-JP')}</td>
+                    <td>${result.resultType || '-'}</td>
+                    <td>${result.shachuLevel || 0}</td>
+                    <td>${result.scores?.dedication || 0}%</td>
+                    <td>${result.scores?.sacrifice || 0}%</td>
+                    <td>${result.scores?.stress || 0}%</td>
+                    <td>${result.scores?.relationship || 0}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // エラー表示
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.admin-container').insertBefore(errorDiv, document.querySelector('.admin-container').firstChild);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+        
+        // グローバル変数（他の関数で使用）
+        let results = [];
+    </script>
+</body>
+</html>

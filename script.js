@@ -445,6 +445,11 @@ function startQuiz() {
     currentQuestion = 0;
     scores = { dedication: 0, sacrifice: 0, stress: 0, relationship: 0 };
     
+    // ローカルAnalyticsに診断開始を記録
+    if (window.LocalAnalytics) {
+        window.LocalAnalytics.trackDiagnosisStart();
+    }
+    
     // 質問をシャッフル
     questions = shuffleArray(questionsOriginal);
     
@@ -1023,6 +1028,20 @@ function showResult() {
         document.getElementById('stress-bar').style.width = normalizedScores.stress + '%';
         document.getElementById('relationship-bar').style.width = normalizedScores.relationship + '%';
     }, 300);
+    
+    // ローカルAnalyticsに診断結果を保存
+    if (window.LocalAnalytics) {
+        const resultData = {
+            resultType: resultType.name,
+            shachuLevel: resultType.level || 0,
+            scores: normalizedScores,
+            rawScores: scores,
+            typeIndex: typeIndex,
+            timestamp: new Date()
+        };
+        
+        window.LocalAnalytics.saveDiagnosisResult(resultData);
+    }
 }
 
 // リセット
