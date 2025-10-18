@@ -862,7 +862,7 @@ function showResult() {
             'high-high-low-medium': resultTypes[6],  // チームプレイヤー
             'high-high-medium-high': resultTypes[1], // バーンアウト予備軍
             'high-high-medium-low': resultTypes[2],  // ストイック社畜
-            'high-high-medium-medium': resultTypes[2], // ストイック社畜
+            'high-high-medium-medium': resultTypes[9], // デキる社員
             // === HIGH-MEDIUM ===
             'high-medium-high-high': resultTypes[4], // 心優しき社畜
             'high-medium-high-low': resultTypes[5],  // 繊細ワーカー
@@ -902,7 +902,7 @@ function showResult() {
             'medium-medium-low-medium': resultTypes[13], // ライフワークバランス
             'medium-medium-medium-high': resultTypes[10], // お人好し社員
             'medium-medium-medium-low': resultTypes[11], // 現実派社員
-            'medium-medium-medium-medium': resultTypes[2], // ストイック社畜（3番目に多いタイプ）
+            'medium-medium-medium-medium': resultTypes[11], // 現実派社員
             // === MEDIUM-LOW ===
             'medium-low-high-high': resultTypes[12], // 家庭が大事
             'medium-low-high-low': resultTypes[13],  // ライフワークバランス
@@ -912,7 +912,7 @@ function showResult() {
             'medium-low-low-medium': resultTypes[14], // デキる社員
             'medium-low-medium-high': resultTypes[12], // 家庭が大事
             'medium-low-medium-low': resultTypes[0], // 生粋の社畜（レア移動）
-            'medium-low-medium-medium': resultTypes[2], // ストイック社畜
+            'medium-low-medium-medium': resultTypes[7], // マイペース社員
             // === LOW-HIGH ===
             'low-high-high-high': resultTypes[8],    // ゆるふわ社畜
             'low-high-high-low': resultTypes[8],     // ゆるふわ社畜
