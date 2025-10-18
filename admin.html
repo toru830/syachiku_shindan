@@ -443,11 +443,31 @@
                 const parsedAnalytics = JSON.parse(analyticsData || '[]');
                 console.log('解析された診断データ:', parsedAnalytics);
                 console.log('診断データ数:', parsedAnalytics.length);
+                
+                // データの詳細を表示
+                if (parsedAnalytics.length > 0) {
+                    console.log('最新の診断データ:', parsedAnalytics[0]);
+                }
             } catch (e) {
                 console.error('診断データの解析エラー:', e);
             }
             
-            alert('デバッグ情報をコンソールに出力しました。F12で確認してください。');
+            // テストデータを追加
+            console.log('テストデータを追加中...');
+            if (window.LocalAnalytics) {
+                const testData = {
+                    resultType: 'テスト社畜',
+                    shachuLevel: 50,
+                    scores: { dedication: 60, sacrifice: 40, stress: 70, relationship: 80 },
+                    rawScores: { dedication: 30, sacrifice: 20, stress: 35, relationship: 40 },
+                    typeIndex: 0,
+                    timestamp: new Date()
+                };
+                window.LocalAnalytics.saveDiagnosisResult(testData);
+                console.log('テストデータを追加しました');
+            }
+            
+            alert('デバッグ情報をコンソールに出力しました。テストデータも追加しました。F12で確認してください。');
         });
         
         // 分析データを読み込み
