@@ -25,6 +25,13 @@ function saveDiagnosisResult(resultData) {
         localStorage.setItem('syachiku_analytics', JSON.stringify(limitedData));
         
         console.log('診断結果を保存しました:', data.id);
+        console.log('保存されたデータ:', data);
+        console.log('現在の総データ数:', limitedData.length);
+        
+        // デバッグ用：保存されたデータを確認
+        const savedData = JSON.parse(localStorage.getItem('syachiku_analytics') || '[]');
+        console.log('保存確認 - データ数:', savedData.length);
+        
         return data.id;
     } catch (error) {
         console.error('診断結果の保存に失敗:', error);
@@ -97,6 +104,8 @@ function trackDiagnosisStart() {
 function getDiagnosisResults(limitCount = 1000) {
     try {
         const data = JSON.parse(localStorage.getItem('syachiku_analytics') || '[]');
+        console.log('取得したデータ数:', data.length);
+        console.log('取得したデータ:', data);
         return data.slice(-limitCount).reverse(); // 最新順
     } catch (error) {
         console.error('診断結果の取得に失敗:', error);
@@ -200,3 +209,10 @@ window.LocalAnalytics = {
     getDiagnosisResults,
     calculateStatistics
 };
+
+// デバッグ用：ページ読み込み時にローカルストレージの状態を確認
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('LocalAnalytics 読み込み完了');
+    const analyticsData = localStorage.getItem('syachiku_analytics');
+    console.log('現在の診断データ数:', analyticsData ? JSON.parse(analyticsData).length : 0);
+});

@@ -302,6 +302,7 @@
             </div>
             
             <button id="refresh-btn" class="refresh-btn">🔄 データを更新</button>
+            <button id="debug-btn" class="refresh-btn" style="margin-left: 10px; background: linear-gradient(135deg, #e53e3e, #c53030);">🐛 デバッグ情報</button>
             
             <!-- 基本統計 -->
             <div class="stats-grid">
@@ -421,6 +422,34 @@
         // データ更新ボタン
         document.getElementById('refresh-btn').addEventListener('click', loadAnalyticsData);
         
+        // デバッグボタン
+        document.getElementById('debug-btn').addEventListener('click', function() {
+            console.log('=== デバッグ情報 ===');
+            console.log('LocalAnalytics:', window.LocalAnalytics);
+            
+            // ローカルストレージの内容を確認
+            const analyticsData = localStorage.getItem('syachiku_analytics');
+            const pageViewData = localStorage.getItem('syachiku_pageviews');
+            const clickData = localStorage.getItem('syachiku_clicks');
+            const eventData = localStorage.getItem('syachiku_events');
+            
+            console.log('syachiku_analytics:', analyticsData);
+            console.log('syachiku_pageviews:', pageViewData);
+            console.log('syachiku_clicks:', clickData);
+            console.log('syachiku_events:', eventData);
+            
+            // パースして確認
+            try {
+                const parsedAnalytics = JSON.parse(analyticsData || '[]');
+                console.log('解析された診断データ:', parsedAnalytics);
+                console.log('診断データ数:', parsedAnalytics.length);
+            } catch (e) {
+                console.error('診断データの解析エラー:', e);
+            }
+            
+            alert('デバッグ情報をコンソールに出力しました。F12で確認してください。');
+        });
+        
         // 分析データを読み込み
         function loadAnalyticsData() {
             try {
@@ -429,11 +458,15 @@
                     return;
                 }
                 
+                console.log('管理者画面: データ読み込み開始');
+                
                 // 診断結果を取得
                 const results = window.LocalAnalytics.getDiagnosisResults(1000);
                 
+                console.log('管理者画面: 取得した結果数:', results.length);
+                
                 if (results.length === 0) {
-                    showError('データが見つかりません');
+                    showError('データが見つかりません。まず診断サイトで診断を実行してください。');
                     return;
                 }
                 
