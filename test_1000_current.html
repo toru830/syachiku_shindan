@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1000回テスト - 現在のUI</title>
+</head>
+<body>
+  <h1>1000回テスト実行中（現在のUI）...</h1>
+  <div id="results"></div>
+
+<script>
+// 現在のscript.jsから診断ロジックをコピー
+// 質問データ
+const questions = [
+    "残業は当たり前だと思いますか？",
+    "休日も仕事のことを考えてしまいますか？",
+    "会社の利益を自分の利益より優先しますか？",
+    "仕事で成果を出すことが人生の目標ですか？",
+    "有給休暇を取ることに罪悪感を感じますか？",
+    "家族より仕事を優先してしまいますか？",
+    "体調が悪くても仕事を休めませんか？",
+    "プライベートの時間を仕事に使いますか？",
+    "自分の健康より会社のことを考えますか？",
+    "友人との約束より仕事を優先しますか？",
+    "プレッシャーを感じても頑張れますか？",
+    "困難な状況でも諦めませんか？",
+    "ストレスを感じても仕事を続けられますか？",
+    "同僚との関係を大切にしますか？",
+    "チームワークを重視しますか？"
+];
+
+// 結果タイプ（現在のscript.jsから）
+const resultTypes = [
+    { name: "生粋の社畜", icon: "🔥", description: "完璧主義で仕事に全てを捧げる究極の社畜タイプ", level: 100 },
+    { name: "バーンアウト予備軍", icon: "⚠️", description: "頑張りすぎて燃え尽きそうな危険な状態", level: 85 },
+    { name: "ストイック社畜", icon: "🥇", description: "厳格で自己管理ができる理想的な社畜", level: 80 },
+    { name: "一匹狼ワーカー", icon: "🐺", description: "一人で黙々と作業する孤高のワーカー", level: 75 },
+    { name: "心優しき社畜", icon: "💐", description: "人を大切にしながらも仕事に真摯に向き合う", level: 70 },
+    { name: "繊細ワーカー", icon: "🌿", description: "繊細で丁寧な仕事ぶりが特徴", level: 65 },
+    { name: "チームプレイヤー", icon: "🤝", description: "チームワークを重視する協調性の高いタイプ", level: 60 },
+    { name: "マイペース社員", icon: "🧭", description: "自分のペースを大切にする自律的な社員", level: 55 },
+    { name: "ゆるふわ社畜", icon: "🫧", description: "ゆるくても意外と仕事ができるタイプ", level: 50 },
+    { name: "隠れ疲労タイプ", icon: "🌧️", description: "疲れを隠して頑張り続けるタイプ", level: 45 },
+    { name: "お人好し社員", icon: "😊", description: "人に優しく、頼まれると断れないタイプ", level: 40 },
+    { name: "現実派社員", icon: "🧱", description: "現実的で堅実な働き方をするタイプ", level: 35 },
+    { name: "家庭が大事", icon: "🏡", description: "家族を最優先に考えるバランス型", level: 30 },
+    { name: "ライフワークバランス", icon: "⚖️", description: "仕事とプライベートのバランスを重視", level: 25 },
+    { name: "デキる社員", icon: "🚀", description: "効率的で成果を出す優秀な社員", level: 20 },
+    { name: "自由人", icon: "🕊️", description: "自由奔放で縛られない生き方をするタイプ", level: 15 }
+];
+
+// スコア計算関数（現在のscript.jsから）
+function calculateScores(answers) {
+    const dedication = (answers.slice(0, 5).reduce((a, b) => a + b, 0) / 5) * 20;
+    const sacrifice = (answers.slice(5, 10).reduce((a, b) => a + b, 0) / 5) * 20;
+    const stress = (answers.slice(10, 13).reduce((a, b) => a + b, 0) / 3) * 20;
+    const relationship = (answers.slice(13, 15).reduce((a, b) => a + b, 0) / 2) * 20;
+    
+    return { dedication, sacrifice, stress, relationship };
+}
+
+// 診断ロジック（現在のscript.jsから）
+function getResultType(scores) {
+    const { dedication, sacrifice, stress, relationship } = scores;
+    
+    // レア条件
+    if (dedication >= 90 && sacrifice >= 90 && stress >= 90 && relationship >= 90) {
+        return resultTypes[0]; // 生粋の社畜
+    }
+    if (dedication <= 10 && sacrifice <= 10 && stress <= 10 && relationship <= 10) {
+        return resultTypes[15]; // 自由人
+    }
+    
+    // パターンマッチング
+    if (dedication >= 80 && sacrifice >= 80 && stress <= 40 && relationship <= 40) {
+        return resultTypes[1]; // バーンアウト予備軍
+    }
+    if (dedication >= 80 && sacrifice >= 80 && stress >= 80 && relationship >= 50) {
+        return resultTypes[2]; // ストイック社畜
+    }
+    if (dedication >= 80 && sacrifice >= 80 && stress >= 80 && relationship <= 40) {
+        return resultTypes[3]; // 一匹狼ワーカー
+    }
+    if (dedication >= 70 && sacrifice <= 40 && stress <= 40 && relationship >= 80) {
+        return resultTypes[4]; // 心優しき社畜
+    }
+    if (dedication >= 70 && sacrifice <= 40 && stress <= 40 && relationship <= 40) {
+        return resultTypes[5]; // 繊細ワーカー
+    }
+    if (dedication >= 70 && sacrifice <= 60 && stress >= 80 && relationship >= 80) {
+        return resultTypes[6]; // チームプレイヤー
+    }
+    if (dedication >= 70 && sacrifice <= 60 && stress >= 80 && relationship <= 60) {
+        return resultTypes[7]; // マイペース社員
+    }
+    if (dedication <= 40 && sacrifice >= 80 && stress <= 40 && relationship >= 80) {
+        return resultTypes[8]; // ゆるふわ社畜
+    }
+    if (dedication >= 40 && dedication <= 60 && sacrifice >= 40 && sacrifice <= 60 && stress <= 40 && relationship >= 40 && relationship <= 60) {
+        return resultTypes[9]; // 隠れ疲労タイプ
+    }
+    if (dedication >= 40 && dedication <= 60 && sacrifice >= 40 && sacrifice <= 60 && stress >= 40 && stress <= 80 && relationship >= 80) {
+        return resultTypes[10]; // お人好し社員
+    }
+    if (dedication >= 40 && dedication <= 60 && sacrifice >= 40 && sacrifice <= 60 && stress >= 40 && stress <= 80 && relationship <= 40) {
+        return resultTypes[11]; // 現実派社員
+    }
+    if (dedication <= 40 && sacrifice <= 40 && stress >= 40 && stress <= 80 && relationship >= 80) {
+        return resultTypes[12]; // 家庭が大事
+    }
+    if (dedication >= 40 && dedication <= 60 && sacrifice <= 50 && stress >= 40 && stress <= 80 && relationship >= 40 && relationship <= 80) {
+        return resultTypes[13]; // ライフワークバランス
+    }
+    if (dedication >= 80 && sacrifice >= 50 && sacrifice <= 70 && stress >= 80 && relationship >= 40 && relationship <= 80) {
+        return resultTypes[14]; // デキる社員
+    }
+    
+    // デフォルト（近傍割当）
+    const distances = resultTypes.slice(1, 15).map(type => {
+        const targetDedication = type.level * 0.8;
+        const targetSacrifice = type.level * 0.7;
+        const targetStress = type.level * 0.6;
+        const targetRelationship = type.level * 0.5;
+        
+        return Math.sqrt(
+            Math.pow(dedication - targetDedication, 2) +
+            Math.pow(sacrifice - targetSacrifice, 2) +
+            Math.pow(stress - targetStress, 2) +
+            Math.pow(relationship - targetRelationship, 2)
+        );
+    });
+    
+    const minDistanceIndex = distances.indexOf(Math.min(...distances));
+    return resultTypes[minDistanceIndex + 1];
+}
+
+// ランダムな回答を生成
+function generateRandomAnswers() {
+    const answers = [];
+    for (let i = 0; i < 15; i++) {
+        answers.push(Math.floor(Math.random() * 6) + 1); // 1-6
+    }
+    return answers;
+}
+
+// 1000回テスト実行
+function runTest() {
+    const results = {};
+    
+    // 初期化
+    resultTypes.forEach(type => {
+        results[type.name] = 0;
+    });
+    
+    console.log('1000回テスト開始（現在のUI）...');
+    
+    for (let i = 0; i < 1000; i++) {
+        const answers = generateRandomAnswers();
+        const scores = calculateScores(answers);
+        const result = getResultType(scores);
+        results[result.name]++;
+        
+        if (i % 100 === 0) {
+            console.log(`${i}回完了`);
+        }
+    }
+    
+    console.log('1000回テスト完了！');
+    
+    // 結果を表示
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<h2>1000回テスト結果（現在のUI）</h2>';
+    
+    const sortedResults = Object.entries(results)
+        .sort((a, b) => b[1] - a[1]);
+    
+    let resultText = '';
+    sortedResults.forEach(([name, count]) => {
+        const percentage = (count / 1000 * 100).toFixed(1);
+        const barWidth = (count / 1000 * 100).toFixed(1);
+        resultText += `${name}: ${count}回 (${percentage}%)\n`;
+        resultsDiv.innerHTML += `
+            <div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <strong>${name}</strong>: ${count}回 (${percentage}%)
+                <div style="background: #f0f0f0; height: 20px; border-radius: 10px; margin-top: 5px;">
+                    <div style="background: #4CAF50; height: 100%; width: ${barWidth}%; border-radius: 10px;"></div>
+                </div>
+            </div>
+        `;
+    });
+    
+    // コンソールにも出力
+    console.log('\n=== 1000回テスト結果（現在のUI） ===');
+    console.log(resultText);
+    
+    // 結果をアラートで表示
+    alert('1000回テスト完了（現在のUI）！\n\n' + resultText);
+    
+    return results;
+}
+
+// ページ読み込み時にテスト実行
+window.onload = runTest;
+</script>
+</body>
+</html>
