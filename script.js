@@ -1029,22 +1029,28 @@ function showResult() {
         document.getElementById('relationship-bar').style.width = normalizedScores.relationship + '%';
     }, 300);
     
-    // ローカルAnalyticsに診断結果を保存
-    if (window.LocalAnalytics) {
-        const resultData = {
-            resultType: resultType.name,
-            shachuLevel: resultType.level || 0,
-            scores: normalizedScores,
-            rawScores: scores,
-            typeIndex: typeIndex,
-            timestamp: new Date()
-        };
-        
-        window.LocalAnalytics.saveDiagnosisResult(resultData);
-        
-        // スマホとPCでデータを共有するため、URLパラメータに結果を追加
-        addResultToURL(resultData);
+    // 診断結果を保存
+    const resultData = {
+        resultType: resultType.name,
+        shachuLevel: resultType.level || 0,
+        scores: normalizedScores,
+        rawScores: scores,
+        typeIndex: typeIndex,
+        timestamp: new Date()
+    };
+    
+    // Google Sheetsに保存（他端末・別ネットワークでも共有可能）
+    if (window.SheetsAPI) {
+        window.SheetsAPI.saveDiagnosisToSheets(resultData);
     }
+    
+    // ローカルストレージにもバックアップ保存
+    if (window.LocalAnalytics) {
+        window.LocalAnalytics.saveDiagnosisResult(resultData);
+    }
+    
+    // スマホとPCでデータを共有するため、URLパラメータに結果を追加
+    addResultToURL(resultData);
 }
 
 // リセット

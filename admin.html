@@ -326,6 +326,11 @@
                     <div class="stat-value" id="popular-type">-</div>
                     <div class="stat-label">最も多い診断結果</div>
                 </div>
+                <div class="stat-card">
+                    <h3>データソース</h3>
+                    <div class="stat-value" id="data-source">-</div>
+                    <div class="stat-label">Google Sheets / ローカル</div>
+                </div>
             </div>
             
             <!-- 診断結果分布 -->
@@ -394,6 +399,7 @@
     </div>
     
     <script src="firebase-config.js"></script>
+    <script src="sheets-api.js"></script>
     <script>
         // 管理者認証
         const ADMIN_PASSWORD = 'syachiku_admin_2024'; // 実際の運用では環境変数を使用
@@ -501,22 +507,29 @@
         }
 
         // 分析データを読み込み
-        function loadAnalyticsData() {
+        async function loadAnalyticsData() {
             try {
-                if (!window.LocalAnalytics) {
-                    showError('Local Analyticsが読み込まれていません');
-                    return;
-                }
-                
                 console.log('管理者画面: データ読み込み開始');
                 
                 // まずURLパラメータから結果を読み込み
                 const urlResultLoaded = loadResultFromURL();
                 
-                // 診断結果を取得
-                const results = window.LocalAnalytics.getDiagnosisResults(1000);
+                let results = [];
                 
-                console.log('管理者画面: 取得した結果数:', results.length);
+                // Google Sheetsからデータを取得（他端末・別ネットワークでも共有可能）
+                if (window.SheetsAPI) {
+                    console.log('Google Sheetsからデータを取得中...');
+                    results = await window.SheetsAPI.getDiagnosisFromSheets();
+                    console.log('Google Sheetsから取得した結果数:', results.length);
+                }
+                
+                // Google Sheetsからデータが取得できない場合はローカルストレージから取得
+                if (results.length === 0 && window.LocalAnalytics) {
+                    console.log('ローカルストレージからデータを取得中...');
+                    results = window.LocalAnalytics.getDiagnosisResults(1000);
+                    console.log('ローカルストレージから取得した結果数:', results.length);
+                }
+                
                 console.log('URLから結果を読み込みました:', urlResultLoaded);
                 
                 if (results.length === 0) {
@@ -525,7 +538,15 @@
                 }
                 
                 // 統計を計算
-                const stats = window.LocalAnalytics.calculateStatistics(results);
+                let stats;
+                if (window.SheetsAPI) {
+                    stats = window.SheetsAPI.calculateStatisticsFromSheets(results);
+                } else if (window.LocalAnalytics) {
+                    stats = window.LocalAnalytics.calculateStatistics(results);
+                } else {
+                    showError('Analyticsシステムが読み込まれていません');
+                    return;
+                }
                 
                 // 基本統計を更新
                 updateBasicStats(stats);
@@ -562,6 +583,17 @@
             const popularType = Object.entries(stats.resultTypeDistribution)
                 .sort(([,a], [,b]) => b - a)[0];
             document.getElementById('popular-type').textContent = popularType ? popularType[0] : '-';
+            
+            // データソース
+            const sheetsCount = stats.sourceStats?.sheets || 0;
+            const localCount = stats.sourceStats?.local || 0;
+            if (sheetsCount > 0) {
+                document.getElementById('data-source').textContent = `Sheets: ${sheetsCount}`;
+            } else if (localCount > 0) {
+                document.getElementById('data-source').textContent = `Local: ${localCount}`;
+            } else {
+                document.getElementById('data-source').textContent = '-';
+            }
         }
         
         // 診断結果分布チャート
