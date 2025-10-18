@@ -1051,6 +1051,9 @@ function showResult() {
     
     // スマホとPCでデータを共有するため、URLパラメータに結果を追加
     addResultToURL(resultData);
+    
+    // QRコードを表示（スマホとPCでデータ共有用）
+    showQRCode(resultData);
 }
 
 // リセット
@@ -1107,6 +1110,151 @@ function addResultToURL(resultData) {
     } catch (error) {
         console.error('URLパラメータ追加エラー:', error);
     }
+}
+
+// QRコードを表示（スマホとPCでデータ共有用）
+function showQRCode(resultData) {
+    // 既存のQRコードを削除
+    const existingQR = document.getElementById('qr-modal');
+    if (existingQR) {
+        existingQR.remove();
+    }
+    
+    // 結果データをエンコード
+    const encodedData = btoa(JSON.stringify(resultData));
+    const shareUrl = `https://shindan.syachiku-life.com/admin.html?result=${encodedData}&t=${Date.now()}`;
+    
+    // QRコードモーダルを作成
+    const qrModal = document.createElement('div');
+    qrModal.id = 'qr-modal';
+    qrModal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    qrModal.innerHTML = `
+        <div style="
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        ">
+            <h3 style="margin-bottom: 20px; color: #2d3748;">📱 PCで管理者画面を開く</h3>
+            <div id="qrcode" style="margin: 20px 0;"></div>
+            <p style="margin: 15px 0; color: #718096; font-size: 0.9rem;">
+                QRコードをスキャンしてPCで管理者画面を開くか、<br>
+                下のボタンでURLをコピーしてください
+            </p>
+            <div style="margin: 20px 0;">
+                <button id="copy-url-btn" style="
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    margin: 5px;
+                    transition: all 0.3s ease;
+                ">📋 URLをコピー</button>
+                <button id="open-admin-btn" style="
+                    background: linear-gradient(135deg, #48bb78, #38a169);
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    margin: 5px;
+                    transition: all 0.3s ease;
+                ">📊 管理者画面を開く</button>
+            </div>
+            <button id="close-qr-btn" style="
+                background: #e53e3e;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 20px;
+                cursor: pointer;
+                margin-top: 10px;
+            ">✕ 閉じる</button>
+        </div>
+    `;
+    
+    document.body.appendChild(qrModal);
+    
+    // QRコードを生成
+    if (typeof QRCode !== 'undefined') {
+        QRCode.toCanvas(document.getElementById('qrcode'), shareUrl, {
+            width: 200,
+            height: 200,
+            color: {
+                dark: '#2d3748',
+                light: '#ffffff'
+            }
+        }, function (error) {
+            if (error) {
+                console.error('QRコード生成エラー:', error);
+                document.getElementById('qrcode').innerHTML = '<p style="color: #e53e3e;">QRコード生成に失敗しました</p>';
+            }
+        });
+    } else {
+        document.getElementById('qrcode').innerHTML = '<p style="color: #e53e3e;">QRコードライブラリが読み込まれていません</p>';
+    }
+    
+    // イベントリスナー
+    document.getElementById('copy-url-btn').addEventListener('click', function() {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            this.textContent = '✅ コピー完了！';
+            this.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+            setTimeout(() => {
+                this.textContent = '📋 URLをコピー';
+                this.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }, 2000);
+        }).catch(() => {
+            alert('URLをコピーできませんでした: ' + shareUrl);
+        });
+    });
+    
+    document.getElementById('open-admin-btn').addEventListener('click', function() {
+        window.open(shareUrl, '_blank');
+    });
+    
+    document.getElementById('close-qr-btn').addEventListener('click', function() {
+        qrModal.remove();
+    });
+    
+    // 背景クリックで閉じる
+    qrModal.addEventListener('click', function(e) {
+        if (e.target === qrModal) {
+            qrModal.remove();
+        }
+    });
+    
+    // 10秒後に自動で閉じる
+    setTimeout(() => {
+        if (qrModal.parentNode) {
+            qrModal.style.opacity = '0';
+            setTimeout(() => {
+                if (qrModal.parentNode) {
+                    qrModal.remove();
+                }
+            }, 300);
+        }
+    }, 10000);
 }
 
 // 管理者画面へのリンクを表示
