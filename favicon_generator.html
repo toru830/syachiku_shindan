@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Generator</title>
+</head>
+<body>
+    <h1>可愛いキャラクターFavicon生成</h1>
+    <canvas id="canvas" width="32" height="32" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <canvas id="canvas16" width="16" height="16" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <canvas id="canvas180" width="180" height="180" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <br>
+    <button onclick="generateFavicon()">Favicon生成</button>
+    <button onclick="downloadFavicon()">ダウンロード</button>
+
+<script>
+function generateFavicon() {
+    // 32x32 favicon
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // 背景（ピンク）
+    ctx.fillStyle = '#FF70B5';
+    ctx.fillRect(0, 0, 32, 32);
+    
+    // 可愛いキャラクター（猫）
+    // 顔
+    ctx.fillStyle = '#FFE4E1';
+    ctx.beginPath();
+    ctx.arc(16, 18, 10, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // 耳
+    ctx.fillStyle = '#FFB6C1';
+    ctx.beginPath();
+    ctx.moveTo(12, 10);
+    ctx.lineTo(8, 6);
+    ctx.lineTo(12, 8);
+    ctx.fill();
+    
+    ctx.beginPath();
+    ctx.moveTo(20, 10);
+    ctx.lineTo(24, 6);
+    ctx.lineTo(20, 8);
+    ctx.fill();
+    
+    // 目
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.arc(13, 16, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(19, 16, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // 鼻
+    ctx.fillStyle = '#FF69B4';
+    ctx.beginPath();
+    ctx.arc(16, 18, 1, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // 口
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(16, 20, 2, 0, Math.PI);
+    ctx.stroke();
+    
+    // 16x16 favicon
+    const canvas16 = document.getElementById('canvas16');
+    const ctx16 = canvas16.getContext('2d');
+    
+    // 背景
+    ctx16.fillStyle = '#FF70B5';
+    ctx16.fillRect(0, 0, 16, 16);
+    
+    // シンプルなキャラクター
+    ctx16.fillStyle = '#FFE4E1';
+    ctx16.beginPath();
+    ctx16.arc(8, 9, 5, 0, Math.PI * 2);
+    ctx16.fill();
+    
+    // 目
+    ctx16.fillStyle = '#000';
+    ctx16.beginPath();
+    ctx16.arc(6, 8, 0.8, 0, Math.PI * 2);
+    ctx16.fill();
+    ctx16.beginPath();
+    ctx16.arc(10, 8, 0.8, 0, Math.PI * 2);
+    ctx16.fill();
+    
+    // 180x180 apple-touch-icon
+    const canvas180 = document.getElementById('canvas180');
+    const ctx180 = canvas180.getContext('2d');
+    
+    // 背景
+    ctx180.fillStyle = '#FF70B5';
+    ctx180.fillRect(0, 0, 180, 180);
+    
+    // 大きなキャラクター
+    ctx180.fillStyle = '#FFE4E1';
+    ctx180.beginPath();
+    ctx180.arc(90, 100, 50, 0, Math.PI * 2);
+    ctx180.fill();
+    
+    // 耳
+    ctx180.fillStyle = '#FFB6C1';
+    ctx180.beginPath();
+    ctx180.moveTo(60, 60);
+    ctx180.lineTo(40, 30);
+    ctx180.lineTo(60, 50);
+    ctx180.fill();
+    
+    ctx180.beginPath();
+    ctx180.moveTo(120, 60);
+    ctx180.lineTo(140, 30);
+    ctx180.lineTo(120, 50);
+    ctx180.fill();
+    
+    // 目
+    ctx180.fillStyle = '#000';
+    ctx180.beginPath();
+    ctx180.arc(75, 90, 8, 0, Math.PI * 2);
+    ctx180.fill();
+    ctx180.beginPath();
+    ctx180.arc(105, 90, 8, 0, Math.PI * 2);
+    ctx180.fill();
+    
+    // 鼻
+    ctx180.fillStyle = '#FF69B4';
+    ctx180.beginPath();
+    ctx180.arc(90, 100, 5, 0, Math.PI * 2);
+    ctx180.fill();
+    
+    // 口
+    ctx180.strokeStyle = '#000';
+    ctx180.lineWidth = 3;
+    ctx180.beginPath();
+    ctx180.arc(90, 110, 10, 0, Math.PI);
+    ctx180.stroke();
+    
+    // 頬の赤み
+    ctx180.fillStyle = '#FFB6C1';
+    ctx180.beginPath();
+    ctx180.arc(60, 110, 8, 0, Math.PI * 2);
+    ctx180.fill();
+    ctx180.beginPath();
+    ctx180.arc(120, 110, 8, 0, Math.PI * 2);
+    ctx180.fill();
+}
+
+function downloadFavicon() {
+    // 32x32 favicon
+    const canvas = document.getElementById('canvas');
+    const link32 = document.createElement('a');
+    link32.download = 'favicon-32x32.png';
+    link32.href = canvas.toDataURL();
+    link32.click();
+    
+    // 16x16 favicon
+    const canvas16 = document.getElementById('canvas16');
+    const link16 = document.createElement('a');
+    link16.download = 'favicon-16x16.png';
+    link16.href = canvas16.toDataURL();
+    link16.click();
+    
+    // 180x180 apple-touch-icon
+    const canvas180 = document.getElementById('canvas180');
+    const link180 = document.createElement('a');
+    link180.download = 'apple-touch-icon.png';
+    link180.href = canvas180.toDataURL();
+    link180.click();
+}
+
+// ページ読み込み時に生成
+window.onload = generateFavicon;
+</script>
+</body>
+</html>
