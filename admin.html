@@ -488,7 +488,9 @@
         });
         
         // QRコード共有ボタン
-        document.getElementById('qr-share-btn').addEventListener('click', function() {
+        const qrShareBtn = document.getElementById('qr-share-btn');
+        if (qrShareBtn) {
+            qrShareBtn.addEventListener('click', function() {
             const shareUrl = 'https://shindan.syachiku-life.com/';
             
             // QRコードモーダルを作成
@@ -610,7 +612,8 @@
                     qrModal.remove();
                 }
             });
-        });
+            });
+        }
         
         // URLパラメータから診断結果を読み込み
         function loadResultFromURL() {
@@ -681,7 +684,7 @@
                 }
                 
                 // 基本統計を更新
-                updateBasicStats(stats);
+                updateBasicStats(stats, results);
                 
                 // チャートを更新
                 updateResultDistributionChart(stats.resultTypeDistribution);
@@ -699,7 +702,7 @@
         }
         
         // 基本統計を更新
-        function updateBasicStats(stats) {
+        function updateBasicStats(stats, dataResults) {
             document.getElementById('total-diagnoses').textContent = stats.totalDiagnoses.toLocaleString();
             
             // 今日の診断数
@@ -708,7 +711,9 @@
             document.getElementById('today-diagnoses').textContent = todayCount.toLocaleString();
             
             // 平均社畜レベル
-            const avgLevel = results.reduce((sum, result) => sum + (result.shachuLevel || 0), 0) / results.length;
+            const avgLevel = dataResults && dataResults.length > 0 
+                ? dataResults.reduce((sum, result) => sum + (result.shachuLevel || 0), 0) / dataResults.length
+                : 0;
             document.getElementById('avg-shachu-level').textContent = Math.round(avgLevel);
             
             // 人気No.1タイプ
