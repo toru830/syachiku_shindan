@@ -302,8 +302,8 @@
             </div>
             
             <button id="refresh-btn" class="refresh-btn">🔄 データを更新</button>
+            <button id="export-btn" class="refresh-btn" style="margin-left: 10px; background: linear-gradient(135deg, #48bb78, #38a169);">📊 データエクスポート</button>
             <button id="debug-btn" class="refresh-btn" style="margin-left: 10px; background: linear-gradient(135deg, #e53e3e, #c53030);">🐛 デバッグ情報</button>
-            <button id="qr-share-btn" class="refresh-btn" style="margin-left: 10px; background: linear-gradient(135deg, #48bb78, #38a169);">📱 QRコードで共有</button>
             
             <!-- 基本統計 -->
             <div class="stats-grid">
@@ -433,6 +433,11 @@
         
         // データ更新ボタン
         document.getElementById('refresh-btn').addEventListener('click', loadAnalyticsData);
+        
+        // データエクスポートボタン
+        document.getElementById('export-btn').addEventListener('click', function() {
+            exportData();
+        });
         
         // デバッグボタン
         document.getElementById('debug-btn').addEventListener('click', function() {
@@ -861,6 +866,104 @@
         
         // グローバル変数（他の関数で使用）
         let results = [];
+        
+        // データエクスポート機能
+        function exportData() {
+            try {
+                if (results.length === 0) {
+                    alert('エクスポートするデータがありません。まず「データを更新」をクリックしてください。');
+                    return;
+                }
+                
+                // CSV形式でデータをエクスポート
+                const csvContent = generateCSV(results);
+                downloadCSV(csvContent, `syachiku_analytics_${new Date().toISOString().split('T')[0]}.csv`);
+                
+                // JSON形式でもエクスポート
+                const jsonContent = JSON.stringify(results, null, 2);
+                downloadJSON(jsonContent, `syachiku_analytics_${new Date().toISOString().split('T')[0]}.json`);
+                
+                alert('データをエクスポートしました！\n- CSVファイル: Excelで開けます\n- JSONファイル: プログラムで処理できます');
+                
+            } catch (error) {
+                console.error('データエクスポートエラー:', error);
+                alert('データのエクスポートに失敗しました: ' + error.message);
+            }
+        }
+        
+        // CSV形式でデータを生成
+        function generateCSV(data) {
+            const headers = [
+                'タイムスタンプ',
+                '結果タイプ',
+                '社畜レベル',
+                '献身度',
+                '犠牲度',
+                'ストレス耐性',
+                '人間関係',
+                '生献身度',
+                '生犠牲度',
+                '生ストレス耐性',
+                '生人間関係',
+                'タイプインデックス',
+                'ユーザーエージェント',
+                '画面解像度',
+                '言語',
+                'URL'
+            ];
+            
+            const csvRows = [headers.join(',')];
+            
+            data.forEach(row => {
+                const values = [
+                    `"${row.timestamp || ''}"`,
+                    `"${row.resultType || ''}"`,
+                    row.shachuLevel || 0,
+                    row.scores?.dedication || 0,
+                    row.scores?.sacrifice || 0,
+                    row.scores?.stress || 0,
+                    row.scores?.relationship || 0,
+                    row.rawScores?.dedication || 0,
+                    row.rawScores?.sacrifice || 0,
+                    row.rawScores?.stress || 0,
+                    row.rawScores?.relationship || 0,
+                    row.typeIndex || 0,
+                    `"${row.userAgent || ''}"`,
+                    `"${row.screenResolution || ''}"`,
+                    `"${row.language || ''}"`,
+                    `"${row.url || ''}"`
+                ];
+                csvRows.push(values.join(','));
+            });
+            
+            return csvRows.join('\n');
+        }
+        
+        // CSVファイルをダウンロード
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // JSONファイルをダウンロード
+        function downloadJSON(content, filename) {
+            const blob = new Blob([content], { type: 'application/json;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>

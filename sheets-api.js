@@ -2,18 +2,21 @@
 // 他端末・別ネットワークでもデータを共有可能
 
 // Google Sheets API設定
+// 実際の運用では以下の設定を更新してください
 const SHEETS_CONFIG = {
-    // 実際の運用では環境変数を使用
-    API_KEY: 'DEMO_KEY', // デモ用 - 実際のAPIキーに置き換え
-    SPREADSHEET_ID: 'DEMO_SHEET_ID', // デモ用 - 実際のスプレッドシートIDに置き換え
+    // Google Cloud Console で取得したAPIキー
+    API_KEY: 'AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', // ここに実際のAPIキーを入力
+    // Google Sheets のスプレッドシートID（URLの /d/ と /edit の間の文字列）
+    SPREADSHEET_ID: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms', // ここに実際のスプレッドシートIDを入力
     RANGE: 'Sheet1!A:Z' // データを保存する範囲
 };
 
 // API設定が有効かチェック
 function isSheetsAPIConfigured() {
-    return SHEETS_CONFIG.API_KEY !== 'DEMO_KEY' && 
-           SHEETS_CONFIG.SPREADSHEET_ID !== 'DEMO_SHEET_ID' &&
-           SHEETS_CONFIG.API_KEY.length > 10;
+    return SHEETS_CONFIG.API_KEY !== 'AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' && 
+           SHEETS_CONFIG.SPREADSHEET_ID !== '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms' &&
+           SHEETS_CONFIG.API_KEY.length > 20 &&
+           SHEETS_CONFIG.SPREADSHEET_ID.length > 20;
 }
 
 // Google Sheets API のベースURL
