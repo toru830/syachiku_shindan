@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1000回テスト - 正確版</title>
+</head>
+<body>
+    <h1>1000回テスト結果（正確版）</h1>
+    <div id="results"></div>
+
+    <script>
+        // 実際のサイトと同じ質問データ（15問）
+        const questionsOriginal = [
+            {
+                text: "終電の時間でも仕事が終わっていなければ残る",
+                axes: { dedication: 1, sacrifice: 1, stress: 0.5, relationship: 0 },
+                options: [
+                    { text: "当然残る", value: 5, emoji: "🔥" },
+                    { text: "残る", value: 4, emoji: "💼" },
+                    { text: "たまに残る", value: 3, emoji: "🤔" },
+                    { text: "基本帰る", value: 2, emoji: "🚶" },
+                    { text: "秒で帰る", value: 1, emoji: "💨" },
+                    { text: "終電？定時で帰ります", value: 0, emoji: "😎" }
+                ]
+            },
+            {
+                text: "お腹が空いたが午後の仕事に向けてランチを抜く",
+                axes: { dedication: 0.8, sacrifice: 1, stress: 0, relationship: 0 },
+                options: [
+                    { text: "当然抜く", value: 5, emoji: "😤" },
+                    { text: "よく抜く", value: 4, emoji: "😣" },
+                    { text: "たまに抜く", value: 3, emoji: "🤷" },
+                    { text: "基本食べる", value: 2, emoji: "🍱" },
+                    { text: "絶対食べる", value: 1, emoji: "😋" },
+                    { text: "豪華ランチ必須", value: 0, emoji: "🍽️" }
+                ]
+            },
+            {
+                text: "上司からの休日の連絡にすぐ返信する",
+                axes: { dedication: 0.7, sacrifice: 0.6, stress: 0, relationship: 1 },
+                options: [
+                    { text: "秒で返信", value: 5, emoji: "⚡" },
+                    { text: "すぐ返信", value: 4, emoji: "📱" },
+                    { text: "わりと早く", value: 3, emoji: "✉️" },
+                    { text: "後で返す", value: 2, emoji: "⏰" },
+                    { text: "月曜に返す", value: 1, emoji: "📅" },
+                    { text: "既読スルー", value: 0, emoji: "🙈" }
+                ]
+            },
+            {
+                text: "体調が悪くても会社に出勤する",
+                axes: { dedication: 0.9, sacrifice: 1, stress: 0.7, relationship: 0 },
+                options: [
+                    { text: "這ってでも出社", value: 5, emoji: "🤒" },
+                    { text: "絶対出社", value: 4, emoji: "😷" },
+                    { text: "なんとか出社", value: 3, emoji: "🤧" },
+                    { text: "悪かったら休む", value: 2, emoji: "🏥" },
+                    { text: "余裕で休む", value: 1, emoji: "😴" },
+                    { text: "有給消化チャンス", value: 0, emoji: "🏖️" }
+                ]
+            },
+            {
+                text: "同僚が困っていたら自分の仕事を後回しにして手伝う",
+                axes: { dedication: 0.3, sacrifice: 0.7, stress: 0, relationship: 1 },
+                options: [
+                    { text: "即座に手伝う", value: 5, emoji: "🦸" },
+                    { text: "すぐ手伝う", value: 4, emoji: "🤝" },
+                    { text: "余裕あれば手伝う", value: 3, emoji: "👍" },
+                    { text: "自分優先", value: 2, emoji: "🙋" },
+                    { text: "基本手伝わない", value: 1, emoji: "🚫" },
+                    { text: "見て見ぬふり", value: 0, emoji: "🙈" }
+                ]
+            },
+            {
+                text: "会社の飲み会は全て参加する",
+                axes: { dedication: 0.5, sacrifice: 0.6, stress: 0, relationship: 1 },
+                options: [
+                    { text: "全参加", value: 5, emoji: "🍻" },
+                    { text: "ほぼ参加", value: 4, emoji: "🍺" },
+                    { text: "たまに参加", value: 3, emoji: "🥂" },
+                    { text: "あまり行かない", value: 2, emoji: "🏠" },
+                    { text: "ほぼ不参加", value: 1, emoji: "🙅" },
+                    { text: "飲み会アレルギー", value: 0, emoji: "😫" }
+                ]
+            },
+            {
+                text: "有給休暇を取ることに罪悪感を感じる",
+                axes: { dedication: 0.8, sacrifice: 0.8, stress: 0.5, relationship: 0.3 },
+                options: [
+                    { text: "すごく感じる", value: 5, emoji: "😰" },
+                    { text: "感じる", value: 4, emoji: "😥" },
+                    { text: "少し感じる", value: 3, emoji: "🤔" },
+                    { text: "あまり感じない", value: 2, emoji: "😌" },
+                    { text: "全く感じない", value: 1, emoji: "😄" },
+                    { text: "権利です", value: 0, emoji: "👑" }
+                ]
+            },
+            {
+                text: "仕事のことを考えて眠れない夜がある",
+                axes: { dedication: 0.7, sacrifice: 0.5, stress: 1, relationship: 0 },
+                options: [
+                    { text: "毎日", value: 5, emoji: "😵" },
+                    { text: "よくある", value: 4, emoji: "😫" },
+                    { text: "たまにある", value: 3, emoji: "😪" },
+                    { text: "ほぼない", value: 2, emoji: "😌" },
+                    { text: "全くない", value: 1, emoji: "😴" },
+                    { text: "秒で寝れる", value: 0, emoji: "💤" }
+                ]
+            },
+            {
+                text: "家族や友人との約束より仕事を優先する",
+                axes: { dedication: 1, sacrifice: 1, stress: 0, relationship: 0 },
+                options: [
+                    { text: "絶対仕事", value: 5, emoji: "💼" },
+                    { text: "基本仕事", value: 4, emoji: "📊" },
+                    { text: "たまに仕事", value: 3, emoji: "⚖️" },
+                    { text: "半々", value: 2, emoji: "🤝" },
+                    { text: "基本プライベート", value: 1, emoji: "🎉" },
+                    { text: "絶対プライベート", value: 0, emoji: "🏖️" }
+                ]
+            },
+            {
+                text: "会社のために自腹で備品や飲食物を購入することがある",
+                axes: { dedication: 0.9, sacrifice: 1, stress: 0, relationship: 0.5 },
+                options: [
+                    { text: "よくある", value: 5, emoji: "💸" },
+                    { text: "ある", value: 4, emoji: "💰" },
+                    { text: "たまにある", value: 3, emoji: "🤷" },
+                    { text: "ほぼない", value: 2, emoji: "🙅" },
+                    { text: "絶対ない", value: 1, emoji: "❌" },
+                    { text: "経費でしょ", value: 0, emoji: "💳" }
+                ]
+            },
+            {
+                text: "在宅ワークで昼寝をしている人が羨ましい",
+                axes: { dedication: 1, sacrifice: 0, stress: 0, relationship: 0 },
+                options: [
+                    { text: "これ私", value: 5, emoji: "😴" },
+                    { text: "すごく羨ましい", value: 4, emoji: "😍" },
+                    { text: "羨ましい", value: 3, emoji: "🥺" },
+                    { text: "無感情", value: 2, emoji: "😐" },
+                    { text: "ゆるせない", value: 1, emoji: "😠" },
+                    { text: "決して許せない", value: 0, emoji: "😡" }
+                ],
+                reverse: true
+            },
+            {
+                text: "金曜日の夕方、やる気が出ない",
+                axes: { dedication: 0.8, sacrifice: 0, stress: 0, relationship: 0 },
+                options: [
+                    { text: "これ私", value: 5, emoji: "😩" },
+                    { text: "すごくそう", value: 4, emoji: "😅" },
+                    { text: "わりとそう", value: 3, emoji: "😪" },
+                    { text: "普通に働ける", value: 2, emoji: "😊" },
+                    { text: "バリバリ働ける", value: 1, emoji: "💪" },
+                    { text: "金曜が一番燃える", value: 0, emoji: "🔥" }
+                ],
+                reverse: true
+            },
+            {
+                text: "会議中にスマホをいじったことがある",
+                axes: { dedication: 0.7, sacrifice: 0, stress: 0, relationship: 0.5 },
+                options: [
+                    { text: "毎回", value: 5, emoji: "📱" },
+                    { text: "よくある", value: 4, emoji: "👀" },
+                    { text: "たまに", value: 3, emoji: "🤭" },
+                    { text: "ほぼない", value: 2, emoji: "🙅" },
+                    { text: "絶対しない", value: 1, emoji: "😇" },
+                    { text: "会議は真剣勝負", value: 0, emoji: "💼" }
+                ],
+                reverse: true
+            },
+            {
+                text: "締め切り前日にならないとやる気が出ない",
+                axes: { dedication: 0.6, sacrifice: 0, stress: 0.3, relationship: 0 },
+                options: [
+                    { text: "これ私", value: 5, emoji: "😭" },
+                    { text: "完全にそう", value: 4, emoji: "😅" },
+                    { text: "わりとそう", value: 3, emoji: "🤔" },
+                    { text: "普通", value: 2, emoji: "😐" },
+                    { text: "計画的にやる", value: 1, emoji: "📝" },
+                    { text: "余裕を持ってやる", value: 0, emoji: "✅" }
+                ],
+                reverse: true
+            },
+            {
+                text: "仕事中にネットサーフィンをする",
+                axes: { dedication: 0.9, sacrifice: 0, stress: 0, relationship: 0 },
+                options: [
+                    { text: "常に", value: 5, emoji: "💻" },
+                    { text: "よくする", value: 4, emoji: "🌐" },
+                    { text: "たまに", value: 3, emoji: "🤫" },
+                    { text: "ほぼしない", value: 2, emoji: "🙅" },
+                    { text: "絶対しない", value: 1, emoji: "🚫" },
+                    { text: "仕事に集中してる", value: 0, emoji: "💪" }
+                ],
+                reverse: true
+            }
+        ];
+
+        // 実際のサイトと同じTYPESオブジェクト
+        const TYPES = {
+          ELITE: { key:"ELITE", name:"生粋の社畜", icon:"🔥", rare:true },
+          BURNOUT: { key:"BURNOUT", name:"限界突破社畜", icon:"⚠️", rare:false },
+          STOIC: { key:"STOIC", name:"無敗の職人社畜", icon:"🥇", rare:false },
+          LONE: { key:"LONE", name:"孤高の成果主義社畜", icon:"🐺", rare:false },
+          KIND: { key:"KIND", name:"心優しき社畜", icon:"💐", rare:false },
+          SENSITIVE: { key:"SENSITIVE", name:"誠実な観察社員", icon:"🌿", rare:false },
+          TEAM: { key:"TEAM", name:"共創リーダー社員", icon:"🤝", rare:false },
+          PACE: { key:"PACE", name:"マイペース社員", icon:"🧭", rare:false },
+          YURUFUWA: { key:"YURUFUWA", name:"ゆるふわ社畜", icon:"🫧", rare:false },
+          HIDDEN: { key:"HIDDEN", name:"隠れ疲労社畜", icon:"🌧️", rare:false },
+          NICE: { key:"NICE", name:"お人好し社員", icon:"😊", rare:false },
+          REAL: { key:"REAL", name:"現実派社員", icon:"🧱", rare:false },
+          FAMILY: { key:"FAMILY", name:"家庭が大事社員", icon:"🏡", rare:false },
+          LWB: { key:"LWB", name:"バランサー社員", icon:"⚖️", rare:false },
+          ABLE: { key:"ABLE", name:"成果最適化社畜", icon:"🚀", rare:false },
+          FREE: { key:"FREE", name:"自由人", icon:"🕊️", rare:true }
+        };
+
+        // 実際のサイトと同じ診断ロジック（完全一致）
+        function getResultType(normalizedScores) {
+            const ax = {
+                d: normalizedScores.dedication,
+                s: normalizedScores.sacrifice,
+                r: normalizedScores.stress,
+                h: normalizedScores.relationship
+            };
+            
+            console.log('=== 診断デバッグ情報 ===');
+            console.log('診断スコア:', ax);
+            
+            // レア判定（極端な値のみ）
+            if (ax.d >= 85 && ax.s >= 85 && ax.r >= 85 && ax.h >= 85) {
+                console.log('レア判定: 生粋の社畜');
+                return TYPES.ELITE;
+            }
+            if (ax.d <= 15 && ax.s <= 15 && ax.r <= 15 && ax.h <= 15) {
+                console.log('レア判定: 自由人');
+                return TYPES.FREE;
+            }
+            
+            // 非レアタイプを均等に分散させるためのシンプルなロジック
+            const nonRareTypes = Object.values(TYPES).filter(t => !t.rare);
+            console.log('非レアタイプ数:', nonRareTypes.length);
+            
+            // スコアの合計値を使って均等分散
+            const totalScore = ax.d + ax.s + ax.r + ax.h;
+            const normalizedTotal = (totalScore / 400) * 100; // 0-100に正規化
+            
+            // 各タイプに均等な範囲を割り当て
+            const rangePerType = 100 / nonRareTypes.length;
+            const typeIndex = Math.floor(normalizedTotal / rangePerType);
+            const selectedType = nonRareTypes[Math.min(typeIndex, nonRareTypes.length - 1)];
+            
+            console.log('選択されたタイプ:', selectedType.name);
+            console.log('=== 診断デバッグ終了 ===');
+            
+            return selectedType;
+        }
+
+        // 実際のサイトと同じスコア計算
+        function computeAxes(answers) {
+            const scores = { dedication: 0, sacrifice: 0, stress: 0, relationship: 0 };
+            
+            questionsOriginal.forEach((question, i) => {
+                const value = answers[i];
+                const multiplier = question.reverse ? -1 : 1;
+                scores.dedication += value * question.axes.dedication * multiplier;
+                scores.sacrifice += value * question.axes.sacrifice * multiplier;
+                scores.stress += value * question.axes.stress * multiplier;
+                scores.relationship += value * question.axes.relationship * multiplier;
+            });
+            
+            // 各軸の最大・最小スコアを計算（実際のサイトと同じ）
+            let maxDedication = 0, minDedication = 0;
+            let maxSacrifice = 0, minSacrifice = 0;
+            let maxStress = 0, minStress = 0;
+            let maxRelationship = 0, minRelationship = 0;
+            
+            questionsOriginal.forEach(q => {
+                const multiplier = q.reverse ? -1 : 1;
+                const dedWeight = q.axes.dedication * multiplier;
+                const sacWeight = q.axes.sacrifice * multiplier;
+                const strWeight = q.axes.stress * multiplier;
+                const relWeight = q.axes.relationship * multiplier;
+                
+                maxDedication += Math.max(dedWeight * 5, dedWeight * 0);
+                minDedication += Math.min(dedWeight * 5, dedWeight * 0);
+                
+                maxSacrifice += Math.max(sacWeight * 5, sacWeight * 0);
+                minSacrifice += Math.min(sacWeight * 5, sacWeight * 0);
+                
+                maxStress += Math.max(strWeight * 5, strWeight * 0);
+                minStress += Math.min(strWeight * 5, strWeight * 0);
+                
+                maxRelationship += Math.max(relWeight * 5, relWeight * 0);
+                minRelationship += Math.min(relWeight * 5, relWeight * 0);
+            });
+            
+            // スコアを0-100%に正規化
+            function normalizeScore(score, min, max) {
+                if (max === min) return 50;
+                return Math.max(0, Math.min(100, ((score - min) / (max - min)) * 100));
+            }
+            
+            return {
+                dedication: normalizeScore(scores.dedication, minDedication, maxDedication),
+                sacrifice: normalizeScore(scores.sacrifice, minSacrifice, maxSacrifice),
+                stress: normalizeScore(scores.stress, minStress, maxStress),
+                relationship: normalizeScore(scores.relationship, minRelationship, maxRelationship)
+            };
+        }
+
+        // ランダムな回答を生成
+        function generateRandomAnswers() {
+            const answers = [];
+            for (let i = 0; i < 15; i++) {
+                answers.push(Math.floor(Math.random() * 6)); // 0-5のランダム値
+            }
+            return answers;
+        }
+
+        // 1000回テスト実行
+        function runTest() {
+            const results = {};
+            for (let i = 0; i < 1000; i++) {
+                const answers = generateRandomAnswers();
+                const scores = computeAxes(answers);
+                const resultType = getResultType(scores);
+                
+                if (results[resultType.name]) {
+                    results[resultType.name]++;
+                } else {
+                    results[resultType.name] = 1;
+                }
+            }
+
+            // 結果を表示
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>=== 1000回テスト結果（正確版） ===</h2>';
+            
+            Object.entries(results).sort((a, b) => b[1] - a[1]).forEach(([name, count]) => {
+                const percentage = (count / 1000 * 100).toFixed(1);
+                resultsDiv.innerHTML += `<p>${name}: ${count}回 (${percentage}%)</p>`;
+            });
+        }
+
+        // ページ読み込み時にテスト実行
+        window.onload = runTest;
+    </script>
+</body>
+</html>

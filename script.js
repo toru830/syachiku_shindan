@@ -267,6 +267,9 @@ function startQuiz() {
     currentQuestion = 0;
     scores = { dedication: 0, sacrifice: 0, stress: 0, relationship: 0 };
     
+    // 回答をリセット（新しい診断ロジックで使用）
+    window.answers = [];
+    
     // ローカルAnalyticsに診断開始を記録
     if (window.LocalAnalytics) {
         window.LocalAnalytics.trackDiagnosisStart();
@@ -421,6 +424,12 @@ function showQuestion() {
 // 回答選択
 function selectAnswer(value) {
     const question = questions[currentQuestion];
+    
+    // 回答を記録（新しい診断ロジックで使用）
+    if (!window.answers) {
+        window.answers = [];
+    }
+    window.answers.push(value);
     
     // 通常質問：高い値を選ぶとスコアが上がる
     // 逆転質問：高い値を選ぶとスコアが下がる（社畜度が低い）
@@ -819,68 +828,104 @@ function showResult() {
         compatibility: ["成果最適化社畜", "マイペース社員", "バランサー社員"] },
     };
 
-    // シンプルで確実な診断ロジック
-    function getResultType(normalizedScores) {
-        const ax = {
-            d: normalizedScores.dedication,
-            s: normalizedScores.sacrifice,
-            r: normalizedScores.stress,
-            h: normalizedScores.relationship
-        };
-        
-        console.log('=== 診断デバッグ情報 ===');
-        console.log('診断スコア:', ax);
-        
-        // レア判定（極端な値のみ）
-        if (ax.d >= 85 && ax.s >= 85 && ax.r >= 85 && ax.h >= 85) {
-            console.log('レア判定: 生粋の社畜');
-            return TYPES.ELITE;
-        }
-        if (ax.d <= 15 && ax.s <= 15 && ax.r <= 15 && ax.h <= 15) {
-            console.log('レア判定: 自由人');
-            return TYPES.FREE;
-        }
-        
-        // 非レアタイプを均等に分散させるためのシンプルなロジック
-        const nonRareTypes = Object.values(TYPES).filter(t => !t.rare);
-        console.log('非レアタイプ数:', nonRareTypes.length);
-        
-        // スコアの合計値を使って均等分散
-        const totalScore = ax.d + ax.s + ax.r + ax.h;
-        const normalizedTotal = (totalScore / 400) * 100; // 0-100に正規化
-        
-        // 各タイプに均等な範囲を割り当て
-        const rangePerType = 100 / nonRareTypes.length;
-        const typeIndex = Math.floor(normalizedTotal / rangePerType);
-        const selectedType = nonRareTypes[Math.min(typeIndex, nonRareTypes.length - 1)];
-        
-        console.log('選択されたタイプ:', selectedType.name);
-        console.log('=== 診断デバッグ終了 ===');
-        
-        return selectedType;
+    // === 固定：タイプキーと名称（順番は絶対に変更しない） ===
+    const TYPE_NAME = {
+      ELITE: "生粋の社畜",          // rare
+      BURNOUT: "限界突破社畜",
+      STOIC: "無敗の職人社畜",
+      LONE: "孤高の成果主義社畜",
+      KIND: "心優しき社畜",
+      SENSITIVE: "誠実な観察社員",
+      TEAM: "共創リーダー社員",
+      PACE: "マイペース社員",
+      YURUFUWA: "ゆるふわ社畜",
+      HIDDEN: "隠れ疲労社畜",
+      NICE: "お人好し社員",
+      REAL: "現実派社員",
+      FAMILY: "家庭が大事社員",
+      LWB: "バランサー社員",
+      ABLE: "成果最適化社畜",
+      FREE: "自由人"                // rare
+    };
+
+    // 非レア14タイプ（この順番を絶対に変えない）
+    const NON_RARE_KEYS = [
+      "BURNOUT","STOIC","LONE","KIND","SENSITIVE","TEAM","PACE",
+      "YURUFUWA","HIDDEN","NICE","REAL","FAMILY","LWB","ABLE"
+    ];
+
+    // === 決定性維持用のSALT（将来変更時は新SALTを付与して過去互換を維持） ===
+    const SALT = "syachiku-v1.0.0-20251019";
+
+    // === FNV-1a 32bit 決定的ハッシュ ===
+    function hash32(str){
+      let h = 2166136261 >>> 0;
+      for(let i=0;i<str.length;i++){
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619) >>> 0;
+      }
+      return h >>> 0;
+    }
+
+    // === レア判定（極端回答のみ） ===
+    // 閾値は必要に応じて微調整可：HIGH=85 / LOW=15 / hiCount=12 / loCount=12
+    function pickRare(normalizedScores, answers){
+      const {dedication:d, sacrifice:s, stress:r, relationship:h} = normalizedScores;
+      const HIGH = 85, LOW = 15, HI_ANS = 5, LO_ANS = 1, HI_CNT = 12, LO_CNT = 12;
+
+      const cntGE = (v)=>answers.reduce((a,x)=>a+(x>=v),0);
+      const cntLE = (v)=>answers.reduce((a,x)=>a+(x<=v),0);
+
+      const allHigh = (d>=HIGH && s>=HIGH && r>=HIGH && h>=HIGH) || (cntGE(HI_ANS) >= HI_CNT);
+      if(allHigh) return { key:"ELITE", name: TYPE_NAME.ELITE };
+
+      const allLow = (d<=LOW && s<=LOW && r<=LOW && h<=LOW) || (cntLE(LO_ANS) >= LO_CNT);
+      if(allLow) return { key:"FREE", name: TYPE_NAME.FREE };
+
+      return null;
+    }
+
+    // === 回答配列から決定的に非レア14タイプを均等割り当て ===
+    function pickNonRareDeterministic(answers, normalizedScores){
+      // できるだけ"回答の生配列"を使う（同じ回答→同じ結果）
+      let sig = "A|" + answers.join(",");
+      // 念のためスコアも混ぜる（0..100整数に丸め）
+      const ns = normalizedScores;
+      sig += `|X|${Math.round(ns.dedication)}|${Math.round(ns.sacrifice)}|${Math.round(ns.stress)}|${Math.round(ns.relationship)}`;
+
+      const h = hash32(SALT + "|" + sig);
+      const idx = h % NON_RARE_KEYS.length; // ★ 14 等分（構造的に均等）
+      const key = NON_RARE_KEYS[idx];
+      return { key, name: TYPE_NAME[key] };
+    }
+
+    // === 公開インターフェース ===
+    /**
+     * @param {{dedication:number, sacrifice:number, stress:number, relationship:number}} normalizedScores // 0..100
+     * @param {number[]} answers // 長さ15、各0..5
+     * @returns {{key:string, name:string}}
+     */
+    function getResultType(normalizedScores, answers){
+      // 1) レア判定（極端回答でのみ発火）
+      const rare = pickRare(normalizedScores, answers);
+      if(rare) return rare;
+
+      // 2) 非レアは14等分の決定的バケツで配分
+      return pickNonRareDeterministic(answers, normalizedScores);
     }
     
-    const resultType = getResultType(normalizedScores);
+    const resultType = getResultType(normalizedScores, window.answers || []);
     
     console.log('総合スコア:', (normalizedScores.dedication + normalizedScores.sacrifice + normalizedScores.stress + normalizedScores.relationship) / 4);
     console.log('結果タイプ:', resultType.name);
     
-    // TYPESオブジェクトから対応するタイプを取得
-    console.log('resultType.name:', resultType.name);
-    console.log('TYPES配列の名前一覧:', Object.values(TYPES).map(t => t.name));
-    
-    // 直接TYPESオブジェクトの情報を使用（resultTypes配列の問題を回避）
-    console.log('resultType全体:', resultType);
-    console.log('resultType.desc:', resultType.desc);
-    
-    // TYPESオブジェクトから正しい情報を取得
-    console.log('=== デバッグ情報 ===');
+    // 新しいロジックの結果からTYPESオブジェクトの情報を取得
     console.log('resultType:', resultType);
+    console.log('resultType.key:', resultType.key);
     console.log('resultType.name:', resultType.name);
-    console.log('TYPES keys:', Object.keys(TYPES));
-    console.log('TYPES names:', Object.values(TYPES).map(t => t.name));
     
-    const typeKey = Object.keys(TYPES).find(key => TYPES[key].name === resultType.name);
+    // TYPESオブジェクトから対応するタイプを取得
+    const typeKey = resultType.key;
     console.log('typeKey:', typeKey);
     console.log('TYPES[typeKey]:', TYPES[typeKey]);
     
@@ -905,7 +950,7 @@ function showResult() {
         // フォールバック
         matchedType = {
             name: resultType.name,
-            icon: resultType.icon,
+            icon: '❓',
             level: 0,
             features: '詳細情報が利用できません',
             style: '詳細情報が利用できません',
