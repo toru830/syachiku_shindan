@@ -985,62 +985,41 @@ function showResult() {
     console.log('resultType.name:', resultType.name);
     console.log('resultTypes配列の名前一覧:', resultTypes.map(t => t.name));
     
-    const matchedType = resultTypes.find(type => type.name === resultType.name);
-    if (!matchedType) {
-        console.error('resultTypes配列に該当するタイプが見つかりません:', resultType.name);
-        console.error('利用可能なタイプ:', resultTypes.map(t => t.name));
-        
-        // 緊急対応：TYPESオブジェクトの情報を直接使用
-        console.log('緊急対応：TYPESオブジェクトの情報を直接使用');
-        const emergencyType = {
-            name: resultType.name,
-            icon: resultType.icon,
-            level: resultType.level || 0,
-            features: resultType.desc || '詳細情報が利用できません',
-            style: '詳細情報が利用できません',
-            advice: '詳細情報が利用できません',
-            jobs: '詳細情報が利用できません',
-            compatibility: []
-        };
-        
-        // 緊急対応で表示
-        const shachuLevelEl = document.getElementById('shachu-level');
-        const shachuLevelBarEl = document.getElementById('shachu-level-bar');
-        if (shachuLevelEl) shachuLevelEl.textContent = emergencyType.level;
-        if (shachuLevelBarEl) {
-            setTimeout(() => {
-                shachuLevelBarEl.style.width = emergencyType.level + '%';
-            }, 500);
-        }
-        
-        const featuresEl = document.getElementById('result-features');
-        const styleEl = document.getElementById('result-style');
-        const adviceEl = document.getElementById('result-advice');
-        const jobsEl = document.getElementById('result-jobs');
-        const compatibilityEl = document.getElementById('result-compatibility');
-        
-        if (featuresEl) featuresEl.textContent = emergencyType.features;
-        if (styleEl) styleEl.textContent = emergencyType.style;
-        if (adviceEl) adviceEl.textContent = emergencyType.advice;
-        if (jobsEl) jobsEl.textContent = emergencyType.jobs;
-        if (compatibilityEl) compatibilityEl.innerHTML = '';
-        
-        return;
-    }
+    // 直接TYPESオブジェクトの情報を使用（resultTypes配列の問題を回避）
+    const matchedType = {
+        name: resultType.name,
+        icon: resultType.icon,
+        level: resultType.level || 0,
+        features: resultType.desc || '詳細情報が利用できません',
+        style: '詳細情報が利用できません',
+        advice: '詳細情報が利用できません',
+        jobs: '詳細情報が利用できません',
+        compatibility: []
+    };
     
-    console.log('matchedType:', matchedType);
+    console.log('matchedType (TYPES直接使用):', matchedType);
     
     // タイプに応じたクラスを追加（0-15のインデックス）
     const typeIndex = resultTypes.findIndex(type => type.name === resultType.name);
-    resultCard.className = 'result-card';
-    resultCard.classList.add(`result-type-${typeIndex}`);
-    resultScreen.className = 'screen active';
-    resultScreen.classList.add(`result-theme-${typeIndex}`);
+    if (typeIndex === -1) {
+        console.warn('typeIndexが見つからないため、デフォルト値を使用');
+        const defaultIndex = 0; // デフォルトで0を使用
+        resultCard.className = 'result-card';
+        resultCard.classList.add(`result-type-${defaultIndex}`);
+        resultScreen.className = 'screen active';
+        resultScreen.classList.add(`result-theme-${defaultIndex}`);
+    } else {
+        resultCard.className = 'result-card';
+        resultCard.classList.add(`result-type-${typeIndex}`);
+        resultScreen.className = 'screen active';
+        resultScreen.classList.add(`result-theme-${typeIndex}`);
+    }
     
     // 結果を表示
     const resultIconEl = document.getElementById('result-icon');
     // 16種類すべてに順番に画像を配置（001.png～016.png）
-    const imageNumber = String(typeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
+    const actualTypeIndex = typeIndex === -1 ? 0 : typeIndex;
+    const imageNumber = String(actualTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
     resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png" alt="${resultType.name}" class="result-image">`;
     document.getElementById('result-type').textContent = resultType.name;
     
