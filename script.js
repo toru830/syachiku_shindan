@@ -961,7 +961,7 @@ function showResult() {
     // 16種類すべてに順番に画像を配置（001.png～016.png）
     const actualTypeIndex = typeIndex === -1 ? 0 : typeIndex;
     const imageNumber = String(actualTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
-    resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png" alt="${resultType.name}" class="result-image">`;
+    resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png?v=${Date.now()}" alt="${resultType.name}" class="result-image">`;
     document.getElementById('result-type').textContent = resultType.name;
     
     // 社畜レベルを表示
@@ -1026,7 +1026,7 @@ function showResult() {
                 const compatItem = document.createElement('div');
                 compatItem.className = 'compatibility-item';
                 compatItem.innerHTML = `
-                    <img src="10_社畜アイコン/${compatImageNumber}.png" alt="${compatType.name}" class="compat-icon">
+                    <img src="10_社畜アイコン/${compatImageNumber}.png?v=${Date.now()}" alt="${compatType.name}" class="compat-icon">
                     <span class="compat-name">${compatType.name}</span>
                 `;
                 compatibilityEl.appendChild(compatItem);

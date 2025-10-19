@@ -421,7 +421,7 @@
                 
                 card.innerHTML = `
                     <div class="character-icon">
-                        <img src="${character.icon}" alt="${character.name}">
+                        <img src="${character.icon}?v=${Date.now()}" alt="${character.name}">
                     </div>
                     <h3 class="character-name">${character.name}</h3>
                     <p class="character-description">${character.description}</p>
