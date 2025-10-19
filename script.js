@@ -1220,33 +1220,33 @@ function showCharacters() {
     }
 }
 
-// 育成開始（シャチポケに遷移）
-function startNurture() {
+// シャチポケに遷移（新しい関数）
+function transferToShachipoke() {
     try {
-        const resultType = document.getElementById('result-type').textContent;
-        const resultIconEl = document.getElementById('result-icon');
-        const resultIcon = resultIconEl.querySelector('img') ? resultIconEl.querySelector('img').src : '';
+        // 現在の診断結果を取得
+        const resultType = window.currentResultType;
         
-        // 診断結果をパラメーターとしてエンコード
-        const params = new URLSearchParams({
-            character: resultType,
-            icon: resultIcon,
-            from: 'shindan'
-        });
+        if (!resultType) {
+            alert('診断結果が見つかりません。もう一度診断してください。');
+            return;
+        }
         
-        // シャチポケに遷移（別タブで開く）
-        const targetUrl = `http://shachipoke.syachiku-life.com/?${params.toString()}`;
+        // キャラクターIDを取得（TYPESオブジェクトのキーから）
+        const characterId = resultType.key;
+        const characterName = resultType.name;
         
-        console.log('シャチポケに遷移:', targetUrl);
-        console.log('パラメーター:', {
-            character: resultType,
-            icon: resultIcon
-        });
+        // シャチポケにパラメータ付きでリダイレクト
+        const shachipokeUrl = `https://shachipoke.syachiku-life.com/?char=${characterId}&name=${encodeURIComponent(characterName)}&from=shindan`;
+        window.open(shachipokeUrl, '_blank');
         
-        window.open(targetUrl, '_blank');
     } catch (error) {
-        console.error('育成ボタンエラー:', error);
+        console.error('シャチポケ遷移エラー:', error);
         alert('エラーが発生しました。もう一度お試しください。');
     }
+}
+
+// 育成開始（シャチポケに遷移）- 旧関数（互換性のため残す）
+function startNurture() {
+    transferToShachipoke();
 }
 
