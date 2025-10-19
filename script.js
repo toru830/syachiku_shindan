@@ -1009,11 +1009,15 @@ function showResult() {
     
     // キャラクターコメントを表示
     const characterCommentEl = document.getElementById('character-comment');
-    if (characterCommentEl && resultType.comment) {
-        characterCommentEl.textContent = resultType.comment;
-        characterCommentEl.style.display = 'block';
-    } else if (characterCommentEl) {
-        characterCommentEl.style.display = 'none';
+    if (characterCommentEl) {
+        // resultTypeからTYPESオブジェクトの完全な情報を取得
+        const fullTypeInfo = TYPES[resultType.key];
+        if (fullTypeInfo && fullTypeInfo.comment) {
+            characterCommentEl.textContent = fullTypeInfo.comment;
+            characterCommentEl.style.display = 'block';
+        } else {
+            characterCommentEl.style.display = 'none';
+        }
     }
     
     // 社畜レベルを表示
