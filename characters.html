@@ -419,9 +419,11 @@
                 const card = document.createElement('div');
                 card.className = `character-card ${character.rare ? 'character-rare' : ''}`;
                 
+                // 強力なキャッシュバスティング: タイムスタンプ + ランダム値
+                const cacheBuster = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
                 card.innerHTML = `
                     <div class="character-icon">
-                        <img src="${character.icon}?v=${Date.now()}" alt="${character.name}">
+                        <img src="${character.icon}?v=${cacheBuster}" alt="${character.name}" onerror="console.error('Character image load error:', this.src)">
                     </div>
                     <h3 class="character-name">${character.name}</h3>
                     <p class="character-description">${character.description}</p>

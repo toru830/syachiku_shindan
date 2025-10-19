@@ -941,7 +941,9 @@ function showResult() {
     const actualTypeIndex = typeIndex === -1 ? 0 : typeIndex;
     const imageNumber = String(actualTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
     console.log('typeIndex:', typeIndex, 'actualTypeIndex:', actualTypeIndex, 'imageNumber:', imageNumber);
-    resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png?v=${Date.now()}" alt="${resultType.name}" class="result-image">`;
+    // 強力なキャッシュバスティング: タイムスタンプ + ランダム値
+    const cacheBuster = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png?v=${cacheBuster}" alt="${resultType.name}" class="result-image" onerror="console.error('Image load error:', this.src)">`;
     document.getElementById('result-type').textContent = resultType.name;
     
     // 社畜レベルを表示
@@ -1005,8 +1007,9 @@ function showResult() {
                 const compatImageNumber = String(compatTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
                 const compatItem = document.createElement('div');
                 compatItem.className = 'compatibility-item';
+                const compatCacheBuster = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
                 compatItem.innerHTML = `
-                    <img src="10_社畜アイコン/${compatImageNumber}.png?v=${Date.now()}" alt="${compatType.name}" class="compat-icon">
+                    <img src="10_社畜アイコン/${compatImageNumber}.png?v=${compatCacheBuster}" alt="${compatType.name}" class="compat-icon" onerror="console.error('Compat image load error:', this.src)">
                     <span class="compat-name">${compatType.name}</span>
                 `;
                 compatibilityEl.appendChild(compatItem);
