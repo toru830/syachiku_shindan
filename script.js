@@ -994,16 +994,40 @@ function showResult() {
     console.log('resultType全体:', resultType);
     console.log('resultType.desc:', resultType.desc);
     
-    const matchedType = {
-        name: resultType.name,
-        icon: resultType.icon,
-        level: resultType.level || 0,
-        features: resultType.desc || '詳細情報が利用できません',
-        style: '詳細情報が利用できません',
-        advice: '詳細情報が利用できません',
-        jobs: '詳細情報が利用できません',
-        compatibility: []
-    };
+    // TYPESオブジェクトから正しい情報を取得
+    const typeKey = Object.keys(TYPES).find(key => TYPES[key].name === resultType.name);
+    console.log('typeKey:', typeKey);
+    
+    // resultTypes配列からlevelを取得
+    const resultTypeData = resultTypes.find(type => type.name === resultType.name);
+    console.log('resultTypeData:', resultTypeData);
+    
+    let matchedType;
+    if (typeKey && TYPES[typeKey]) {
+        const typeData = TYPES[typeKey];
+        matchedType = {
+            name: typeData.name,
+            icon: typeData.icon,
+            level: resultTypeData ? resultTypeData.level : 0,
+            features: typeData.desc || '詳細情報が利用できません',
+            style: resultTypeData ? resultTypeData.style : '詳細情報が利用できません',
+            advice: resultTypeData ? resultTypeData.advice : '詳細情報が利用できません',
+            jobs: resultTypeData ? resultTypeData.jobs : '詳細情報が利用できません',
+            compatibility: resultTypeData ? resultTypeData.compatibility : []
+        };
+    } else {
+        // フォールバック
+        matchedType = {
+            name: resultType.name,
+            icon: resultType.icon,
+            level: resultTypeData ? resultTypeData.level : 0,
+            features: '詳細情報が利用できません',
+            style: '詳細情報が利用できません',
+            advice: '詳細情報が利用できません',
+            jobs: '詳細情報が利用できません',
+            compatibility: []
+        };
+    }
     
     console.log('matchedType (TYPES直接使用):', matchedType);
     
