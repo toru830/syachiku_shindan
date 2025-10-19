@@ -1,0 +1,124 @@
+// 1000回テスト用のシンプルな診断ロジック
+const TYPES = {
+  ELITE: { key:'ELITE', name:'生粋の社畜', rare:true },
+  BURNOUT: { key:'BURNOUT', name:'限界突破社畜', rare:false },
+  STOIC: { key:'STOIC', name:'無敗の職人社畜', rare:false },
+  LONE: { key:'LONE', name:'孤高の成果主義社畜', rare:false },
+  KIND: { key:'KIND', name:'心優しき社畜', rare:false },
+  SENSITIVE: { key:'SENSITIVE', name:'誠実な観察社員', rare:false },
+  TEAM: { key:'TEAM', name:'共創リーダー社員', rare:false },
+  PACE: { key:'PACE', name:'マイペース社員', rare:false },
+  YURUFUWA: { key:'YURUFUWA', name:'ゆるふわ社畜', rare:false },
+  HIDDEN: { key:'HIDDEN', name:'隠れ疲労社畜', rare:false },
+  NICE: { key:'NICE', name:'お人好し社員', rare:false },
+  REAL: { key:'REAL', name:'現実派社員', rare:false },
+  FAMILY: { key:'FAMILY', name:'家庭が大事社員', rare:false },
+  LWB: { key:'LWB', name:'バランサー社員', rare:false },
+  ABLE: { key:'ABLE', name:'成果最適化社畜', rare:false },
+  FREE: { key:'FREE', name:'自由人', rare:true }
+};
+
+function getResultType(normalizedScores) {
+    const ax = {
+        d: normalizedScores.dedication,
+        s: normalizedScores.sacrifice,
+        r: normalizedScores.stress,
+        h: normalizedScores.relationship
+    };
+    
+    // レア判定（極端な値のみ）
+    if (ax.d >= 85 && ax.s >= 85 && ax.r >= 85 && ax.h >= 85) {
+        return TYPES.ELITE;
+    }
+    if (ax.d <= 15 && ax.s <= 15 && ax.r <= 15 && ax.h <= 15) {
+        return TYPES.FREE;
+    }
+    
+    // 非レアタイプを均等に分散させるためのシンプルなロジック
+    const nonRareTypes = Object.values(TYPES).filter(t => !t.rare);
+    
+    // スコアの合計値を使って均等分散
+    const totalScore = ax.d + ax.s + ax.r + ax.h;
+    const normalizedTotal = (totalScore / 400) * 100; // 0-100に正規化
+    
+    // 各タイプに均等な範囲を割り当て
+    const rangePerType = 100 / nonRareTypes.length;
+    const typeIndex = Math.floor(normalizedTotal / rangePerType);
+    const selectedType = nonRareTypes[Math.min(typeIndex, nonRareTypes.length - 1)];
+    
+    return selectedType;
+}
+
+// ランダムな回答を生成する関数
+function generateRandomAnswers() {
+    const answers = [];
+    for (let i = 0; i < 15; i++) {
+        answers.push(Math.floor(Math.random() * 6)); // 0-5のランダム値
+    }
+    return answers;
+}
+
+// スコア計算関数（簡略版）
+function computeAxes(answers) {
+    const scores = { dedication: 0, sacrifice: 0, stress: 0, relationship: 0 };
+    
+    // 簡略化された質問データ（15問分）
+    const questions = [
+        { axes: { dedication: 1, sacrifice: 1, stress: 0.5, relationship: 0 } },
+        { axes: { dedication: 0.8, sacrifice: 1, stress: 0, relationship: 0 } },
+        { axes: { dedication: 0.7, sacrifice: 0.6, stress: 0, relationship: 1 } },
+        { axes: { dedication: 0.9, sacrifice: 1, stress: 0.7, relationship: 0 } },
+        { axes: { dedication: 0.3, sacrifice: 0.7, stress: 0, relationship: 1 } },
+        { axes: { dedication: 0.5, sacrifice: 0.6, stress: 0, relationship: 1 } },
+        { axes: { dedication: 0.8, sacrifice: 0.8, stress: 0.5, relationship: 0.3 } },
+        { axes: { dedication: 0.7, sacrifice: 0.5, stress: 1, relationship: 0 } },
+        { axes: { dedication: 1, sacrifice: 1, stress: 0, relationship: 0 } },
+        { axes: { dedication: 0.9, sacrifice: 1, stress: 0, relationship: 0.5 } },
+        { axes: { dedication: 1, sacrifice: 0, stress: 0, relationship: 0 }, reverse: true },
+        { axes: { dedication: 0.8, sacrifice: 0, stress: 0, relationship: 0 }, reverse: true },
+        { axes: { dedication: 0.7, sacrifice: 0, stress: 0, relationship: 0.5 }, reverse: true },
+        { axes: { dedication: 0.6, sacrifice: 0, stress: 0.3, relationship: 0 }, reverse: true },
+        { axes: { dedication: 0.9, sacrifice: 0, stress: 0, relationship: 0 }, reverse: true }
+    ];
+    
+    questions.forEach((q, i) => {
+        const value = answers[i];
+        const multiplier = q.reverse ? -1 : 1;
+        scores.dedication += value * q.axes.dedication * multiplier;
+        scores.sacrifice += value * q.axes.sacrifice * multiplier;
+        scores.stress += value * q.axes.stress * multiplier;
+        scores.relationship += value * q.axes.relationship * multiplier;
+    });
+    
+    // 正規化（簡略版）
+    const maxScore = 75; // 概算の最大値
+    const minScore = -25; // 概算の最小値
+    
+    return {
+        dedication: Math.max(0, Math.min(100, ((scores.dedication - minScore) / (maxScore - minScore)) * 100)),
+        sacrifice: Math.max(0, Math.min(100, ((scores.sacrifice - minScore) / (maxScore - minScore)) * 100)),
+        stress: Math.max(0, Math.min(100, ((scores.stress - minScore) / (maxScore - minScore)) * 100)),
+        relationship: Math.max(0, Math.min(100, ((scores.relationship - minScore) / (maxScore - minScore)) * 100))
+    };
+}
+
+// 1000回テスト実行
+const results = {};
+for (let i = 0; i < 1000; i++) {
+    const answers = generateRandomAnswers();
+    const scores = computeAxes(answers);
+    const resultType = getResultType(scores);
+    
+    if (results[resultType.name]) {
+        results[resultType.name]++;
+    } else {
+        results[resultType.name] = 1;
+    }
+}
+
+// 結果を表示
+console.log('=== 1000回テスト結果 ===');
+Object.entries(results).sort((a, b) => b[1] - a[1]).forEach(([name, count]) => {
+    const percentage = (count / 1000 * 100).toFixed(1);
+    console.log(`${name}: ${count}回 (${percentage}%)`);
+});
