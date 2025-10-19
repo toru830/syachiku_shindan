@@ -982,11 +982,17 @@ function showResult() {
     console.log('結果タイプ:', resultType.name);
     
     // resultTypes配列から対応するタイプを取得
+    console.log('resultType.name:', resultType.name);
+    console.log('resultTypes配列の名前一覧:', resultTypes.map(t => t.name));
+    
     const matchedType = resultTypes.find(type => type.name === resultType.name);
     if (!matchedType) {
         console.error('resultTypes配列に該当するタイプが見つかりません:', resultType.name);
+        console.error('利用可能なタイプ:', resultTypes.map(t => t.name));
         return;
     }
+    
+    console.log('matchedType:', matchedType);
     
     // タイプに応じたクラスを追加（0-15のインデックス）
     const typeIndex = resultTypes.findIndex(type => type.name === resultType.name);
