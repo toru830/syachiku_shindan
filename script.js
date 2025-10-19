@@ -897,6 +897,11 @@ function showResult() {
     console.log('resultType.desc:', resultType.desc);
     
     // TYPESオブジェクトから正しい情報を取得
+    console.log('=== デバッグ情報 ===');
+    console.log('resultType.name:', resultType.name);
+    console.log('TYPES keys:', Object.keys(TYPES));
+    console.log('TYPES names:', Object.values(TYPES).map(t => t.name));
+    
     const typeKey = Object.keys(TYPES).find(key => TYPES[key].name === resultType.name);
     console.log('typeKey:', typeKey);
     
@@ -904,6 +909,7 @@ function showResult() {
     let matchedType;
     if (typeKey && TYPES[typeKey]) {
         const typeData = TYPES[typeKey];
+        console.log('typeData.level:', typeData.level);
         matchedType = {
             name: typeData.name,
             icon: typeData.icon,
@@ -914,7 +920,9 @@ function showResult() {
             jobs: typeData.jobs || '詳細情報が利用できません',
             compatibility: typeData.compatibility || []
         };
+        console.log('matchedType.level:', matchedType.level);
     } else {
+        console.log('フォールバック実行 - typeKeyが見つからない');
         // フォールバック
         matchedType = {
             name: resultType.name,
@@ -927,6 +935,7 @@ function showResult() {
             compatibility: []
         };
     }
+    console.log('=== デバッグ終了 ===');
     
     console.log('matchedType (TYPES直接使用):', matchedType);
     
