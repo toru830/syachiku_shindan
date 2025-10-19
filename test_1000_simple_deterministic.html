@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1000回テスト - シンプル決定的ロジック</title>
+</head>
+<body>
+  <h1>1000回テスト実行中（シンプル決定的ロジック）...</h1>
+  <div id="results"></div>
+
+<script>
+// 現在のscript.jsから診断ロジックをコピー
+// 質問データ
+const questions = [
+    "残業は当たり前だと思いますか？",
+    "休日も仕事のことを考えてしまいますか？",
+    "会社の利益を自分の利益より優先しますか？",
+    "仕事で成果を出すことが人生の目標ですか？",
+    "有給休暇を取ることに罪悪感を感じますか？",
+    "家族より仕事を優先してしまいますか？",
+    "体調が悪くても仕事を休めませんか？",
+    "プライベートの時間を仕事に使いますか？",
+    "自分の健康より会社のことを考えますか？",
+    "友人との約束より仕事を優先しますか？",
+    "プレッシャーを感じても頑張れますか？",
+    "困難な状況でも諦めませんか？",
+    "ストレスを感じても仕事を続けられますか？",
+    "同僚との関係を大切にしますか？",
+    "チームワークを重視しますか？"
+];
+
+// === タイプ定義（16種類・新名称仕様） ===
+const TYPES = {
+  ELITE: { key:"ELITE", name:"生粋の社畜", icon:"🔥",
+    desc:"全軸が非常に高い究極の献身者。仕事と一体化し、成果を使命とする存在。", 
+    rare:true, tags:["究極の献身","燃え尽き注意"],
+    centroid:{d:95,s:95,r:95,h:95} },
+
+  BURNOUT: { key:"BURNOUT", name:"限界突破社畜", icon:"⚠️",
+    desc:"献身・犠牲が高く、耐性と人間関係が低い。限界まで挑み続ける頑張り屋タイプ。",
+    centroid:{d:80,s:80,r:20,h:20}, tags:["過負荷","要休息"] },
+
+  STOIC: { key:"STOIC", name:"無敗の職人社畜", icon:"🥇",
+    desc:"高献身・高犠牲・高耐性。黙々と成果を積み上げるプロ意識の持ち主。",
+    centroid:{d:85,s:75,r:85,h:35}, tags:["自己規律","粘り強さ"] },
+
+  LONE: { key:"LONE", name:"孤高の成果主義社畜", icon:"🐺",
+    desc:"献身・犠牲・耐性は高く、人間関係は控えめ。結果に全てを賭ける孤高の戦士。",
+    centroid:{d:85,s:75,r:85,h:15}, tags:["独立独歩","集中力"] },
+
+  KIND: { key:"KIND", name:"心優しき社畜", icon:"💐",
+    desc:"高献身で人間関係を大切にする温厚タイプ。チームを支える縁の下の力持ち。",
+    centroid:{d:75,s:25,r:25,h:85}, tags:["思いやり","共感"] },
+
+  SENSITIVE: { key:"SENSITIVE", name:"誠実な観察社員", icon:"🌿",
+    desc:"献身は高いが犠牲と耐性は低い。誠実で丁寧、感受性豊かな観察者。",
+    centroid:{d:75,s:25,r:25,h:25}, tags:["慎重","誠実"] },
+
+  TEAM: { key:"TEAM", name:"共創リーダー社員", icon:"🤝",
+    desc:"高献身・高耐性・人間関係高。協働で成果を生み、周囲を導くタイプ。",
+    centroid:{d:70,s:40,r:80,h:85}, tags:["協調","信頼"] },
+
+  PACE: { key:"PACE", name:"マイペース社員", icon:"🧭",
+    desc:"献身・耐性が高いが関係性は控えめ。自律して淡々と結果を出す。",
+    centroid:{d:70,s:35,r:80,h:35}, tags:["自律","安定"] },
+
+  YURUFUWA: { key:"YURUFUWA", name:"ゆるふわ社畜", icon:"🫧",
+    desc:"献身は低いが犠牲が高く、人のために動くやさしき奉仕者。自己犠牲に注意。",
+    centroid:{d:25,s:80,r:25,h:85}, tags:["優しさ","自己犠牲"] },
+
+  HIDDEN: { key:"HIDDEN", name:"隠れ疲労社畜", icon:"🌧️",
+    desc:"バランス型だが耐性が低い。無自覚に疲れをためがちな頑張り屋。",
+    centroid:{d:45,s:45,r:20,h:45}, tags:["回復重視","ストレス管理"] },
+
+  NICE: { key:"NICE", name:"お人好し社員", icon:"😊",
+    desc:"全体中庸・人間関係が高い。潤滑油として場を整え、支援に長ける。",
+    centroid:{d:45,s:45,r:55,h:88}, tags:["調整役","優しさ"] },
+
+  REAL: { key:"REAL", name:"現実派社員", icon:"🧱",
+    desc:"全体中庸・人間関係控えめ。合理的・実務的で堅実なリアリスト。",
+    centroid:{d:55,s:55,r:55,h:15}, tags:["堅実","実務力"] },
+
+  FAMILY: { key:"FAMILY", name:"家庭が大事社員", icon:"🏡",
+    desc:"低献身・低犠牲・人間関係高。家族や私生活を大切にするバランス型。",
+    centroid:{d:25,s:25,r:55,h:85}, tags:["安定","ライフ重視"] },
+
+  LWB: { key:"LWB", name:"バランサー社員", icon:"⚖️",
+    desc:"中庸で調和志向。仕事と生活の両立を重視するスマートワーカー。",
+    centroid:{d:58,s:32,r:55,h:55}, tags:["調和","柔軟性"] },
+
+  ABLE: { key:"ABLE", name:"成果最適化社畜", icon:"🚀",
+    desc:"高献身・中犠牲・高耐性。戦略的に動く結果重視タイプ。",
+    centroid:{d:78,s:55,r:85,h:55}, tags:["戦略性","効率重視"] },
+
+  FREE: { key:"FREE", name:"自由人", icon:"🕊️",
+    desc:"全軸が低い自由奔放タイプ。自分の感性を軸に生きるクリエイター気質。",
+    rare:true, tags:["自由","創造性"],
+    centroid:{d:5,s:5,r:5,h:5} },
+};
+
+// 1) レア判定（極端値のときだけ出す）
+function rareCheck(ax){
+  // 閾値は必要に応じて微調整可（例: 80/20）
+  if (ax.d>=80 && ax.s>=80 && ax.r>=80 && ax.h>=80) return TYPES.ELITE; // 生粋の社畜
+  if (ax.d<=20 && ax.s<=20 && ax.r<=20 && ax.h<=20) return TYPES.FREE;  // 自由人
+  return null;
+}
+
+// 2) 決定的ハッシュ（同一回答→同一結果）
+function hash32(str){
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0; // FNV-1a
+  }
+  return h >>> 0;
+}
+
+// 3) 非レア14タイプを固定順で取得（順番は一度決めたら変えない）
+const NON_RARE_KEYS = Object.keys(TYPES).filter(k => !TYPES[k].rare);
+
+// 4) 回答から"決定的シグネチャ"を作成
+function buildSignature(ax){
+  // 可能なら 15問の素の回答配列を使う（同一回答完全同一に）
+  if (Array.isArray(window.answers) && window.answers.length === 15){
+    return 'A|' + window.answers.join(',');
+  }
+  // フォールバック：4軸(0-100)を整数化して使う（これでも十分決定的）
+  return `X|${Math.round(ax.d)}|${Math.round(ax.s)}|${Math.round(ax.r)}|${Math.round(ax.h)}`;
+}
+
+// 5) 非レア14タイプへ"等確率・決定的"にバケツ割り
+function pickNonRareBalanced(ax){
+  const sig = buildSignature(ax);
+  const h = hash32(sig);
+  const idx = h % NON_RARE_KEYS.length; // ★ 14等分
+  const key = NON_RARE_KEYS[idx];
+  return TYPES[key];
+}
+
+// スコア計算関数（現在のscript.jsから）
+function calculateScores(answers) {
+    const dedication = (answers.slice(0, 5).reduce((a, b) => a + b, 0) / 5) * 20;
+    const sacrifice = (answers.slice(5, 10).reduce((a, b) => a + b, 0) / 5) * 20;
+    const stress = (answers.slice(10, 13).reduce((a, b) => a + b, 0) / 3) * 20;
+    const relationship = (answers.slice(13, 15).reduce((a, b) => a + b, 0) / 2) * 20;
+    
+    return { dedication, sacrifice, stress, relationship };
+}
+
+// 6) 診断フロー（UIは既存のまま）
+function getResultType(normalizedScores) {
+    const ax = {
+        d: normalizedScores.dedication,
+        s: normalizedScores.sacrifice,
+        r: normalizedScores.stress,
+        h: normalizedScores.relationship
+    };
+    
+    console.log('=== 診断デバッグ情報 ===');
+    console.log('診断スコア:', ax);
+    
+    const rare = rareCheck(ax);              // レアはここで確定
+    const picked = rare || pickNonRareBalanced(ax); // 非レアは等確率の決定的割当
+    
+    console.log('選択されたタイプ:', picked.name);
+    console.log('=== 診断デバッグ終了 ===');
+    
+    return picked;
+}
+
+// ランダムな回答を生成
+function generateRandomAnswers() {
+    const answers = [];
+    for (let i = 0; i < 15; i++) {
+        answers.push(Math.floor(Math.random() * 6) + 1); // 1-6
+    }
+    return answers;
+}
+
+// 1000回テスト実行
+function runTest() {
+    const results = {};
+    
+    // 初期化
+    Object.values(TYPES).forEach(type => {
+        results[type.name] = 0;
+    });
+    
+    console.log('1000回テスト開始（シンプル決定的ロジック）...');
+    
+    for (let i = 0; i < 1000; i++) {
+        const answers = generateRandomAnswers();
+        const scores = calculateScores(answers);
+        const result = getResultType(scores);
+        results[result.name]++;
+        
+        if (i % 100 === 0) {
+            console.log(`${i}回完了`);
+        }
+    }
+    
+    console.log('1000回テスト完了！');
+    
+    // 結果を表示
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<h2>1000回テスト結果（シンプル決定的ロジック）</h2>';
+    
+    const sortedResults = Object.entries(results)
+        .sort((a, b) => b[1] - a[1]);
+    
+    let resultText = '';
+    sortedResults.forEach(([name, count]) => {
+        const percentage = (count / 1000 * 100).toFixed(1);
+        const barWidth = (count / 1000 * 100).toFixed(1);
+        resultText += `${name}: ${count}回 (${percentage}%)\n`;
+        resultsDiv.innerHTML += `
+            <div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <strong>${name}</strong>: ${count}回 (${percentage}%)
+                <div style="background: #f0f0f0; height: 20px; border-radius: 10px; margin-top: 5px;">
+                    <div style="background: #4CAF50; height: 100%; width: ${barWidth}%; border-radius: 10px;"></div>
+                </div>
+            </div>
+        `;
+    });
+    
+    // コンソールにも出力
+    console.log('\n=== 1000回テスト結果（シンプル決定的ロジック） ===');
+    console.log(resultText);
+    
+    // 結果をアラートで表示
+    alert('1000回テスト完了（シンプル決定的ロジック）！\n\n' + resultText);
+    
+    return results;
+}
+
+// ページ読み込み時にテスト実行
+window.onload = runTest;
+</script>
+</body>
+</html>
