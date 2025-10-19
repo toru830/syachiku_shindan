@@ -644,50 +644,7 @@ function showResult() {
     });
     console.log('正規化スコア:', normalizedScores);
     
-    // ▼▼▼ 以下をそのまま貼り替え ▼▼▼
-
-    // 1) レア判定（極端値のときだけ出す）
-    function rareCheck(ax){
-      // 閾値は必要に応じて微調整可（例: 80/20）
-      if (ax.d>=80 && ax.s>=80 && ax.r>=80 && ax.h>=80) return TYPES.ELITE; // 生粋の社畜
-      if (ax.d<=20 && ax.s<=20 && ax.r<=20 && ax.h<=20) return TYPES.FREE;  // 自由人
-      return null;
-    }
-
-    // 2) 決定的ハッシュ（同一回答→同一結果）
-    function hash32(str){
-      let h = 2166136261 >>> 0;
-      for (let i = 0; i < str.length; i++){
-        h ^= str.charCodeAt(i);
-        h = Math.imul(h, 16777619) >>> 0; // FNV-1a
-      }
-      return h >>> 0;
-    }
-
-    // 3) 非レア14タイプを固定順で取得（順番は一度決めたら変えない）
-    // TYPESオブジェクトの定義後に移動するため、一時的にコメントアウト
-    // const NON_RARE_KEYS = Object.keys(TYPES).filter(k => !TYPES[k].rare);
-
-    // 4) 回答から"決定的シグネチャ"を作成
-    function buildSignature(ax){
-      // 可能なら 15問の素の回答配列を使う（同一回答完全同一に）
-      if (Array.isArray(window.answers) && window.answers.length === 15){
-        return 'A|' + window.answers.join(',');
-      }
-      // フォールバック：4軸(0-100)を整数化して使う（これでも十分決定的）
-      return `X|${Math.round(ax.d)}|${Math.round(ax.s)}|${Math.round(ax.r)}|${Math.round(ax.h)}`;
-    }
-
-    // 5) 非レア14タイプへ"等確率・決定的"にバケツ割り
-    function pickNonRareBalanced(ax){
-      const sig = buildSignature(ax);
-      const h = hash32(sig);
-      // TYPESオブジェクトの定義後に移動するため、一時的に簡易実装
-      const nonRareKeys = Object.keys(TYPES).filter(k => !TYPES[k].rare);
-      const idx = h % nonRareKeys.length; // ★ 14等分
-      const key = nonRareKeys[idx];
-      return TYPES[key];
-    }
+    // 古い診断ロジックは削除済み - 新しいシンプルロジックを使用
 
     // ===== 代表点（centroid）の再配置 =====
     // 4軸（d=献身, s=犠牲, r=耐性, h=人間関係）空間に均等に散らす。
@@ -862,7 +819,7 @@ function showResult() {
         compatibility: ["成果最適化社畜", "マイペース社員", "バランサー社員"] },
     };
 
-    // 6) 診断フロー（UIは既存のまま）
+    // シンプルで確実な診断ロジック
     function getResultType(normalizedScores) {
         const ax = {
             d: normalizedScores.dedication,
@@ -874,13 +831,33 @@ function showResult() {
         console.log('=== 診断デバッグ情報 ===');
         console.log('診断スコア:', ax);
         
-        const rare = rareCheck(ax);              // レアはここで確定
-        const picked = rare || pickNonRareBalanced(ax); // 非レアは等確率の決定的割当
+        // レア判定（極端な値のみ）
+        if (ax.d >= 85 && ax.s >= 85 && ax.r >= 85 && ax.h >= 85) {
+            console.log('レア判定: 生粋の社畜');
+            return TYPES.ELITE;
+        }
+        if (ax.d <= 15 && ax.s <= 15 && ax.r <= 15 && ax.h <= 15) {
+            console.log('レア判定: 自由人');
+            return TYPES.FREE;
+        }
         
-        console.log('選択されたタイプ:', picked.name);
+        // 非レアタイプを均等に分散させるためのシンプルなロジック
+        const nonRareTypes = Object.values(TYPES).filter(t => !t.rare);
+        console.log('非レアタイプ数:', nonRareTypes.length);
+        
+        // スコアの合計値を使って均等分散
+        const totalScore = ax.d + ax.s + ax.r + ax.h;
+        const normalizedTotal = (totalScore / 400) * 100; // 0-100に正規化
+        
+        // 各タイプに均等な範囲を割り当て
+        const rangePerType = 100 / nonRareTypes.length;
+        const typeIndex = Math.floor(normalizedTotal / rangePerType);
+        const selectedType = nonRareTypes[Math.min(typeIndex, nonRareTypes.length - 1)];
+        
+        console.log('選択されたタイプ:', selectedType.name);
         console.log('=== 診断デバッグ終了 ===');
         
-        return picked;
+        return selectedType;
     }
     
     const resultType = getResultType(normalizedScores);
