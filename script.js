@@ -1122,8 +1122,8 @@ function showResult() {
     // スマホとPCでデータを共有するため、URLパラメータに結果を追加
     addResultToURL(resultData);
     
-    // QRコードを表示（スマホとPCでデータ共有用）
-    showQRCode(resultData);
+    // QRコードを表示（スマホとPCでデータ共有用）- 無効化
+    // showQRCode(resultData);
     
     // ボタンのイベントリスナーを再設定（結果画面表示後）
     const restartBtn = document.getElementById('restart-btn');
