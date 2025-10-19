@@ -986,6 +986,9 @@ function showResult() {
     console.log('resultTypes配列の名前一覧:', resultTypes.map(t => t.name));
     
     // 直接TYPESオブジェクトの情報を使用（resultTypes配列の問題を回避）
+    console.log('resultType全体:', resultType);
+    console.log('resultType.desc:', resultType.desc);
+    
     const matchedType = {
         name: resultType.name,
         icon: resultType.icon,
@@ -1040,10 +1043,38 @@ function showResult() {
     const jobsEl = document.getElementById('result-jobs');
     const compatibilityEl = document.getElementById('result-compatibility');
     
-    if (featuresEl) featuresEl.textContent = matchedType.features || '';
-    if (styleEl) styleEl.textContent = matchedType.style || '';
-    if (adviceEl) adviceEl.textContent = matchedType.advice || '';
-    if (jobsEl) jobsEl.textContent = matchedType.jobs || '';
+    // 緊急対応：強制的に詳細情報を表示
+    console.log('詳細情報表示開始');
+    console.log('featuresEl:', featuresEl);
+    console.log('matchedType.features:', matchedType.features);
+    
+    if (featuresEl) {
+        featuresEl.textContent = matchedType.features || '詳細情報が利用できません';
+        console.log('featuresEl.textContent設定完了:', featuresEl.textContent);
+    } else {
+        console.error('featuresElが見つかりません');
+    }
+    
+    if (styleEl) {
+        styleEl.textContent = matchedType.style || '詳細情報が利用できません';
+        console.log('styleEl.textContent設定完了:', styleEl.textContent);
+    } else {
+        console.error('styleElが見つかりません');
+    }
+    
+    if (adviceEl) {
+        adviceEl.textContent = matchedType.advice || '詳細情報が利用できません';
+        console.log('adviceEl.textContent設定完了:', adviceEl.textContent);
+    } else {
+        console.error('adviceElが見つかりません');
+    }
+    
+    if (jobsEl) {
+        jobsEl.textContent = matchedType.jobs || '詳細情報が利用できません';
+        console.log('jobsEl.textContent設定完了:', jobsEl.textContent);
+    } else {
+        console.error('jobsElが見つかりません');
+    }
     
     // 相性の良いタイプを表示
     if (compatibilityEl && matchedType.compatibility) {
