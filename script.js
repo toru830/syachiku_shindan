@@ -898,12 +898,14 @@ function showResult() {
     
     // TYPESオブジェクトから正しい情報を取得
     console.log('=== デバッグ情報 ===');
+    console.log('resultType:', resultType);
     console.log('resultType.name:', resultType.name);
     console.log('TYPES keys:', Object.keys(TYPES));
     console.log('TYPES names:', Object.values(TYPES).map(t => t.name));
     
     const typeKey = Object.keys(TYPES).find(key => TYPES[key].name === resultType.name);
     console.log('typeKey:', typeKey);
+    console.log('TYPES[typeKey]:', TYPES[typeKey]);
     
     // TYPESオブジェクトから直接情報を取得
     let matchedType;
@@ -961,6 +963,7 @@ function showResult() {
     // 16種類すべてに順番に画像を配置（001.png～016.png）
     const actualTypeIndex = typeIndex === -1 ? 0 : typeIndex;
     const imageNumber = String(actualTypeIndex + 1).padStart(3, '0'); // 001, 002, ..., 016
+    console.log('typeIndex:', typeIndex, 'actualTypeIndex:', actualTypeIndex, 'imageNumber:', imageNumber);
     resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png?v=${Date.now()}" alt="${resultType.name}" class="result-image">`;
     document.getElementById('result-type').textContent = resultType.name;
     
@@ -1067,6 +1070,32 @@ function showResult() {
     
     // QRコードを表示（スマホとPCでデータ共有用）
     showQRCode(resultData);
+    
+    // ボタンのイベントリスナーを再設定（結果画面表示後）
+    const restartBtn = document.getElementById('restart-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const charactersBtn = document.getElementById('characters-btn');
+    const nurtureBtn = document.getElementById('nurture-btn');
+    
+    if (restartBtn) {
+        restartBtn.addEventListener('click', resetQuiz);
+        console.log('Restart button event listener re-added');
+    }
+    
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareResult);
+        console.log('Share button event listener re-added');
+    }
+    
+    if (charactersBtn) {
+        charactersBtn.addEventListener('click', showCharacters);
+        console.log('Characters button event listener re-added');
+    }
+    
+    if (nurtureBtn) {
+        nurtureBtn.addEventListener('click', startNurture);
+        console.log('Nurture button event listener re-added');
+    }
 }
 
 // リセット
