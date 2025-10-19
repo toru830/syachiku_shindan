@@ -1055,6 +1055,41 @@ body:has(#start-screen.active) .container {
     font-weight: bold;
 }
 
+/* キャラクターコメント */
+.character-comment {
+    font-size: 18px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin: 15px 0 25px 0;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, rgba(255, 182, 193, 0.2), rgba(255, 192, 203, 0.2));
+    border-radius: 15px;
+    border-left: 4px solid #ff69b4;
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.character-comment::before {
+    content: '"';
+    font-size: 24px;
+    color: #ff69b4;
+    font-weight: bold;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+
+.character-comment::after {
+    content: '"';
+    font-size: 24px;
+    color: #ff69b4;
+    font-weight: bold;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+}
+
 /* 社畜レベル */
 .shachu-level-container {
     margin: 30px 0;
