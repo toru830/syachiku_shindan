@@ -981,6 +981,13 @@ function showResult() {
     console.log('総合スコア:', (normalizedScores.dedication + normalizedScores.sacrifice + normalizedScores.stress + normalizedScores.relationship) / 4);
     console.log('結果タイプ:', resultType.name);
     
+    // resultTypes配列から対応するタイプを取得
+    const matchedType = resultTypes.find(type => type.name === resultType.name);
+    if (!matchedType) {
+        console.error('resultTypes配列に該当するタイプが見つかりません:', resultType.name);
+        return;
+    }
+    
     // タイプに応じたクラスを追加（0-15のインデックス）
     const typeIndex = resultTypes.findIndex(type => type.name === resultType.name);
     resultCard.className = 'result-card';
@@ -998,10 +1005,10 @@ function showResult() {
     // 社畜レベルを表示
     const shachuLevelEl = document.getElementById('shachu-level');
     const shachuLevelBarEl = document.getElementById('shachu-level-bar');
-    if (shachuLevelEl) shachuLevelEl.textContent = resultType.level || 0;
+    if (shachuLevelEl) shachuLevelEl.textContent = matchedType.level || 0;
     if (shachuLevelBarEl) {
         setTimeout(() => {
-            shachuLevelBarEl.style.width = (resultType.level || 0) + '%';
+            shachuLevelBarEl.style.width = (matchedType.level || 0) + '%';
         }, 500);
     }
     
@@ -1012,15 +1019,15 @@ function showResult() {
     const jobsEl = document.getElementById('result-jobs');
     const compatibilityEl = document.getElementById('result-compatibility');
     
-    if (featuresEl) featuresEl.textContent = resultType.features || '';
-    if (styleEl) styleEl.textContent = resultType.style || '';
-    if (adviceEl) adviceEl.textContent = resultType.advice || '';
-    if (jobsEl) jobsEl.textContent = resultType.jobs || '';
+    if (featuresEl) featuresEl.textContent = matchedType.features || '';
+    if (styleEl) styleEl.textContent = matchedType.style || '';
+    if (adviceEl) adviceEl.textContent = matchedType.advice || '';
+    if (jobsEl) jobsEl.textContent = matchedType.jobs || '';
     
     // 相性の良いタイプを表示
-    if (compatibilityEl && resultType.compatibility) {
+    if (compatibilityEl && matchedType.compatibility) {
         compatibilityEl.innerHTML = '';
-        resultType.compatibility.forEach(typeName => {
+        matchedType.compatibility.forEach(typeName => {
             const compatType = resultTypes.find(t => t.name === typeName);
             if (compatType) {
                 const compatTypeIndex = resultTypes.findIndex(t => t.name === typeName);
