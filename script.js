@@ -989,6 +989,42 @@ function showResult() {
     if (!matchedType) {
         console.error('resultTypes配列に該当するタイプが見つかりません:', resultType.name);
         console.error('利用可能なタイプ:', resultTypes.map(t => t.name));
+        
+        // 緊急対応：TYPESオブジェクトの情報を直接使用
+        console.log('緊急対応：TYPESオブジェクトの情報を直接使用');
+        const emergencyType = {
+            name: resultType.name,
+            icon: resultType.icon,
+            level: resultType.level || 0,
+            features: resultType.desc || '詳細情報が利用できません',
+            style: '詳細情報が利用できません',
+            advice: '詳細情報が利用できません',
+            jobs: '詳細情報が利用できません',
+            compatibility: []
+        };
+        
+        // 緊急対応で表示
+        const shachuLevelEl = document.getElementById('shachu-level');
+        const shachuLevelBarEl = document.getElementById('shachu-level-bar');
+        if (shachuLevelEl) shachuLevelEl.textContent = emergencyType.level;
+        if (shachuLevelBarEl) {
+            setTimeout(() => {
+                shachuLevelBarEl.style.width = emergencyType.level + '%';
+            }, 500);
+        }
+        
+        const featuresEl = document.getElementById('result-features');
+        const styleEl = document.getElementById('result-style');
+        const adviceEl = document.getElementById('result-advice');
+        const jobsEl = document.getElementById('result-jobs');
+        const compatibilityEl = document.getElementById('result-compatibility');
+        
+        if (featuresEl) featuresEl.textContent = emergencyType.features;
+        if (styleEl) styleEl.textContent = emergencyType.style;
+        if (adviceEl) adviceEl.textContent = emergencyType.advice;
+        if (jobsEl) jobsEl.textContent = emergencyType.jobs;
+        if (compatibilityEl) compatibilityEl.innerHTML = '';
+        
         return;
     }
     
