@@ -1199,8 +1199,8 @@ function addResultToURL(resultData) {
         // URLを更新（履歴に追加しない）
         window.history.replaceState({}, '', url);
         
-        // 管理者画面へのリンクを表示
-        showAdminLink();
+        // 管理者画面へのリンクを表示（無効化）
+        // showAdminLink();
         
         console.log('診断結果をURLに追加しました:', encodedData);
     } catch (error) {
