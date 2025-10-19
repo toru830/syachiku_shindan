@@ -1119,8 +1119,8 @@ function showResult() {
         window.LocalAnalytics.saveDiagnosisResult(resultData);
     }
     
-    // スマホとPCでデータを共有するため、URLパラメータに結果を追加
-    addResultToURL(resultData);
+    // スマホとPCでデータを共有するため、URLパラメータに結果を追加（無効化）
+    // addResultToURL(resultData);
     
     // QRコードを表示（スマホとPCでデータ共有用）- 無効化
     // showQRCode(resultData);
@@ -1209,66 +1209,6 @@ function addResultToURL(resultData) {
 }
 
 
-// 管理者画面へのリンクを表示
-function showAdminLink() {
-    // 既存のリンクを削除
-    const existingLink = document.getElementById('admin-link');
-    if (existingLink) {
-        existingLink.remove();
-    }
-    
-    // 新しいリンクを作成
-    const adminLink = document.createElement('div');
-    adminLink.id = 'admin-link';
-    adminLink.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 15px 20px;
-        border-radius: 25px;
-        text-decoration: none;
-        font-weight: bold;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    `;
-    adminLink.innerHTML = '📊 管理者画面で確認';
-    
-    // クリックイベント
-    adminLink.addEventListener('click', function() {
-        const adminUrl = `https://shindan.syachiku-life.com/admin.html?from=result&t=${Date.now()}`;
-        window.open(adminUrl, '_blank');
-    });
-    
-    // ホバーエフェクト
-    adminLink.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-2px)';
-        this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
-    });
-    
-    adminLink.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
-    });
-    
-    document.body.appendChild(adminLink);
-    
-    // 5秒後に自動で非表示
-    setTimeout(() => {
-        if (adminLink.parentNode) {
-            adminLink.style.opacity = '0';
-            adminLink.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                if (adminLink.parentNode) {
-                    adminLink.remove();
-                }
-            }, 300);
-        }
-    }, 5000);
-}
 
 // キャラクター一覧を表示
 function showCharacters() {
