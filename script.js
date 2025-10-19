@@ -1007,6 +1007,9 @@ function showResult() {
     resultIconEl.innerHTML = `<img src="10_社畜アイコン/${imageNumber}.png?v=${cacheBuster}" alt="${resultType.name}" class="result-image" onerror="console.error('Image load error:', this.src)">`;
     document.getElementById('result-type').textContent = resultType.name;
     
+    // グローバル変数に結果を保存（シャチポケ遷移用）
+    window.currentResultType = resultType;
+    
     // キャラクターコメントを表示
     const characterCommentEl = document.getElementById('character-comment');
     if (characterCommentEl) {
