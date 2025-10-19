@@ -89,7 +89,19 @@
             font-weight: bold;
             color: #2D3748;
             text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .character-comment {
+            font-size: 1.1rem;
+            color: #666;
+            font-style: italic;
+            text-align: center;
             margin-bottom: 15px;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.2), rgba(255, 192, 203, 0.2));
+            border-radius: 10px;
+            border-left: 3px solid #ff69b4;
         }
         
         .character-description {
@@ -252,6 +264,7 @@
                 id: 0,
                 name: "生粋の社畜",
                 icon: "10_社畜アイコン/001.png",
+                comment: "会社ばんざーい！命を捧げよ！",
                 description: "全軸が非常に高い究極の献身者。仕事と一体化し、成果を使命とする存在。",
                 features: "完璧主義で責任感が強く、常に100%の力を発揮。休息を取ることを忘れがち。",
                 stats: { dedication: 100, sacrifice: 100, stress: 20, relationship: 30 },
@@ -262,6 +275,7 @@
                 id: 1,
                 name: "限界突破社畜",
                 icon: "10_社畜アイコン/002.png",
+                comment: "必殺！連続徹夜！朝日がこたえるぜ、ふっ",
                 description: "献身・犠牲が高く、耐性と人間関係が低い。限界まで挑み続ける頑張り屋タイプ。",
                 features: "仕事は完璧にこなそうとするあまり、休息を取ることを忘れがち。深夜まで働き、睡眠不足が続き、食事も不規則に。",
                 stats: { dedication: 80, sacrifice: 80, stress: 20, relationship: 20 },
@@ -272,6 +286,7 @@
                 id: 2,
                 name: "無敗の職人社畜",
                 icon: "10_社畜アイコン/003.png",
+                comment: "仕事第一です。",
                 description: "高献身・高犠牲・高耐性。黙々と成果を積み上げるプロ意識の持ち主。",
                 features: "孤高の戦士として仕事に打ち込み、困難な課題にも果敢に挑戦。チームワークよりも個人のパフォーマンスを重視し、自分のスキルアップと成果にこだわります。",
                 stats: { dedication: 85, sacrifice: 75, stress: 85, relationship: 35 },
@@ -282,6 +297,7 @@
                 id: 3,
                 name: "孤高の成果主義社畜",
                 icon: "10_社畜アイコン/004.png",
+                comment: "さーて、お仕事♪お仕事♪",
                 description: "献身・犠牲・耐性は高く、人間関係は控えめ。結果に全てを賭ける孤高の戦士。",
                 features: "自分のペースで黙々と仕事をこなすことを好み、静かな環境で集中して作業することで最高のパフォーマンスを発揮。会議や飲み会などの集団行動は苦手で、できれば避けたいと思っています。",
                 stats: { dedication: 85, sacrifice: 75, stress: 85, relationship: 15 },
@@ -292,6 +308,7 @@
                 id: 4,
                 name: "心優しき社畜",
                 icon: "10_社畜アイコン/005.png",
+                comment: "みんな！病院よ！",
                 description: "高献身で人間関係を大切にする温厚タイプ。チームを支える縁の下の力持ち。",
                 features: "困っている同僚がいればすぐに手を差し伸べ、チームの雰囲気を良くすることに貢献。みんなから慕われる存在です。優しさゆえに自分の気持ちを抑え込んでしまうことがあります。",
                 stats: { dedication: 75, sacrifice: 25, stress: 25, relationship: 85 },
@@ -302,6 +319,7 @@
                 id: 5,
                 name: "誠実な観察社員",
                 icon: "10_社畜アイコン/006.png",
+                comment: "うえーん、もう疲れたよ",
                 description: "献身は高いが犠牲と耐性は低い。誠実で丁寧、感受性豊かな観察者。",
                 features: "自分のペースを大切にし、無理をせず、心の余裕を保つことを優先。環境の変化やプレッシャーに敏感で、安定した環境で力を発揮。大勢の人との交流よりも、少数の信頼できる人との深い関係を好みます。",
                 stats: { dedication: 75, sacrifice: 25, stress: 25, relationship: 25 },
@@ -312,6 +330,7 @@
                 id: 6,
                 name: "共創リーダー社員",
                 icon: "10_社畜アイコン/007.png",
+                comment: "ぼく、リーダー。お仕事命。",
                 description: "高献身・高耐性・人間関係高。協働で成果を生み、周囲を導くタイプ。",
                 features: "チームの一員として協力し合うことの大切さを理解し、周囲との調和を保ちながら高いパフォーマンスを発揮。プロジェクトをスムーズに進行させる潤滑油のような役割を果たします。",
                 stats: { dedication: 70, sacrifice: 40, stress: 80, relationship: 85 },
@@ -322,6 +341,7 @@
                 id: 7,
                 name: "マイペース社員",
                 icon: "10_社畜アイコン/008.png",
+                comment: "僕に構わないでくれ。",
                 description: "献身・耐性が高いが関係性は控えめ。自律して淡々と結果を出す。",
                 features: "無理をせず、自分のリズムで仕事を進めることで、長期的に高いパフォーマンスを維持。仕事とプライベートの境界線をしっかり引き、休日はしっかり休むことで心身のバランスを保っています。",
                 stats: { dedication: 70, sacrifice: 35, stress: 80, relationship: 35 },
@@ -332,6 +352,7 @@
                 id: 8,
                 name: "ゆるふわ社畜",
                 icon: "10_社畜アイコン/009.png",
+                comment: "うえーい、やっふー♪",
                 description: "献身は低いが犠牲が高く、人のために動くやさしき奉仕者。自己犠牲に注意。",
                 features: "断ることが苦手で、頼まれるとついつい引き受けてしまい、結果的に自分の時間が犠牲に。本当はもっとゆったりと働きたいのに、周囲の期待に応えようとして無理をしてしまいます。",
                 stats: { dedication: 25, sacrifice: 80, stress: 25, relationship: 85 },
@@ -342,6 +363,7 @@
                 id: 9,
                 name: "隠れ疲労社畜",
                 icon: "10_社畜アイコン/010.png",
+                comment: "さあ、マッサージよ！",
                 description: "バランス型だが耐性が低い。無自覚に疲れをためがちな頑張り屋。",
                 features: "本当は仕事に全力を注ぎたいわけではないのに、責任感や義務感から頑張ってしまい、知らず知らずのうちに疲労が蓄積。周囲に相談できる人が少なく、一人で抱え込んでしまいます。",
                 stats: { dedication: 45, sacrifice: 45, stress: 20, relationship: 45 },
@@ -352,6 +374,7 @@
                 id: 10,
                 name: "お人好し社員",
                 icon: "10_社畜アイコン/011.png",
+                comment: "うんうん、みんな適当に仕事しようね",
                 description: "全体中庸・人間関係が高い。潤滑油として場を整え、支援に長ける。",
                 features: "周囲の人々との調和を保つことを優先し、自分のことは後回しにしがち。同僚や上司から頼まれごとをされると、忙しくても断れずに引き受けてしまい、気づけば自分の仕事が山積みに。",
                 stats: { dedication: 45, sacrifice: 45, stress: 55, relationship: 88 },
@@ -362,6 +385,7 @@
                 id: 11,
                 name: "現実派社員",
                 icon: "10_社畜アイコン/012.png",
+                comment: "早くカラオケ行きたいわね、早退よ！",
                 description: "全体中庸・人間関係控えめ。合理的・実務的で堅実なリアリスト。",
                 features: "必要以上に入れ込むことはなく、人間関係のしがらみに振り回されることは少なく、ドライに物事を判断。ストレス耐性が高いため、困難な状況でも冷静に対処できます。",
                 stats: { dedication: 55, sacrifice: 55, stress: 55, relationship: 15 },
@@ -372,6 +396,7 @@
                 id: 12,
                 name: "家庭が大事社員",
                 icon: "10_社畜アイコン/013.png",
+                comment: "マイハニーのために、早く帰ろう",
                 description: "低献身・低犠牲・人間関係高。家族や私生活を大切にするバランス型。",
                 features: "仕事は生活を支えるための手段。定時で帰宅し、週末は家族と過ごすことを何よりも大切に。子どもの学校行事には必ず参加し、家族旅行を楽しみます。仕事のストレスを家庭に持ち込まないよう心がけています。",
                 stats: { dedication: 25, sacrifice: 25, stress: 55, relationship: 85 },
@@ -382,6 +407,7 @@
                 id: 13,
                 name: "バランサー社員",
                 icon: "10_社畜アイコン/014.png",
+                comment: "お仕事も家族も、バランス命だぜ！",
                 description: "中庸で調和志向。仕事と生活の両立を重視するスマートワーカー。",
                 features: "無理をせず、自分のペースで働きながら、プライベートも充実させることを心がけています。残業は極力避け、有給休暇も計画的に取得。人間関係も適度な距離を保ち、深入りしすぎず、疎遠にもならないバランスを取っています。",
                 stats: { dedication: 58, sacrifice: 32, stress: 55, relationship: 55 },
@@ -392,6 +418,7 @@
                 id: 14,
                 name: "成果最適化社畜",
                 icon: "10_社畜アイコン/015.png",
+                comment: "僕イケメン、成果ボーナス最高！",
                 description: "高献身・中犠牲・高耐性。戦略的に動く結果重視タイプ。",
                 features: "自分が第一線で働くよりも、チームを率いて目標を達成することに長けています。自分自身は無理をせず、効率的に働きながら、周囲の人々の能力を最大限に引き出します。人間関係を戦略的に構築します。",
                 stats: { dedication: 78, sacrifice: 55, stress: 85, relationship: 55 },
@@ -402,6 +429,7 @@
                 id: 15,
                 name: "自由人",
                 icon: "10_社畜アイコン/016.png",
+                comment: "しごと？なにそれ？それよりYoutube見た？",
                 description: "全軸が低い自由奔放タイプ。自分の感性を軸に生きるクリエイター気質。",
                 features: "仕事に縛られることなく、自分の時間を大切にし、やりたいことを自由にやる生き方を選択。ストレスフリーな環境を作り出すことに長けており、無駄なプレッシャーを感じることなく日々を過ごしています。",
                 stats: { dedication: 5, sacrifice: 5, stress: 5, relationship: 5 },
@@ -426,6 +454,7 @@
                         <img src="${character.icon}?v=${cacheBuster}" alt="${character.name}" onerror="console.error('Character image load error:', this.src)">
                     </div>
                     <h3 class="character-name">${character.name}</h3>
+                    <div class="character-comment">${character.comment}</div>
                     <p class="character-description">${character.description}</p>
                     <div class="character-features">
                         <h4>特徴</h4>
