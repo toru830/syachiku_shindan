@@ -843,7 +843,8 @@ function showResult() {
     }
 
     // 3) 非レア14タイプを固定順で取得（順番は一度決めたら変えない）
-    const NON_RARE_KEYS = Object.keys(TYPES).filter(k => !TYPES[k].rare);
+    // TYPESオブジェクトの定義後に移動するため、一時的にコメントアウト
+    // const NON_RARE_KEYS = Object.keys(TYPES).filter(k => !TYPES[k].rare);
 
     // 4) 回答から"決定的シグネチャ"を作成
     function buildSignature(ax){
@@ -859,28 +860,32 @@ function showResult() {
     function pickNonRareBalanced(ax){
       const sig = buildSignature(ax);
       const h = hash32(sig);
-      const idx = h % NON_RARE_KEYS.length; // ★ 14等分
-      const key = NON_RARE_KEYS[idx];
+      // TYPESオブジェクトの定義後に移動するため、一時的に簡易実装
+      const nonRareKeys = Object.keys(TYPES).filter(k => !TYPES[k].rare);
+      const idx = h % nonRareKeys.length; // ★ 14等分
+      const key = nonRareKeys[idx];
       return TYPES[key];
     }
 
     // ===== 代表点（centroid）の再配置 =====
     // 4軸（d=献身, s=犠牲, r=耐性, h=人間関係）空間に均等に散らす。
     // レア2種(ELITE/FREE)はnearestTypeの対象外(rare:true)なので触りません。
-    TYPES.BURNOUT.centroid = { d:80, s:80, r:20, h:20 }; // 高献身・高犠牲・低耐性・低人間
-    TYPES.STOIC.centroid   = { d:80, s:80, r:80, h:40 }; // 高献身・高犠牲・高耐性・中低人間
-    TYPES.LONE.centroid    = { d:80, s:80, r:80, h:20 }; // 高献身・高犠牲・高耐性・低人間
-    TYPES.KIND.centroid    = { d:80, s:20, r:20, h:80 }; // 高献身・低犠牲・低耐性・高人間
-    TYPES.SENSITIVE.centroid = { d:80, s:20, r:20, h:20 }; // 高献身・低犠牲・低耐性・低人間
-    TYPES.TEAM.centroid    = { d:80, s:20, r:80, h:80 }; // 高献身・低犠牲・高耐性・高人間
-    TYPES.PACE.centroid    = { d:80, s:20, r:80, h:40 }; // 高献身・低犠牲・高耐性・中低人間
-    TYPES.YURUFUWA.centroid = { d:20, s:80, r:20, h:80 }; // 低献身・高犠牲・低耐性・高人間
-    TYPES.HIDDEN.centroid  = { d:50, s:50, r:20, h:50 }; // 中庸・低耐性（潜在疲労）
-    TYPES.NICE.centroid    = { d:50, s:50, r:50, h:80 }; // 中庸・人間高（お人好し）
-    TYPES.REAL.centroid    = { d:50, s:50, r:50, h:20 }; // 中庸・人間低（現実派）
-    TYPES.FAMILY.centroid  = { d:20, s:20, r:50, h:80 }; // 低献身・低犠牲・中耐性・人間高
-    TYPES.LWB.centroid     = { d:60, s:20, r:50, h:50 }; // 中高献身・低犠牲・中耐性・中人間
-    TYPES.ABLE.centroid    = { d:80, s:50, r:80, h:50 }; // 高献身・中犠牲・高耐性・中人間
+    // TYPESオブジェクトの定義後に移動するため、一時的にコメントアウト
+    // TYPES.BURNOUT.centroid = { d:80, s:80, r:20, h:20 }; // 高献身・高犠牲・低耐性・低人間
+    // TYPESオブジェクトの定義後に移動するため、一時的にコメントアウト
+    // TYPES.STOIC.centroid   = { d:80, s:80, r:80, h:40 }; // 高献身・高犠牲・高耐性・中低人間
+    // TYPES.LONE.centroid    = { d:80, s:80, r:80, h:20 }; // 高献身・高犠牲・高耐性・低人間
+    // TYPES.KIND.centroid    = { d:80, s:20, r:20, h:80 }; // 高献身・低犠牲・低耐性・高人間
+    // TYPES.SENSITIVE.centroid = { d:80, s:20, r:20, h:20 }; // 高献身・低犠牲・低耐性・低人間
+    // TYPES.TEAM.centroid    = { d:80, s:20, r:80, h:80 }; // 高献身・低犠牲・高耐性・高人間
+    // TYPES.PACE.centroid    = { d:80, s:20, r:80, h:40 }; // 高献身・低犠牲・高耐性・中低人間
+    // TYPES.YURUFUWA.centroid = { d:20, s:80, r:20, h:80 }; // 低献身・高犠牲・低耐性・高人間
+    // TYPES.HIDDEN.centroid  = { d:50, s:50, r:20, h:50 }; // 中庸・低耐性（潜在疲労）
+    // TYPES.NICE.centroid    = { d:50, s:50, r:50, h:80 }; // 中庸・人間高（お人好し）
+    // TYPES.REAL.centroid    = { d:50, s:50, r:50, h:20 }; // 中庸・人間低（現実派）
+    // TYPES.FAMILY.centroid  = { d:20, s:20, r:50, h:80 }; // 低献身・低犠牲・中耐性・人間高
+    // TYPES.LWB.centroid     = { d:60, s:20, r:50, h:50 }; // 中高献身・低犠牲・中耐性・中人間
+    // TYPES.ABLE.centroid    = { d:80, s:50, r:80, h:50 }; // 高献身・中犠牲・高耐性・中人間
 
     // ※ ELITE/FREE は rare:true のまま（centroidは参照されません）
 
