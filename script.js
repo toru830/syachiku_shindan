@@ -888,9 +888,9 @@ function showResult() {
     console.log('総合スコア:', (normalizedScores.dedication + normalizedScores.sacrifice + normalizedScores.stress + normalizedScores.relationship) / 4);
     console.log('結果タイプ:', resultType.name);
     
-    // resultTypes配列から対応するタイプを取得
+    // TYPESオブジェクトから対応するタイプを取得
     console.log('resultType.name:', resultType.name);
-    console.log('resultTypes配列の名前一覧:', resultTypes.map(t => t.name));
+    console.log('TYPES配列の名前一覧:', Object.values(TYPES).map(t => t.name));
     
     // 直接TYPESオブジェクトの情報を使用（resultTypes配列の問題を回避）
     console.log('resultType全体:', resultType);
