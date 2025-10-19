@@ -1159,8 +1159,8 @@ function shareResult() {
 // 診断結果をURLパラメータに追加（スマホとPCでデータ共有用）
 function addResultToURL(resultData) {
     try {
-        // 結果データをエンコード
-        const encodedData = btoa(JSON.stringify(resultData));
+        // 結果データをエンコード（日本語文字対応）
+        const encodedData = btoa(encodeURIComponent(JSON.stringify(resultData)));
         
         // 現在のURLにパラメータを追加
         const url = new URL(window.location);
@@ -1187,8 +1187,8 @@ function showQRCode(resultData) {
         existingQR.remove();
     }
     
-    // 結果データをエンコード
-    const encodedData = btoa(JSON.stringify(resultData));
+    // 結果データをエンコード（日本語文字対応）
+    const encodedData = btoa(encodeURIComponent(JSON.stringify(resultData)));
     const shareUrl = `https://shindan.syachiku-life.com/admin.html?result=${encodedData}&t=${Date.now()}`;
     
     // QRコードモーダルを作成
