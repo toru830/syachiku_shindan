@@ -1227,7 +1227,7 @@ function showCharacters() {
 function transferToShachipoke() {
     try {
         // 動画モーダルを表示
-        showVideoModal('intro01.mp4');
+        showVideoModal('Intro02.mp4');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
