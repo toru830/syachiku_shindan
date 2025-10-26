@@ -1258,6 +1258,8 @@ function showVideoModal(videoPath) {
         align-items: center;
         z-index: 10000;
         animation: fadeIn 0.3s ease;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     `;
     
     modal.innerHTML = `
@@ -1269,6 +1271,9 @@ function showVideoModal(videoPath) {
             <video 
                 autoplay 
                 controls 
+                playsinline
+                webkit-playsinline
+                preload="auto"
                 style="
                     width: 100%;
                     height: auto;
