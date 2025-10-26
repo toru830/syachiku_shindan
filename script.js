@@ -1226,21 +1226,8 @@ function showCharacters() {
 // シャチポケに遷移（新しい関数）
 function transferToShachipoke() {
     try {
-        // 現在の診断結果を取得
-        const resultType = window.currentResultType;
-        
-        if (!resultType) {
-            alert('診断結果が見つかりません。もう一度診断してください。');
-            return;
-        }
-        
-        // キャラクターIDを取得（TYPESオブジェクトのキーから）
-        const characterId = resultType.key;
-        const characterName = resultType.name;
-        
-        // シャチポケにパラメータ付きでリダイレクト
-        const shachipokeUrl = `https://shachipoke.syachiku-life.com/?char=${characterId}&name=${encodeURIComponent(characterName)}&from=shindan`;
-        window.open(shachipokeUrl, '_blank');
+        // Coming soonを表示
+        alert('🎮 シャチポケ機能は準備中です！\n\nもう少しお待ちください！');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
