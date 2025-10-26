@@ -1226,12 +1226,107 @@ function showCharacters() {
 // シャチポケに遷移（新しい関数）
 function transferToShachipoke() {
     try {
-        // Coming soonを表示
-        alert('🎮 シャチポケ機能は準備中です！\n\nもう少しお待ちください！');
+        // 動画モーダルを表示
+        showVideoModal('intro01.mp4');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
         alert('エラーが発生しました。もう一度お試しください。');
+    }
+}
+
+// 動画モーダルを表示
+function showVideoModal(videoPath) {
+    // 既存のモーダルがあれば削除
+    const existingModal = document.getElementById('video-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // モーダルを作成
+    const modal = document.createElement('div');
+    modal.id = 'video-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        ">
+            <video 
+                autoplay 
+                controls 
+                style="
+                    width: 100%;
+                    height: auto;
+                    max-height: 90vh;
+                    border-radius: 10px;
+                    box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+                "
+            >
+                <source src="${videoPath}" type="video/mp4">
+                お使いのブラウザは動画再生に対応していません。
+            </video>
+            <button 
+                onclick="this.parentElement.parentElement.remove()"
+                style="
+                    position: absolute;
+                    top: -40px;
+                    right: 0;
+                    background: rgba(255, 255, 255, 0.3);
+                    color: white;
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 24px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                "
+                onmouseover="this.style.background='rgba(255, 255, 255, 0.5)'"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.3)'"
+            >×</button>
+        </div>
+    `;
+    
+    // 背景クリックで閉じる
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    document.body.appendChild(modal);
+    
+    // ESCキーで閉じる
+    const closeHandler = (e) => {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', closeHandler);
+        }
+    };
+    document.addEventListener('keydown', closeHandler);
+    
+    // 動画終了時にモーダルを閉じる
+    const video = modal.querySelector('video');
+    if (video) {
+        video.addEventListener('ended', () => {
+            modal.remove();
+        });
     }
 }
 
