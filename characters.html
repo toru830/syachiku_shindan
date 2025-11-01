@@ -71,17 +71,84 @@
         }
         
         .character-icon img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 96px;
+            height: 96px;
+            border-radius: 0;
             object-fit: cover;
-            border: 3px solid #E2E8F0;
+            border: none;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .character-card:hover .character-icon img {
-            border-color: #4F46E5;
             transform: scale(1.1);
+        }
+        
+        /* 動画モーダルスタイル */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-modal.active {
+            display: flex;
+        }
+        
+        .video-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+        }
+        
+        .video-modal video {
+            width: 100%;
+            height: 100%;
+            max-width: 1280px;
+            max-height: 720px;
+            border-radius: 10px;
+        }
+        
+        .video-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .video-modal-close:hover {
+            background: rgba(255, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .video-modal-content {
+                max-width: 95%;
+            }
+            
+            .video-modal video {
+                max-width: 100%;
+                max-height: 70vh;
+            }
         }
         
         .character-name {
@@ -256,8 +323,38 @@
         </div>
     </div>
     
+    <!-- 動画モーダル -->
+    <div class="video-modal" id="video-modal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="video-modal-close">&times;</button>
+            <video id="character-video" controls autoplay>
+                お使いのブラウザは動画再生に対応していません。
+            </video>
+        </div>
+    </div>
+    
     <script src="script.js?v=61"></script>
     <script>
+        // キャラクターIDと動画ファイルのマッピング
+        const characterVideoMap = {
+            0: "20_movie/キャラ紹介/01キャラ紹介01.mp4",   // 生粋の社畜
+            1: "20_movie/キャラ紹介/02キャラ紹介02.mp4",   // 限界突破社畜
+            2: "20_movie/キャラ紹介/03キャラ紹介01.mp4",   // 無敗の職人社畜
+            3: "20_movie/キャラ紹介/04キャラ紹介02.mp4",   // 孤高の成果主義社畜
+            4: "20_movie/キャラ紹介/05キャラ紹介01.mp4",   // 心優しき社畜
+            5: "20_movie/キャラ紹介/06キャラ紹介01.mp4",   // 誠実な観察社員
+            6: "20_movie/キャラ紹介/07キャラ紹介01.mp4",   // 共創リーダー社員
+            7: "20_movie/キャラ紹介/08キャラ紹介01.mp4",   // マイペース社員
+            8: "20_movie/キャラ紹介/09キャラ紹介02.mp4",   // ゆるふわ社畜
+            9: "20_movie/キャラ紹介/10キャラ紹介01.mp4",   // 隠れ疲労社畜
+            10: "20_movie/キャラ紹介/11キャラ紹介01.mp4",  // お人好し社員
+            11: "20_movie/キャラ紹介/012キャラ紹介02.mp4", // 現実派社員
+            12: "20_movie/キャラ紹介/13キャラ紹介01.mp4",  // 家庭が大事社員
+            13: "20_movie/キャラ紹介/14キャラ紹介01.mp4",  // バランサー社員
+            14: "20_movie/キャラ紹介/15キャラ紹介01.mp4",  // 成果最適化社畜
+            15: "20_movie/キャラ紹介/16キャラ紹介02.mp4"   // 自由人
+        };
+        
         // キャラクター一覧のデータ（新しい仕様）
         const charactersData = [
             {
@@ -438,6 +535,28 @@
             }
         ];
         
+        // 動画モーダルの要素を取得（グローバルスコープで定義）
+        let videoModal, videoElement, videoModalClose;
+        
+        // 動画を再生する関数
+        function playCharacterVideo(characterId) {
+            if (!videoElement || !videoModal) {
+                videoElement = document.getElementById('character-video');
+                videoModal = document.getElementById('video-modal');
+            }
+            const videoPath = characterVideoMap[characterId];
+            if (videoPath && videoElement && videoModal) {
+                videoElement.src = videoPath;
+                videoModal.classList.add('active');
+                // 動画の再生を試みる
+                videoElement.play().catch(error => {
+                    console.error('動画再生エラー:', error);
+                });
+            } else {
+                console.warn(`キャラクターID ${characterId} に対応する動画が見つかりません`);
+            }
+        }
+        
         // キャラクター一覧を表示
         function displayCharacters() {
             const grid = document.getElementById('characters-grid');
@@ -451,7 +570,10 @@
                 const cacheBuster = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
                 card.innerHTML = `
                     <div class="character-icon">
-                        <img src="${character.icon}?v=${cacheBuster}" alt="${character.name}" onerror="console.error('Character image load error:', this.src)">
+                        <img src="${character.icon}?v=${cacheBuster}" alt="${character.name}" 
+                             data-character-id="${character.id}" 
+                             class="character-icon-clickable"
+                             onerror="console.error('Character image load error:', this.src)">
                     </div>
                     <h3 class="character-name">${character.name}</h3>
                     <div class="character-comment">${character.comment}</div>
@@ -474,7 +596,7 @@
                             </div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-label">耐ストレス</div>
+                            <div class="stat-label">耐ｽﾄﾚｽ</div>
                             <div class="stat-bar">
                                 <div class="stat-fill" style="width: ${character.stats.stress}%"></div>
                             </div>
@@ -492,11 +614,62 @@
                 `;
                 
                 grid.appendChild(card);
+                
+                // カードが追加された直後に、そのカード内のアイコンにクリックイベントを設定
+                const iconImg = card.querySelector('.character-icon-clickable');
+                if (iconImg) {
+                    iconImg.addEventListener('click', function() {
+                        const characterId = parseInt(this.getAttribute('data-character-id'));
+                        playCharacterVideo(characterId);
+                    });
+                }
             });
         }
         
-        // ページ読み込み時にキャラクター一覧を表示
-        document.addEventListener('DOMContentLoaded', displayCharacters);
+        // モーダルを閉じる関数
+        function closeVideoModal() {
+            if (!videoModal || !videoElement) {
+                videoModal = document.getElementById('video-modal');
+                videoElement = document.getElementById('character-video');
+            }
+            if (videoModal && videoElement) {
+                videoModal.classList.remove('active');
+                videoElement.pause();
+                videoElement.src = ''; // メモリリークを防ぐため、srcをクリア
+            }
+        }
+        
+        // ページ読み込み時に初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // モーダル要素を取得
+            videoModal = document.getElementById('video-modal');
+            videoElement = document.getElementById('character-video');
+            videoModalClose = document.getElementById('video-modal-close');
+            
+            // キャラクター一覧を表示
+            displayCharacters();
+            
+            // モーダル閉じるボタンのイベント
+            if (videoModalClose) {
+                videoModalClose.addEventListener('click', closeVideoModal);
+            }
+            
+            // モーダルの背景クリックで閉じる
+            if (videoModal) {
+                videoModal.addEventListener('click', function(e) {
+                    if (e.target === videoModal) {
+                        closeVideoModal();
+                    }
+                });
+            }
+            
+            // ESCキーでモーダルを閉じる
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && videoModal && videoModal.classList.contains('active')) {
+                    closeVideoModal();
+                }
+            });
+        });
     </script>
 </body>
 </html>
