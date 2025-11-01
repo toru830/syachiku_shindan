@@ -238,9 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (startBtn) {
         startBtn.addEventListener('click', startQuiz);
         console.log('Start button event listener added');
-    } else {
-        console.error('Start button not found');
     }
+    // start-btnはindex.htmlにのみ存在するため、characters.htmlでは見つからないのは正常
     
     if (restartBtn) {
         restartBtn.addEventListener('click', resetQuiz);
