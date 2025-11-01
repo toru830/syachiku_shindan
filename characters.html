@@ -327,7 +327,7 @@
     <div class="video-modal" id="video-modal">
         <div class="video-modal-content">
             <button class="video-modal-close" id="video-modal-close">&times;</button>
-            <video id="character-video" controls autoplay>
+            <video id="character-video" controls autoplay playsinline webkit-playsinline preload="auto">
                 お使いのブラウザは動画再生に対応していません。
             </video>
         </div>
@@ -546,14 +546,46 @@
             }
             const videoPath = characterVideoMap[characterId];
             if (videoPath && videoElement && videoModal) {
+                console.log('動画再生開始:', videoPath, 'キャラクターID:', characterId);
+                
+                // 動画を一旦停止してsrcをクリア
+                videoElement.pause();
+                videoElement.src = '';
+                
+                // 新しい動画を設定
                 videoElement.src = videoPath;
+                
+                // モーダルを表示
                 videoModal.classList.add('active');
-                // 動画の再生を試みる
-                videoElement.play().catch(error => {
-                    console.error('動画再生エラー:', error);
-                });
+                
+                // 動画の読み込みを待ってから再生
+                videoElement.load(); // 新しいsrcを読み込み
+                
+                videoElement.addEventListener('loadeddata', function onLoadedData() {
+                    videoElement.removeEventListener('loadeddata', onLoadedData);
+                    // 動画の再生を試みる
+                    const playPromise = videoElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log('動画再生成功');
+                        }).catch(error => {
+                            console.error('動画再生エラー:', error);
+                            alert('動画の自動再生がブロックされました。再生ボタンをクリックしてください。');
+                        });
+                    }
+                }, { once: true });
+                
+                // エラーハンドリング
+                videoElement.addEventListener('error', function onError(e) {
+                    videoElement.removeEventListener('error', onError);
+                    console.error('動画読み込みエラー:', e);
+                    console.error('動画パス:', videoPath);
+                    alert('動画の読み込みに失敗しました。動画ファイルが存在するか確認してください。');
+                }, { once: true });
+                
             } else {
                 console.warn(`キャラクターID ${characterId} に対応する動画が見つかりません`);
+                console.warn('videoElement:', videoElement, 'videoModal:', videoModal, 'videoPath:', videoPath);
             }
         }
         
