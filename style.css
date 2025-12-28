@@ -693,6 +693,23 @@ body:has(#start-screen.active) .container {
     opacity: 0.95;
 }
 
+.btn-small-text {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.95;
+    line-height: 1.2;
+}
+
+.btn-main-text {
+    display: block;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 5px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
 .button-group {
     display: flex;
     gap: 10px;
