@@ -1261,6 +1261,24 @@ function showVideoModal(videoPath, redirectUrl = null) {
         -webkit-overflow-scrolling: touch;
     `;
     
+    // スキップボタンのスタイル（遷移URLがある場合のみ表示）
+    const skipButtonStyle = redirectUrl ? `
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(255, 112, 181, 0.9);
+        color: white;
+        border: 2px solid white;
+        border-radius: 25px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 112, 181, 0.5);
+        z-index: 10001;
+    ` : 'display: none;';
+    
     modal.innerHTML = `
         <div style="
             position: relative;
@@ -1284,6 +1302,12 @@ function showVideoModal(videoPath, redirectUrl = null) {
                 <source src="${videoPath}" type="video/mp4">
                 お使いのブラウザは動画再生に対応していません。
             </video>
+            <button 
+                id="skip-video-btn"
+                style="${skipButtonStyle}"
+                onmouseover="this.style.background='rgba(255, 112, 181, 1)'; this.style.transform='scale(1.05)'"
+                onmouseout="this.style.background='rgba(255, 112, 181, 0.9)'; this.style.transform='scale(1)'"
+            >⏭️ スキップ</button>
             <button 
                 onclick="this.parentElement.parentElement.remove()"
                 style="
@@ -1316,11 +1340,32 @@ function showVideoModal(videoPath, redirectUrl = null) {
     
     document.body.appendChild(modal);
     
-    // ESCキーで閉じる（遷移URLがある場合は無効化）
+    // 遷移処理を共通化
+    const performRedirect = () => {
+        modal.remove();
+        document.removeEventListener('keydown', closeHandler);
+        if (redirectUrl) {
+            window.location.href = redirectUrl;
+        }
+    };
+    
+    // スキップボタンのイベントリスナー
+    const skipButton = modal.querySelector('#skip-video-btn');
+    if (skipButton && redirectUrl) {
+        skipButton.addEventListener('click', performRedirect);
+    }
+    
+    // ESCキーで閉じる（遷移URLがある場合はスキップとして機能）
     const closeHandler = (e) => {
-        if (e.key === 'Escape' && !redirectUrl) {
-            modal.remove();
-            document.removeEventListener('keydown', closeHandler);
+        if (e.key === 'Escape') {
+            if (redirectUrl) {
+                // 遷移URLがある場合はスキップ
+                performRedirect();
+            } else {
+                // 遷移URLがない場合は閉じる
+                modal.remove();
+                document.removeEventListener('keydown', closeHandler);
+            }
         }
     };
     document.addEventListener('keydown', closeHandler);
@@ -1329,13 +1374,7 @@ function showVideoModal(videoPath, redirectUrl = null) {
     const video = modal.querySelector('video');
     if (video) {
         video.addEventListener('ended', () => {
-            modal.remove();
-            document.removeEventListener('keydown', closeHandler);
-            
-            // 遷移URLが指定されている場合は遷移
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            }
+            performRedirect();
         });
         
         // 動画読み込みエラー時の処理
@@ -1343,9 +1382,7 @@ function showVideoModal(videoPath, redirectUrl = null) {
             console.error('動画読み込みエラー:', e);
             // エラー時も遷移URLがあれば遷移（動画が再生できなくてもゲームに進める）
             if (redirectUrl) {
-                modal.remove();
-                document.removeEventListener('keydown', closeHandler);
-                window.location.href = redirectUrl;
+                performRedirect();
             } else {
                 modal.remove();
                 document.removeEventListener('keydown', closeHandler);
