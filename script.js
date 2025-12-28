@@ -1225,8 +1225,8 @@ function showCharacters() {
 // シャチポケに遷移（新しい関数）
 function transferToShachipoke() {
     try {
-        // 動画モーダルを表示
-        showVideoModal('Intro02.mp4');
+        // 動画モーダルを表示（動画終了後にURL遷移する）
+        showVideoModal('Intro02.mp4', 'https://shachipoke.syachiku-life.com/working-game.html');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
@@ -1235,7 +1235,7 @@ function transferToShachipoke() {
 }
 
 // 動画モーダルを表示
-function showVideoModal(videoPath) {
+function showVideoModal(videoPath, redirectUrl = null) {
     // 既存のモーダルがあれば削除
     const existingModal = document.getElementById('video-modal');
     if (existingModal) {
@@ -1307,29 +1307,49 @@ function showVideoModal(videoPath) {
         </div>
     `;
     
-    // 背景クリックで閉じる
+    // 背景クリックで閉じる（遷移URLがある場合は無効化）
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal && !redirectUrl) {
             modal.remove();
         }
     });
     
     document.body.appendChild(modal);
     
-    // ESCキーで閉じる
+    // ESCキーで閉じる（遷移URLがある場合は無効化）
     const closeHandler = (e) => {
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && !redirectUrl) {
             modal.remove();
             document.removeEventListener('keydown', closeHandler);
         }
     };
     document.addEventListener('keydown', closeHandler);
     
-    // 動画終了時にモーダルを閉じる
+    // 動画終了時の処理
     const video = modal.querySelector('video');
     if (video) {
         video.addEventListener('ended', () => {
             modal.remove();
+            document.removeEventListener('keydown', closeHandler);
+            
+            // 遷移URLが指定されている場合は遷移
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        });
+        
+        // 動画読み込みエラー時の処理
+        video.addEventListener('error', (e) => {
+            console.error('動画読み込みエラー:', e);
+            // エラー時も遷移URLがあれば遷移（動画が再生できなくてもゲームに進める）
+            if (redirectUrl) {
+                modal.remove();
+                document.removeEventListener('keydown', closeHandler);
+                window.location.href = redirectUrl;
+            } else {
+                modal.remove();
+                document.removeEventListener('keydown', closeHandler);
+            }
         });
     }
 }
