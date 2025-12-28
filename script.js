@@ -274,6 +274,13 @@ function startQuiz() {
         window.LocalAnalytics.trackDiagnosisStart();
     }
     
+    // Google Analytics 4: 診断開始イベント
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'diagnosis_start', {
+            page: location.pathname
+        });
+    }
+    
     // 質問をシャッフル
     questions = shuffleArray(questionsOriginal);
     
@@ -1111,6 +1118,14 @@ function showResult() {
         timestamp: new Date()
     };
     
+    // Google Analytics 4: 診断完了イベント
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'diagnosis_complete', {
+            page: location.pathname,
+            result_type: resultType.name
+        });
+    }
+    
     // Google Sheetsに保存（他端末・別ネットワークでも共有可能）
     if (window.SheetsAPI) {
         window.SheetsAPI.saveDiagnosisToSheets(resultData);
@@ -1171,18 +1186,47 @@ function shareResult() {
     const resultType = document.getElementById('result-type').textContent;
     const shareText = `私の社畜診断結果は「${resultType}」でした！ #社畜診断`;
     
+    // プラットフォーム判定（Web Share APIの場合は'web_share'、その他は'clipboard'）
+    let platform = 'web_share';
+    
     if (navigator.share) {
         navigator.share({
             title: '社畜診断',
             text: shareText,
             url: window.location.href
-        }).catch(err => console.log('シェアがキャンセルされました'));
+        }).then(() => {
+            // Google Analytics 4: シェアイベント（成功時）
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'share_click', {
+                    page: location.pathname,
+                    platform: platform
+                });
+            }
+        }).catch(err => {
+            console.log('シェアがキャンセルされました');
+            // キャンセル時はイベント送信しない
+        });
     } else {
         // フォールバック：クリップボードにコピー
+        platform = 'clipboard';
         navigator.clipboard.writeText(shareText).then(() => {
             alert('結果をクリップボードにコピーしました！');
+            // Google Analytics 4: シェアイベント（クリップボードコピー成功時）
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'share_click', {
+                    page: location.pathname,
+                    platform: platform
+                });
+            }
         }).catch(() => {
             alert(shareText);
+            // フォールバック失敗時もイベント送信（手動コピーの可能性）
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'share_click', {
+                    page: location.pathname,
+                    platform: 'manual'
+                });
+            }
         });
     }
 }
