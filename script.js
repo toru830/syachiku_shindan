@@ -1396,3 +1396,89 @@ function startNurture() {
     transferToShachipoke();
 }
 
+// アクセス数管理機能
+// ページビューを記録
+function recordPageView() {
+    try {
+        if (window.LocalAnalytics && window.LocalAnalytics.trackPageView) {
+            const pageName = window.location.pathname.split('/').pop() || 'index.html';
+            window.LocalAnalytics.trackPageView(pageName);
+        }
+        
+        // Google Analyticsにも送信
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                'page_path': window.location.pathname,
+                'page_title': document.title
+            });
+        }
+    } catch (error) {
+        console.error('ページビューの記録に失敗:', error);
+    }
+}
+
+// アクセス数を取得
+function getAccessCount() {
+    try {
+        const pageViews = JSON.parse(localStorage.getItem('syachiku_pageviews') || '[]');
+        return {
+            total: pageViews.length,
+            today: getTodayAccessCount(pageViews),
+            thisWeek: getThisWeekAccessCount(pageViews),
+            thisMonth: getThisMonthAccessCount(pageViews),
+            allData: pageViews
+        };
+    } catch (error) {
+        console.error('アクセス数の取得に失敗:', error);
+        return {
+            total: 0,
+            today: 0,
+            thisWeek: 0,
+            thisMonth: 0,
+            allData: []
+        };
+    }
+}
+
+// 今日のアクセス数
+function getTodayAccessCount(pageViews) {
+    const today = new Date().toDateString();
+    return pageViews.filter(pv => {
+        const pvDate = new Date(pv.timestamp).toDateString();
+        return pvDate === today;
+    }).length;
+}
+
+// 今週のアクセス数
+function getThisWeekAccessCount(pageViews) {
+    const now = new Date();
+    const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
+    weekStart.setHours(0, 0, 0, 0);
+    
+    return pageViews.filter(pv => {
+        const pvDate = new Date(pv.timestamp);
+        return pvDate >= weekStart;
+    }).length;
+}
+
+// 今月のアクセス数
+function getThisMonthAccessCount(pageViews) {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    
+    return pageViews.filter(pv => {
+        const pvDate = new Date(pv.timestamp);
+        return pvDate >= monthStart;
+    }).length;
+}
+
+// ページ読み込み時に自動でページビューを記録
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', recordPageView);
+} else {
+    recordPageView();
+}
+
+// グローバルに公開（admin.htmlで使用）
+window.getAccessCount = getAccessCount;
+

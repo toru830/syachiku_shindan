@@ -332,6 +332,26 @@
                     <div class="stat-value" id="data-source">-</div>
                     <div class="stat-label">Google Sheets / ローカル</div>
                 </div>
+                <div class="stat-card" style="border-left-color: #48bb78;">
+                    <h3>総アクセス数</h3>
+                    <div class="stat-value" id="total-access">-</div>
+                    <div class="stat-label">累計ページビュー</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #48bb78;">
+                    <h3>今日のアクセス</h3>
+                    <div class="stat-value" id="today-access">-</div>
+                    <div class="stat-label">本日のページビュー</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #48bb78;">
+                    <h3>今週のアクセス</h3>
+                    <div class="stat-value" id="week-access">-</div>
+                    <div class="stat-label">今週のページビュー</div>
+                </div>
+                <div class="stat-card" style="border-left-color: #48bb78;">
+                    <h3>今月のアクセス</h3>
+                    <div class="stat-value" id="month-access">-</div>
+                    <div class="stat-label">今月のページビュー</div>
+                </div>
             </div>
             
             <!-- 診断結果分布 -->
@@ -402,6 +422,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="firebase-config.js"></script>
     <script src="sheets-api.js"></script>
+    <script src="script.js"></script>
     <script>
         // 管理者認証
         const ADMIN_PASSWORD = 'syachiku_admin_2024'; // 実際の運用では環境変数を使用
@@ -730,6 +751,55 @@
                 document.getElementById('data-source').textContent = `Local: ${localCount}`;
             } else {
                 document.getElementById('data-source').textContent = '-';
+            }
+            
+            // アクセス数を更新
+            updateAccessStats();
+        }
+        
+        // アクセス数を更新
+        function updateAccessStats() {
+            try {
+                // script.jsで定義されたgetAccessCount関数を使用
+                if (typeof getAccessCount === 'function') {
+                    const accessData = getAccessCount();
+                    document.getElementById('total-access').textContent = accessData.total.toLocaleString();
+                    document.getElementById('today-access').textContent = accessData.today.toLocaleString();
+                    document.getElementById('week-access').textContent = accessData.thisWeek.toLocaleString();
+                    document.getElementById('month-access').textContent = accessData.thisMonth.toLocaleString();
+                } else {
+                    // フォールバック: 直接ローカルストレージから取得
+                    const pageViews = JSON.parse(localStorage.getItem('syachiku_pageviews') || '[]');
+                    const total = pageViews.length;
+                    
+                    const today = new Date().toDateString();
+                    const todayCount = pageViews.filter(pv => {
+                        return new Date(pv.timestamp).toDateString() === today;
+                    }).length;
+                    
+                    const now = new Date();
+                    const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
+                    weekStart.setHours(0, 0, 0, 0);
+                    const weekCount = pageViews.filter(pv => {
+                        return new Date(pv.timestamp) >= weekStart;
+                    }).length;
+                    
+                    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                    const monthCount = pageViews.filter(pv => {
+                        return new Date(pv.timestamp) >= monthStart;
+                    }).length;
+                    
+                    document.getElementById('total-access').textContent = total.toLocaleString();
+                    document.getElementById('today-access').textContent = todayCount.toLocaleString();
+                    document.getElementById('week-access').textContent = weekCount.toLocaleString();
+                    document.getElementById('month-access').textContent = monthCount.toLocaleString();
+                }
+            } catch (error) {
+                console.error('アクセス数の取得に失敗:', error);
+                document.getElementById('total-access').textContent = '-';
+                document.getElementById('today-access').textContent = '-';
+                document.getElementById('week-access').textContent = '-';
+                document.getElementById('month-access').textContent = '-';
             }
         }
         
