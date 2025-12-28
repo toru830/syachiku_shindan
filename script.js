@@ -1261,24 +1261,6 @@ function showVideoModal(videoPath, redirectUrl = null) {
         -webkit-overflow-scrolling: touch;
     `;
     
-    // スキップボタンのスタイル（遷移URLがある場合のみ表示）
-    const skipButtonStyle = redirectUrl ? `
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(255, 112, 181, 0.9);
-        color: white;
-        border: 2px solid white;
-        border-radius: 25px;
-        padding: 12px 24px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 112, 181, 0.5);
-        z-index: 10001;
-    ` : 'display: none;';
-    
     modal.innerHTML = `
         <div style="
             position: relative;
@@ -1302,12 +1284,6 @@ function showVideoModal(videoPath, redirectUrl = null) {
                 <source src="${videoPath}" type="video/mp4">
                 お使いのブラウザは動画再生に対応していません。
             </video>
-            <button 
-                id="skip-video-btn"
-                style="${skipButtonStyle}"
-                onmouseover="this.style.background='rgba(255, 112, 181, 1)'; this.style.transform='scale(1.05)'"
-                onmouseout="this.style.background='rgba(255, 112, 181, 0.9)'; this.style.transform='scale(1)'"
-            >⏭️ スキップ</button>
             <button 
                 onclick="this.parentElement.parentElement.remove()"
                 style="
@@ -1348,12 +1324,6 @@ function showVideoModal(videoPath, redirectUrl = null) {
             window.location.href = redirectUrl;
         }
     };
-    
-    // スキップボタンのイベントリスナー
-    const skipButton = modal.querySelector('#skip-video-btn');
-    if (skipButton && redirectUrl) {
-        skipButton.addEventListener('click', performRedirect);
-    }
     
     // ESCキーで閉じる（遷移URLがある場合はスキップとして機能）
     const closeHandler = (e) => {
