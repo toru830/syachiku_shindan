@@ -717,7 +717,7 @@ body:has(#start-screen.active) .container {
 
 .btn-main-text {
     display: block;
-    font-size: 42px;
+    font-size: 36px;
     font-weight: 900;
     line-height: 1.2;
     margin: 8px 0;
