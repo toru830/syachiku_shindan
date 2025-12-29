@@ -1329,7 +1329,7 @@ function showVideoModal(videoPath, redirectUrl = null) {
                 お使いのブラウザは動画再生に対応していません。
             </video>
             <button 
-                onclick="this.parentElement.parentElement.remove()"
+                id="video-modal-close-btn"
                 style="
                     position: absolute;
                     top: -40px;
@@ -1368,6 +1368,21 @@ function showVideoModal(videoPath, redirectUrl = null) {
             window.location.href = redirectUrl;
         }
     };
+    
+    // ×ボタンのイベントリスナー（遷移URLがある場合は遷移、ない場合は閉じる）
+    const closeButton = modal.querySelector('#video-modal-close-btn');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            if (redirectUrl) {
+                // 遷移URLがある場合は遷移
+                performRedirect();
+            } else {
+                // 遷移URLがない場合は閉じる
+                modal.remove();
+                document.removeEventListener('keydown', closeHandler);
+            }
+        });
+    }
     
     // ESCキーで閉じる（遷移URLがある場合はスキップとして機能）
     const closeHandler = (e) => {
