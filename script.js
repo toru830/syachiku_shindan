@@ -1269,8 +1269,8 @@ function showCharacters() {
 // シャチポケに遷移（新しい関数）
 function transferToShachipoke() {
     try {
-        // 動画モーダルを表示（動画終了後にURL遷移する）
-        showVideoModal('Intro02.mp4', 'https://shachipoke.syachiku-life.com/working-game.html');
+        // 動画モーダルを表示（動画終了後に別タブでURLを開く）
+        showVideoModal('Intro02.mp4', 'https://shachipoke.syachiku-life.com/');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
@@ -1360,12 +1360,12 @@ function showVideoModal(videoPath, redirectUrl = null) {
     
     document.body.appendChild(modal);
     
-    // 遷移処理を共通化
+    // 遷移処理を共通化（別タブで開く）
     const performRedirect = () => {
         modal.remove();
         document.removeEventListener('keydown', closeHandler);
         if (redirectUrl) {
-            window.location.href = redirectUrl;
+            window.open(redirectUrl, '_blank');
         }
     };
     
