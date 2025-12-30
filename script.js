@@ -1270,7 +1270,7 @@ function showCharacters() {
 function transferToShachipoke() {
     try {
         // 動画モーダルを表示（動画終了後に別タブでURLを開く）
-        showVideoModal('Intro02.mp4', 'https://shachipoke.syachiku-life.com/');
+        showVideoModal('https://pub-db3c77241ee44812b4924bae7099bcee.r2.dev/20_movie/intro01.mp4', 'https://shachipoke.syachiku-life.com/');
         
     } catch (error) {
         console.error('シャチポケ遷移エラー:', error);
